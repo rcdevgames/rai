@@ -104,13 +104,16 @@ class InputPinState extends State<InputPin> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              SizedBox(
-                width: 120,
-                height: 30,
-                child: RaisedButton(
-                  color: Colors.grey,
-                  onPressed: () {},
-                  child: Text("forgot pin?", style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white)),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(5),
+                child: SizedBox(
+                  width: 120,
+                  height: 30,
+                  child: RaisedButton(
+                    color: Colors.grey,
+                    onPressed: () {},
+                    child: Text("forgot pin?", style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white)),
+                  ),
                 ),
               ),
               SizedBox(width: 10),

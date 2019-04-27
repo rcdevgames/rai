@@ -21,7 +21,7 @@ class Savewise {
   static const _kFontFam = 'Savewise';
 
   static const IconData arrow_down = const IconData(0xe800, fontFamily: _kFontFam);
-  static const IconData icon_deposit = const IconData(0xe803, fontFamily: _kFontFam);
+  static const IconData icon_deposit = const IconData(0xe801, fontFamily: _kFontFam);
   static const IconData icons8_1_circled_left = const IconData(0xe804, fontFamily: _kFontFam);
   static const IconData icons8_1_circled_right = const IconData(0xe805, fontFamily: _kFontFam);
   static const IconData icons8_appointment_reminders = const IconData(0xe806, fontFamily: _kFontFam);

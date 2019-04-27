@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pigment/pigment.dart';
-import 'package:rai/route.dart';
-import 'package:rai/src/util/data.dart';
+import 'package:RAI/route.dart';
+import 'package:RAI/src/util/data.dart';
 
 void main() => runApp(MyApp());
 

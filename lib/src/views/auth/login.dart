@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pigment/pigment.dart';
-import 'package:rai/src/wigdet/input_pin.dart';
-import 'package:rai/src/wigdet/keyboard_pin.dart';
-import 'package:rai/src/wigdet/loading.dart';
+import 'package:RAI/src/blocs/auth/login_bloc.dart';
+import 'package:RAI/src/wigdet/keyboard_pin.dart';
+import 'package:RAI/src/wigdet/loading.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -12,19 +12,18 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _key = GlobalKey<ScaffoldState>();
-  String pin = "";
-  bool loading = false;
+  LoginBloc loginBloc;
 
-  Future checkLogin() async {
-    setState(() {
-      if (pin.length == 6) loading = true;
-    });
-    await Future.delayed(Duration(seconds: 3));
-    setState(() {
-      loading = false;
-    });
-    await Future.delayed(Duration(seconds: 3));
-    Navigator.of(context).pushNamedAndRemoveUntil('/main', (Route<dynamic> route) => false);
+  @override
+  void initState() { 
+    super.initState();
+    loginBloc = new LoginBloc();
+  }
+
+  @override
+  void dispose() { 
+    loginBloc.dispose();
+    super.dispose();
   }
 
   Widget smallCircle = new Container(
@@ -71,37 +70,29 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(
                     height: 30,
                     width: MediaQuery.of(context).size.width / 2.2,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        pin.length > 0 ? bigCircle : smallCircle,
-                        pin.length > 1 ? bigCircle : smallCircle,
-                        pin.length > 2 ? bigCircle : smallCircle,
-                        pin.length > 3 ? bigCircle : smallCircle,
-                        pin.length > 4 ? bigCircle : smallCircle,
-                        pin.length > 5 ? bigCircle : smallCircle,
-                      ],
+                    child: StreamBuilder(
+                      initialData: "",
+                      stream: loginBloc.getPin,
+                      builder: (context, AsyncSnapshot<String> snapshot) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            snapshot.data.length > 0 ? bigCircle : smallCircle,
+                            snapshot.data.length > 1 ? bigCircle : smallCircle,
+                            snapshot.data.length > 2 ? bigCircle : smallCircle,
+                            snapshot.data.length > 3 ? bigCircle : smallCircle,
+                            snapshot.data.length > 4 ? bigCircle : smallCircle,
+                            snapshot.data.length > 5 ? bigCircle : smallCircle,
+                          ],
+                        );
+                      }
                     ),
                   ),
                   Expanded(
                     child: InputPin(
                       textStyle: TextStyle(color: Colors.black, fontSize: 45.0, fontWeight: FontWeight.w500),
-                      onBackPressed: () {
-                        int codeLength = pin.length;
-                        if (codeLength > 0)
-                          setState(() {
-                            pin = pin.substring(0, codeLength - 1);
-                          });
-                          print(pin);
-                      },
-                      onPressedKey: (String key) {
-                        setState(() {
-                          if (pin.length < 6)
-                            pin += key;
-                          checkLogin();
-                        });
-                        print(pin);
-                      },
+                      onBackPressed: loginBloc.removeCode,
+                      onPressedKey: (String code) => loginBloc.inputCode(_key, code),
                     ),
                   )
                 ],
@@ -109,7 +100,13 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ),
-        Loading(loading)
+        StreamBuilder(
+          initialData: false,
+          stream: loginBloc.getLoading,
+          builder: (context, AsyncSnapshot<bool> snapshot) {
+            return Loading(snapshot.data);
+          }
+        )
       ],
     );
   }

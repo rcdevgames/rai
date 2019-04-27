@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:rai/src/util/data.dart';
+import 'package:RAI/src/util/data.dart';
 import 'package:dio/dio.dart';
 
 class Api {

@@ -1,4 +1,4 @@
-name: rai
+name: RAI
 description: A new Flutter project.
 
 # The following defines the version and build number for your application.
@@ -34,6 +34,7 @@ dependencies:
   font_awesome_flutter: ^8.4.0
   local_auth: ^0.4.0+1
   pin_code_view: ^0.2.1
+  rxdart: ^0.21.0
 
 dev_dependencies:
   flutter_test:

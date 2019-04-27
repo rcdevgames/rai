@@ -1,5 +1,10 @@
+import 'package:RAI/src/blocs/home/main_bloc.dart';
+import 'package:RAI/src/views/home/deposit.dart';
+import 'package:RAI/src/views/home/profile.dart';
+import 'package:RAI/src/views/home/saving.dart';
 import 'package:flutter/material.dart';
-import 'package:rai/src/wigdet/savewise_icons.dart';
+import 'package:RAI/src/wigdet/savewise_icons.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -8,13 +13,11 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   final _key = GlobalKey<ScaffoldState>();
-  final _depositInput = TextEditingController();
-
-  @override
-  void initState() {
-    _depositInput.text = "0";
-    super.initState();
-  }
+  final List<Widget> pages = [
+    new DepositPage(),
+    new SavingPage(),
+    new ProfilePage()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -23,99 +26,73 @@ class _MainPageState extends State<MainPage> {
       key: _key,
       appBar: AppBar(
         elevation: 0,
-        title: Text("Choose deposit"),
+        centerTitle: true,
+        title: StreamBuilder(
+          initialData: "Choose Deposit",
+          stream: mainBloc.gettitleHeader,
+          builder: (context, AsyncSnapshot<String> snapshot) {
+            return Text(snapshot.data);
+          }
+        ),
+        leading: StreamBuilder(
+          stream: mainBloc.getMenuIndex,
+          builder: (context, AsyncSnapshot<int> snapshot) {
+            if (snapshot.data == 2) {
+              return IconButton(
+                onPressed: () => mainBloc.logout(_key),
+                icon: Icon(FontAwesomeIcons.signOutAlt, color: Colors.white),
+              );
+            } return Container();
+          }
+        ),
         actions: <Widget>[
+          StreamBuilder(
+            stream: mainBloc.getMenuIndex,
+            builder: (context, AsyncSnapshot<int> snapshot) {
+              if (snapshot.data == 2) {
+                return IconButton(
+                  onPressed: () => Navigator.of(context).pushNamed('/notif'),
+                  icon: Icon(Icons.notifications_none, color: Colors.white),
+                );
+              } return Container();
+            }
+          ),
           IconButton(
-            onPressed: () {},
+            onPressed: () => Navigator.of(context).pushNamed('/help'),
             icon: Icon(Icons.help_outline, color: Colors.white),
-          )
+          ),
         ],
       ),
-      body: Column(
-        children: <Widget>[
-          Container(
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height / 6,
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor
-            ),
-            child: Column(
-              children: <Widget>[
-                Text("How much do you want to save?", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700)),
-                SizedBox(height: 20),
-                Container(
-                  width: MediaQuery.of(context).size.width / 1.3,
-                  height: 65,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(50)
-                  ),
-                  child: Row(
-                    children: <Widget>[
-                      IconButton(
-                        onPressed: () {},
-                        iconSize: 35,
-                        icon: Icon(Icons.remove_circle),
-                      ),
-                      Expanded(
-                        child: TextField(
-                          controller: _depositInput,
-                          decoration: InputDecoration(
-                            prefixText: "£",
-                            prefixStyle: TextStyle(fontSize: 25),
-                            border: InputBorder.none
-                          ),
-                          style: TextStyle(fontSize: 35),
-                          textAlign: TextAlign.center,
-                          keyboardType: TextInputType.number,
-                          onChanged: (val) {
-                            if (val == "") {
-                              _depositInput.text = "0";
-                            }
-                          },
-                        )
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        iconSize: 35,
-                        icon: Icon(Icons.add_circle),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-          // Container(
-          //   width: double.infinity,
-          //   height: MediaQuery.of(context).size.height / 10,
-          //   decoration: BoxDecoration(
-          //     color: Colors.black12
-          //   ),
-          //   child: Row(
-          //     children: <Widget>[
-
-          //     ],
-          //   ),
-          // ),
-          
-        ],
+      body: StreamBuilder(
+        initialData: 0,
+        stream: mainBloc.getMenuIndex,
+        builder: (context, AsyncSnapshot<int> snapshot) {
+          return pages[snapshot.data];
+        }
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Savewise.icon_deposit),
-            title: Text("Deposits")
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Savewise.icons8_graph),
-            title: Text("Summary")
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Savewise.icons8_user_female),
-            title: Text("Profile")
-          ),
-        ],
+      bottomNavigationBar: StreamBuilder(
+        initialData: 0,
+        stream: mainBloc.getMenuIndex,
+        builder: (context, AsyncSnapshot<int> snapshot) {
+          return BottomNavigationBar(
+            onTap: (int i) => mainBloc.changeMenu(i),
+            currentIndex: snapshot.data,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(FontAwesomeIcons.piggyBank),
+                title: Text("Deposits")
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Savewise.icons8_graph),
+                title: Text("Summary")
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Savewise.icons8_user_female),
+                title: Text("Profile")
+              ),
+            ],
+          );
+        }
       ),
     );
   }
