@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class InputPin extends StatefulWidget {
   final Function onBackPressed, onPressedKey;
+  final VoidCallback onForgotPassword;
   final TextStyle textStyle;
   InputPin({
     this.onBackPressed,
     this.onPressedKey,
+    this.onForgotPassword,
     this.textStyle,
   });
 
@@ -27,18 +29,21 @@ class InputPinState extends State<InputPin> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               FloatingActionButton(
+                heroTag: "1",
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 onPressed: () => widget.onPressedKey("1"),
                 child: Text("1", style: widget.textStyle),
               ),
               FloatingActionButton(
+                heroTag: "2",
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 onPressed: () => widget.onPressedKey("2"),
                 child: Text("2", style: widget.textStyle),
               ),
               FloatingActionButton(
+                heroTag: "3",
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 onPressed: () => widget.onPressedKey("3"),
@@ -53,18 +58,21 @@ class InputPinState extends State<InputPin> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               FloatingActionButton(
+                heroTag: "4",
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 onPressed: () => widget.onPressedKey("4"),
                 child: Text("4", style: widget.textStyle),
               ),
               FloatingActionButton(
+                heroTag: "5",
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 onPressed: () => widget.onPressedKey("5"),
                 child: Text("5", style: widget.textStyle),
               ),
               FloatingActionButton(
+                heroTag: "6",
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 onPressed: () => widget.onPressedKey("6"),
@@ -79,18 +87,21 @@ class InputPinState extends State<InputPin> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               FloatingActionButton(
+                heroTag: "7",
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 onPressed: () => widget.onPressedKey("7"),
                 child: Text("7", style: widget.textStyle),
               ),
               FloatingActionButton(
+                heroTag: "8",
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 onPressed: () => widget.onPressedKey("8"),
                 child: Text("8", style: widget.textStyle),
               ),
               FloatingActionButton(
+                heroTag: "9",
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 onPressed: () => widget.onPressedKey("9"),
@@ -111,7 +122,7 @@ class InputPinState extends State<InputPin> {
                   height: 30,
                   child: RaisedButton(
                     color: Colors.grey,
-                    onPressed: () {},
+                    onPressed: widget.onForgotPassword,
                     child: Text("forgot pin?", style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white)),
                   ),
                 ),
@@ -119,6 +130,7 @@ class InputPinState extends State<InputPin> {
               SizedBox(width: 10),
               Expanded(
                 child: FloatingActionButton(
+                  heroTag: "0",
                   backgroundColor: Colors.transparent,
                   elevation: 0,
                   onPressed: () => widget.onPressedKey("0"),
@@ -127,9 +139,10 @@ class InputPinState extends State<InputPin> {
               ),
               Expanded(
                 child: FloatingActionButton(
+                  heroTag: "backSpace",
                   backgroundColor: Colors.transparent,
                   elevation: 0,
-                  onPressed: () => widget.onBackPressed(),
+                  onPressed: widget.onBackPressed,
                   child: Icon(
                     Icons.backspace,
                     color: Colors.grey,

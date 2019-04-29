@@ -27,7 +27,8 @@ final _key = GlobalKey<ScaffoldState>();
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Column(
+        child: ListView(
+          shrinkWrap: true,
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -38,7 +39,7 @@ final _key = GlobalKey<ScaffoldState>();
               ],
             ),
             SizedBox(height: 10),
-            Text("You are depositing", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 30, fontWeight: FontWeight.bold)),
+            Text("You are depositing", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 30, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
             SizedBox(height: 10),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -50,11 +51,11 @@ final _key = GlobalKey<ScaffoldState>();
               ],
             ),
             SizedBox(height: 20),
-            Text("@ 1.2% interest", style: TextStyle(fontSize: 16)),
+            Text("@ 1.2% interest", style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
             SizedBox(height: 10),
-            Text("starting 14 June 2019", style: TextStyle(fontSize: 16)),
+            Text("starting 14 June 2019", style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
             SizedBox(height: 10),
-            Text("maturing in 6 month time", style: TextStyle(fontSize: 16)),
+            Text("maturing in 6 month time", style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
             SizedBox(height: 20),
             Stack(
               alignment: AlignmentDirectional.center,
@@ -137,7 +138,7 @@ final _key = GlobalKey<ScaffoldState>();
       ),
       bottomNavigationBar: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Ink(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),

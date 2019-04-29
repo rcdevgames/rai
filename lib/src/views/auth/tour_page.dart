@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-class TourPage extends StatelessWidget {
-  final _key = GlobalKey<ScaffoldState>();
+class TourPage extends StatefulWidget {
+  @override
+  _TourPageState createState() => _TourPageState();
+}
+
+class _TourPageState extends State<TourPage> {
+  final _keyTour = GlobalKey<ScaffoldState>();
+  String skipText;
   final List<Map<String, String>> listTour = [
     {
       'title': '1',
@@ -38,8 +44,15 @@ class TourPage extends StatelessWidget {
   ];
 
   @override
+  void initState() {
+    skipText = "Skip";
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _keyTour,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(16),
@@ -57,6 +70,17 @@ class TourPage extends StatelessWidget {
               Text("SAVEWISE", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor)),
               Expanded(
                 child: CarouselSlider(
+                  onPageChanged: (i) {
+                    if ((i+1) == listTour.length) {
+                      setState(() {
+                        skipText = "Login";
+                      });
+                    }else{
+                      setState(() {
+                        skipText = "Skip";
+                      });
+                    }
+                  },
                   height: 300.0,
                   enableInfiniteScroll: false,
                   items: listTour.map((i) {
@@ -98,7 +122,7 @@ class TourPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   RaisedButton(
-                    onPressed: (){},
+                    onPressed: () => Navigator.of(context).pushNamed('/term'),
                     color: Colors.transparent,
                     elevation: 0,
                     child: Text("Terms", style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor, fontSize: 18)),
@@ -107,7 +131,7 @@ class TourPage extends StatelessWidget {
                     onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false),
                     color: Colors.transparent,
                     elevation: 0,
-                    child: Text("Skip", style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor, fontSize: 18)),
+                    child: Text(skipText, style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor, fontSize: 18)),
                   ),
                 ],
               )

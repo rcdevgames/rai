@@ -69,7 +69,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(width: 1),
-                          color: _currentIndex == 0 ? Theme.of(context).primaryColor : Colors.white,
+                          color: _currentIndex == 0 ? Theme.of(context).primaryColor : Colors.transparent,
                         ),
                         height: 50,
                         width: MediaQuery.of(context).size.width / 2.2,
@@ -86,7 +86,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(width: 1),
-                          color: _currentIndex == 1 ? Theme.of(context).primaryColor : Colors.white,
+                          color: _currentIndex == 1 ? Theme.of(context).primaryColor : Colors.transparent,
                         ),
                         height: 50,
                         width: MediaQuery.of(context).size.width / 2.2,

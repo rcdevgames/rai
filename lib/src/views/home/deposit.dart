@@ -6,6 +6,7 @@ import 'package:RAI/src/views/deposit/detail_purchase.dart';
 import 'package:RAI/src/wigdet/input_deposit.dart';
 import 'package:flutter/material.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:pigment/pigment.dart';
 
 
 class DepositPage extends StatelessWidget {
@@ -56,55 +57,72 @@ class DepositPage extends StatelessWidget {
                   return Column(
                     children: <Widget>[
                       SizedBox(height: i == 0 ? 20:0),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 25),
-                        child: GestureDetector(
-                          onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                            builder: (BuildContext context) => DetailPurchasePage()
-                          )),
-                          child: Container(
-                            padding: EdgeInsets.all(20.0),
-                            height: 80,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              border: Border.all(width: 2, color: Colors.black26)
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Image.asset("assets/img/logo-scb.color.png", scale: 12,),
-                                    SizedBox(width: 5),
-                                    Text("£ 9.000", style: TextStyle(fontSize: 18)),
-                                  ],
+                      SizedBox(
+                        height: 120,
+                        child: Stack(
+                          children: <Widget>[
+                            Positioned(
+                              bottom: 1,
+                              width: MediaQuery.of(context).size.width,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(20, 0, 20, 25),
+                                child: GestureDetector(
+                                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (BuildContext context) => DetailPurchasePage()
+                                  )),
+                                  child: Container(
+                                    padding: EdgeInsets.all(20.0),
+                                    height: 80,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      border: Border.all(width: 2, color: Colors.black26)
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Row(
+                                          children: <Widget>[
+                                            Image.asset("assets/img/logo-scb.color.png", scale: 12,),
+                                            SizedBox(width: 5),
+                                            Text("£ 9.000", style: TextStyle(fontSize: 18)),
+                                          ],
+                                        ),
+                                        Text("${(Random.secure().nextInt(10) / 10).toString()}%", style: TextStyle(fontSize: 18)),
+                                        Text("£ 175", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                                      ],
+                                    )
+                                  )
                                 ),
-                                Text("${(Random.secure().nextInt(10) / 10).toString()}%", style: TextStyle(fontSize: 18)),
-                                Text("£ 175", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  decoration: BoxDecoration(
+                                    color: Pigment.fromString("FAFAFA")
+                                  ),
+                                  child: Text("Monday 12 Jan 2020")
+                                ),
+                                Container(
+                                  height: 30,
+                                  width: 100,
+                                  decoration: BoxDecoration(
+                                    color: Colors.green,
+                                    borderRadius: BorderRadius.circular(5)
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      Icon(Icons.star, size: 20, color: Colors.white),
+                                      Text("Best Rate", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400),)
+                                    ],
+                                  ),
+                                )
                               ],
                             )
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            //   children: <Widget>[
-                            //     Text("Monday 12 Jan 2020"),
-                            //     Container(
-                            //       height: 30,
-                            //       width: 100,
-                            //       decoration: BoxDecoration(
-                            //         color: Colors.green,
-                            //         borderRadius: BorderRadius.circular(5)
-                            //       ),
-                            //       child: Row(
-                            //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            //         children: <Widget>[
-                            //           Icon(Icons.star, size: 20, color: Colors.white),
-                            //           Text("Best Rate", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400),)
-                            //         ],
-                            //       ),
-                            //     )
-                            //   ],
-                            // ),
-                          )
+                          ],
                         ),
                       ),
                     ],

@@ -45,6 +45,10 @@ class LoginBloc extends Object implements BlocBase {
     Navigator.of(key.currentContext).pushNamedAndRemoveUntil('/main', (Route<dynamic> route) => false);
   }
 
+  resetPin(GlobalKey<ScaffoldState> key) {
+    Navigator.of(key.currentContext).pushNamed('/forgot');
+  }
+
 
 
 }

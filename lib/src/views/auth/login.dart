@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() { 
-    loginBloc.dispose();
+    loginBloc?.dispose();
     super.dispose();
   }
 
@@ -46,15 +46,15 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Scaffold(
-          key: _key,
-          body: SafeArea(
+    return Scaffold(
+      key: _key,
+      body: Stack(
+        children: <Widget>[
+          SafeArea(
             child: Padding(
               padding: EdgeInsets.all(16.0),
               child: Column(
-                // mainAxisAlignment: MainAxisAlignment.,
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   SizedBox(height: 50),
                   Center(
@@ -93,21 +93,22 @@ class _LoginPageState extends State<LoginPage> {
                       textStyle: TextStyle(color: Colors.black, fontSize: 45.0, fontWeight: FontWeight.w500),
                       onBackPressed: loginBloc.removeCode,
                       onPressedKey: (String code) => loginBloc.inputCode(_key, code),
+                      onForgotPassword: () => loginBloc.resetPin(_key),
                     ),
                   )
                 ],
               ),
             ),
           ),
-        ),
-        StreamBuilder(
-          initialData: false,
-          stream: loginBloc.getLoading,
-          builder: (context, AsyncSnapshot<bool> snapshot) {
-            return Loading(snapshot.data);
-          }
-        )
-      ],
+          StreamBuilder(
+            initialData: false,
+            stream: loginBloc.getLoading,
+            builder: (context, AsyncSnapshot<bool> snapshot) {
+              return Loading(snapshot.data);
+            }
+          )
+        ],
+      ),
     );
   }
 }

@@ -1,6 +1,8 @@
+import 'package:RAI/src/views/auth/forgot_pin.dart';
 import 'package:RAI/src/views/auth/tour_page.dart';
 import 'package:RAI/src/views/other/help.dart';
 import 'package:RAI/src/views/other/notification.dart';
+import 'package:RAI/src/views/other/term.dart';
 import 'package:flutter/material.dart';
 import 'package:RAI/src/views/auth/login.dart';
 import 'package:RAI/src/views/home/main.dart';
@@ -11,4 +13,6 @@ final routes = <String, WidgetBuilder>{
   '/main': (BuildContext context) => new MainPage(),
   '/help': (BuildContext context) => new HelpPage(),
   '/notif': (BuildContext context) => new NotificationPage(),
+  '/term': (BuildContext context) => new TermPage(),
+  '/forgot': (BuildContext context) => new ForgotPinPage(),
 };
