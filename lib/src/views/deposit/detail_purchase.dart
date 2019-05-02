@@ -1,16 +1,31 @@
+import 'package:RAI/src/models/deposit_match.dart';
+import 'package:RAI/src/util/format_money.dart';
+import 'package:RAI/src/util/session.dart';
 import 'package:RAI/src/views/deposit/bank_list.dart';
 import 'package:RAI/src/wigdet/savewise_icons.dart';
 import 'package:RAI/src/wigdet/separator.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:pigment/pigment.dart';
 
 class DetailPurchasePage extends StatefulWidget {
+  DepositMatch depositMatch;
+  DetailPurchasePage(this.depositMatch);
+
   @override
   _DetailPurchasePageState createState() => _DetailPurchasePageState();
 }
 
 class _DetailPurchasePageState extends State<DetailPurchasePage> {
-final _key = GlobalKey<ScaffoldState>();
+  final _key = GlobalKey<ScaffoldState>();
+  DateTime businessDate = new DateTime.now();
+
+  @override
+  void initState() {
+    sessions.load('businessDate').then((date) => businessDate = DateTime.parse(date));
+    print(widget.depositMatch.toJson());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +35,7 @@ final _key = GlobalKey<ScaffoldState>();
         title: Text("Make Deposit"),
         actions: <Widget>[
           IconButton(
-            onPressed: () {},
+            onPressed: () => Navigator.of(context).pushNamed('/help'),
             icon: Icon(Icons.help_outline, color: Colors.white),
           ),
         ],
@@ -47,15 +62,13 @@ final _key = GlobalKey<ScaffoldState>();
               children: <Widget>[
                 Text("£", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 25)),
                 SizedBox(width: 5),
-                Text("12.000", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 35))
+                Text(formatMoney.format(widget.depositMatch.amount), style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 35))
               ],
             ),
             SizedBox(height: 20),
-            Text("@ 1.2% interest", style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
+            Text("@ ${(widget.depositMatch.rate/100).toStringAsFixed(2)}% gross interest per year", style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
             SizedBox(height: 10),
-            Text("starting 14 June 2019", style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
-            SizedBox(height: 10),
-            Text("maturing in 6 month time", style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
+            Text("maturing in ${(widget.depositMatch.maturityDate.difference(businessDate).inDays/30).toStringAsFixed(0)} month time", style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
             SizedBox(height: 20),
             Stack(
               alignment: AlignmentDirectional.center,
@@ -79,7 +92,7 @@ final _key = GlobalKey<ScaffoldState>();
               ],
             ),
             SizedBox(height: 20),
-            Text("On 14 Dec 2019, you will expect to get back", style: TextStyle(fontSize: 16)),
+            Text("On ${formatDate(widget.depositMatch.maturityDate, [dd,' ',M,' ',yyyy]).toString()}, you will get back", style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
             SizedBox(height: 10),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -87,13 +100,13 @@ final _key = GlobalKey<ScaffoldState>();
               children: <Widget>[
                 Text("£", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 25)),
                 SizedBox(width: 5),
-                Text("12.255", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 35))
+                Text(formatMoney.format(widget.depositMatch.amount + widget.depositMatch.interest), style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 35))
               ],
             ),
             SizedBox(height: 10),
             Container(
               height: MediaQuery.of(context).size.width / 3.3,
-              width: MediaQuery.of(context).size.width / 2.3,
+              margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 5),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: Pigment.fromString("F6FBFF"),
@@ -108,7 +121,7 @@ final _key = GlobalKey<ScaffoldState>();
                     children: <Widget>[
                       Text("£", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 25)),
                       SizedBox(width: 5),
-                      Text("12.255", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 35))
+                      Text(formatMoney.format(widget.depositMatch.interest), style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 35))
                     ],
                   ),
                 ],
@@ -137,20 +150,21 @@ final _key = GlobalKey<ScaffoldState>();
         ),
       ),
       bottomNavigationBar: SafeArea(
-        child: Padding(
+        child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: Ink(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Theme.of(context).primaryColor,
+          decoration: BoxDecoration(
+            color: Pigment.fromString("FAFAFA")
+          ),
+          child: RaisedButton.icon(
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (ctx) => BankListPage(widget.depositMatch)
+            )),
+            color: Theme.of(context).primaryColor,
+            icon: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+              child: Text("Choose Account", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center),
             ),
-            child: ListTile(
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (ctx) => BankListPage()
-              )),
-              title: Text("Choose Account", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center),
-              trailing: Icon(Icons.arrow_forward_ios, color: Colors.white),
-            ),
+            label: Icon(Icons.arrow_forward_ios, color: Colors.white),
           ),
         )
       ),

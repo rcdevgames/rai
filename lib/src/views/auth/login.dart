@@ -1,3 +1,4 @@
+import 'package:RAI/src/util/session.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pigment/pigment.dart';
@@ -17,7 +18,9 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() { 
     super.initState();
+    sessions.clear();
     loginBloc = new LoginBloc();
+    loginBloc.checkIdentification(_key);
   }
 
   @override
@@ -64,8 +67,8 @@ class _LoginPageState extends State<LoginPage> {
                       child: SvgPicture.asset('assets/svg/savewise-logo.svg'),
                     ),
                   ),
-                  SizedBox(height: 30),
-                  Text("SAVEWISE", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor)),
+                  SizedBox(height: 20),
+                  Text("OneUp.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor)),
                   SizedBox(height: 50),
                   SizedBox(
                     height: 30,

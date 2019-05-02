@@ -1,14 +1,24 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:RAI/src/providers/repository.dart';
+import 'package:RAI/src/util/session.dart';
+import 'package:RAI/src/wigdet/dialog.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:RAI/src/util/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:local_auth/auth_strings.dart';
+import 'package:flutter/services.dart';
+import 'package:local_auth/error_codes.dart' as auth_error;
 
 class LoginBloc extends Object implements BlocBase {
   final _isLoading = BehaviorSubject<bool>();
   final _pin = BehaviorSubject<String>();
+  final localAuth = LocalAuthentication();
 
   Stream<bool> get getLoading => _isLoading.stream;
   Stream<String> get getPin => _pin.stream;
+  
 
   @override
   void dispose() {
@@ -40,13 +50,56 @@ class LoginBloc extends Object implements BlocBase {
 
   Future checkLogin(GlobalKey<ScaffoldState> key) async {
     _isLoading.sink.add(true);
-    await Future.delayed(Duration(seconds: 3));
-    _isLoading.sink.add(false);
-    Navigator.of(key.currentContext).pushNamedAndRemoveUntil('/main', (Route<dynamic> route) => false);
+    try {
+      var response = await repo.doLogin(_pin.value);
+      _isLoading.sink.add(false);
+      sessions.save('userPin', _pin.value);
+      sessions.save("token", response.accessToken);
+      repo.getKYC();
+      Navigator.of(key.currentContext).pushNamedAndRemoveUntil('/main', (Route<dynamic> route) => false);
+    } catch (e) {
+      _isLoading.sink.add(false);
+      print(e.toString());
+      dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "Failed", message: e.toString().replaceAll("Exception: ", ""));
+      _pin.sink.add("");
+    }
   }
 
   resetPin(GlobalKey<ScaffoldState> key) {
     Navigator.of(key.currentContext).pushNamed('/forgot');
+  }
+
+  checkIdentification(GlobalKey<ScaffoldState> key) async {
+    String code = await sessions.load("userPin");
+    await Future.delayed(const Duration(milliseconds: 800));
+    if (Platform.isIOS && (code != null && code.length == 6)) {
+      try {
+        bool didAuthenticate = await localAuth.authenticateWithBiometrics(
+            localizedReason: 'Please authenticate to login',
+            useErrorDialogs: false,
+            iOSAuthStrings: IOSAuthMessages(
+              cancelButton: 'cancel',
+              goToSettingsButton: 'settings',
+              goToSettingsDescription: 'Please set up your Touch ID.',
+              lockOut: 'Please reenable your Touch ID')
+        );
+
+        if (didAuthenticate) {
+          _pin.sink.add(code);
+          checkLogin(key);
+        }
+      } on PlatformException catch (e) {
+        if (e.code == auth_error.notAvailable) {
+          print('notAvailable');
+        }else if(e.code == auth_error.notEnrolled) {
+          print('notEnrolled');
+        }else if(e.code == auth_error.otherOperatingSystem) {
+          print('otherOperatingSystem');
+        }else if(e.code == auth_error.passcodeNotSet) {
+          print('passcodeNotSet');
+        }
+      }
+    }
   }
 
 

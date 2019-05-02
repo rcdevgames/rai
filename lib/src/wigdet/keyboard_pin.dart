@@ -118,7 +118,7 @@ class InputPinState extends State<InputPin> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: SizedBox(
-                  width: 120,
+                  width: (MediaQuery.of(context).size.width/1080) * 300,
                   height: 30,
                   child: RaisedButton(
                     color: Colors.grey,

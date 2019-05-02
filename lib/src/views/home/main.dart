@@ -1,7 +1,9 @@
 import 'package:RAI/src/blocs/home/main_bloc.dart';
+import 'package:RAI/src/util/session.dart';
 import 'package:RAI/src/views/home/deposit.dart';
 import 'package:RAI/src/views/home/profile.dart';
 import 'package:RAI/src/views/home/saving.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:RAI/src/wigdet/savewise_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,11 +15,33 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   final _key = GlobalKey<ScaffoldState>();
+  final mainBloc = new MainBloc();
   final List<Widget> pages = [
     new DepositPage(),
     new SavingPage(),
     new ProfilePage()
   ];
+
+  String businessDate = "";
+
+  @override
+  void initState() {
+    sessions.load("businessDate").then((date) {
+      businessDate = formatDate(DateTime.parse(date), [dd,' ',M,' ',yyyy]).toString();
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    mainBloc?.dispose();
+    super.dispose();
+    print('Main Dispose');
+  }
+
+  toSummary() {
+    mainBloc.changeMenu(1);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +56,18 @@ class _MainPageState extends State<MainPage> {
           stream: mainBloc.gettitleHeader,
           builder: (context, AsyncSnapshot<String> snapshot) {
             return Text(snapshot.data);
+          }
+        ),
+        flexibleSpace: StreamBuilder(
+          initialData: 0,
+          stream: mainBloc.getMenuIndex,
+          builder: (context, AsyncSnapshot<int> snapshot) {
+            if (snapshot.data == 2) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 65),
+                child: Center(child: Text(businessDate, style: TextStyle(color: Colors.white70))),
+              );
+            } return SizedBox();
           }
         ),
         leading: StreamBuilder(

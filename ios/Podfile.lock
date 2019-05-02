@@ -1,18 +1,23 @@
 PODS:
   - Flutter (1.0.0)
+  - flutter_money_formatter (0.0.1):
+    - Flutter
   - local_auth (0.0.1):
     - Flutter
   - shared_preferences (0.0.1):
     - Flutter
 
 DEPENDENCIES:
-  - Flutter (from `.symlinks/flutter/ios-release`)
+  - Flutter (from `.symlinks/flutter/ios`)
+  - flutter_money_formatter (from `.symlinks/plugins/flutter_money_formatter/ios`)
   - local_auth (from `.symlinks/plugins/local_auth/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
-    :path: ".symlinks/flutter/ios-release"
+    :path: ".symlinks/flutter/ios"
+  flutter_money_formatter:
+    :path: ".symlinks/plugins/flutter_money_formatter/ios"
   local_auth:
     :path: ".symlinks/plugins/local_auth/ios"
   shared_preferences:
@@ -20,6 +25,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
+  flutter_money_formatter: 814c6a1ca84a090dff32d24c55db39a5adfd9b73
   local_auth: dca7d49d2228a53db258478ee98ee19402ff0c49
   shared_preferences: 5a1d487c427ee18fcd3ea1f2a131569481834b53
 

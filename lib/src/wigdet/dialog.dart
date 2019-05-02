@@ -176,6 +176,17 @@ class Dialogs {
       }
     );
   }
+
+  alertWithIcon(BuildContext context, {IconData icon, String title, String message}) {
+    information(context, title: "", child: Column(
+        children: <Widget>[ 
+          icon != null ? Icon(icon, color: Theme.of(context).primaryColor, size: 120):SizedBox(),
+          SizedBox(height: icon != null ? 10:0),
+          Text(title != null ? title:"", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor)),
+          Text(message != null ? message:"", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor.withOpacity(0.7))),
+        ],
+      ));
+  }
 }
 
 final dialogs = Dialogs();

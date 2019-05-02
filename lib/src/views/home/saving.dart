@@ -18,7 +18,7 @@ class SavingPage extends StatelessWidget {
       children: <Widget>[
         Container(
           width: double.infinity,
-          height: MediaQuery.of(context).size.height / 6,
+          height: (MediaQuery.of(context).size.height / 1080) * 220,
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor
           ),
@@ -56,7 +56,8 @@ class SavingPage extends StatelessWidget {
               });
             },
             child: ListView.builder(
-              itemCount: 10,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: 2,
               itemBuilder: (ctx, i) {
                 return Column(
                   children: <Widget>[

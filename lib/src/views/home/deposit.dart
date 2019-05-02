@@ -2,137 +2,191 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:RAI/src/blocs/home/deposit_bloc.dart';
+import 'package:RAI/src/models/deposit_match.dart';
+import 'package:RAI/src/util/format_money.dart';
 import 'package:RAI/src/views/deposit/detail_purchase.dart';
+import 'package:RAI/src/wigdet/error_page.dart';
 import 'package:RAI/src/wigdet/input_deposit.dart';
+import 'package:RAI/src/wigdet/loading.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:pigment/pigment.dart';
 
 
 class DepositPage extends StatelessWidget {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+  final depositBloc = new DepositBloc();
+  
+  @override
+  void dispose() { 
+    depositBloc?.dispose();
+  }
+
+  @override
+  void didUpdateWidget (Type oldWidget) {
+    print("Update");
+  }
   
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height / 6,
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor
+    return Scaffold(
+      body: Column(
+        children: <Widget>[
+          Container(
+            width: double.infinity,
+            height: (MediaQuery.of(context).size.height / 1080) * 220,
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor
+            ),
+            child: Column(
+              children: <Widget>[
+                Text("How much do you want to save?", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700)),
+                SizedBox(height: 20),
+                InputDeposit(
+                  inputController: depositBloc.depositInput,
+                  increaseValue: depositBloc.addValue,
+                  decreaseValue: depositBloc.removeValue,
+                  onValueChange: (val) => depositBloc.onChange(int.parse(val)),
+                )
+              ],
+            ),
           ),
-          child: Column(
-            children: <Widget>[
-              Text("How much do you want to save?", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700)),
-              SizedBox(height: 20),
-              InputDeposit(
-                inputController: depositBloc.depositInput,
-                increaseValue: depositBloc.addValue,
-                decreaseValue: depositBloc.removeValue,
-                onValueChange: (val) => depositBloc.onChange(int.parse(val)),
-              )
-            ],
-          ),
-        ),
-        Expanded(
-          child: GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
-            child: LiquidPullToRefresh(
-              color: Theme.of(context).primaryColor.withOpacity(0.7),
-              key: _refreshIndicatorKey,
-              onRefresh: () {
-                final Completer<void> completer = Completer<void>();
-                Timer(const Duration(seconds: 3), () {
-                  completer.complete();
-                });
-                return completer.future.then<void>((_) {
-                  _refreshIndicatorKey.currentState.show();
-                });
-              },
-              child: ListView.builder(
-                itemCount: 10,
-                itemBuilder: (ctx, i) {
-                  return Column(
-                    children: <Widget>[
-                      SizedBox(height: i == 0 ? 20:0),
-                      SizedBox(
-                        height: 120,
-                        child: Stack(
-                          children: <Widget>[
-                            Positioned(
-                              bottom: 1,
-                              width: MediaQuery.of(context).size.width,
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(20, 0, 20, 25),
-                                child: GestureDetector(
-                                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (BuildContext context) => DetailPurchasePage()
-                                  )),
-                                  child: Container(
-                                    padding: EdgeInsets.all(20.0),
-                                    height: 80,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      border: Border.all(width: 2, color: Colors.black26)
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Expanded(
+            child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+              child: StreamBuilder(
+                stream: depositBloc.getListDeposit,
+                builder: (context, AsyncSnapshot<List<DepositMatch>> snapshot) {
+                  print(snapshot.data.toString());
+                  if (snapshot.hasData) {
+                    return StreamBuilder(
+                      initialData: true,
+                      stream: depositBloc.getSingleItem,
+                      builder: (context, AsyncSnapshot<bool> isSinglePage) {
+                        return LiquidPullToRefresh(
+                          color: Theme.of(context).primaryColor.withOpacity(0.7),
+                          key: _refreshIndicatorKey,
+                          onRefresh: depositBloc.loadDepositMatch,
+                          child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: isSinglePage.data ? 1:snapshot.data.length,
+                            itemBuilder: (ctx, i) {
+                              return Column(
+                                children: <Widget>[
+                                  SizedBox(height: i == 0 ? 20:0),
+                                  SizedBox(
+                                    height: 120,
+                                    child: Stack(
                                       children: <Widget>[
-                                        Row(
-                                          children: <Widget>[
-                                            Image.asset("assets/img/logo-scb.color.png", scale: 12,),
-                                            SizedBox(width: 5),
-                                            Text("£ 9.000", style: TextStyle(fontSize: 18)),
-                                          ],
+                                        Positioned(
+                                          bottom: 1,
+                                          width: MediaQuery.of(context).size.width,
+                                          child: Padding(
+                                            padding: const EdgeInsets.fromLTRB(20, 0, 20, 25),
+                                            child: GestureDetector(
+                                              onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                                                builder: (BuildContext context) => DetailPurchasePage(snapshot.data[i])
+                                              )),
+                                              child: Container(
+                                                padding: EdgeInsets.all(20.0),
+                                                height: 80,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5),
+                                                  border: Border.all(width: 2, color: Colors.black26)
+                                                ),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: <Widget>[
+                                                    Row(
+                                                      children: <Widget>[
+                                                        Image.asset("assets/img/logo-scb.color.png", scale: 12,),
+                                                        SizedBox(width: 5),
+                                                        Text(formatMoney.format(snapshot.data[i].amount, true), style: TextStyle(fontSize: 18)),
+                                                      ],
+                                                    ),
+                                                    Text("${(snapshot.data[i].rate/100).toStringAsFixed(2)}%", style: TextStyle(fontSize: 18)),
+                                                    Text(formatMoney.format(snapshot.data[i].interest, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                                                  ],
+                                                )
+                                              )
+                                            ),
+                                          ),
                                         ),
-                                        Text("${(Random.secure().nextInt(10) / 10).toString()}%", style: TextStyle(fontSize: 18)),
-                                        Text("£ 175", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          children: <Widget>[
+                                            Container(
+                                              padding: EdgeInsets.symmetric(horizontal: 10),
+                                              decoration: BoxDecoration(
+                                                color: Pigment.fromString("FAFAFA")
+                                              ),
+                                              child: Text("${DateFormat('EEEE').format(snapshot.data[i].maturityDate)} ${formatDate(snapshot.data[i].maturityDate, [dd, ' ', M, ' ', yyyy]).toString()}")
+                                            ),
+                                            snapshot.data[i].tag.contains("best") ? 
+                                            Container(
+                                              height: 30,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                color: Colors.green,
+                                                borderRadius: BorderRadius.circular(5)
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                children: <Widget>[
+                                                  Icon(Icons.star, size: 20, color: Colors.white),
+                                                  Text("Best Rate", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400),)
+                                                ],
+                                              ),
+                                            ):SizedBox(height: 30,width: 100)
+                                          ],
+                                        )
                                       ],
-                                    )
-                                  )
-                                ),
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 10),
-                                  decoration: BoxDecoration(
-                                    color: Pigment.fromString("FAFAFA")
+                                    ),
                                   ),
-                                  child: Text("Monday 12 Jan 2020")
-                                ),
-                                Container(
-                                  height: 30,
-                                  width: 100,
-                                  decoration: BoxDecoration(
-                                    color: Colors.green,
-                                    borderRadius: BorderRadius.circular(5)
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: <Widget>[
-                                      Icon(Icons.star, size: 20, color: Colors.white),
-                                      Text("Best Rate", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400),)
-                                    ],
-                                  ),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  );
-                },
+                                ],
+                              );
+                            },
+                          ),
+                        );
+                      }
+                    );
+                  }else if(snapshot.hasError) {
+                    return ErrorPage(
+                      message: snapshot.data.toString(), 
+                      onPressed: depositBloc.loadDepositMatch,
+                      buttonText: "Try Again",
+                    );
+                  } return LoadingBlock(Theme.of(context).primaryColor);
+                }
+              )
+            ),
+          )
+        ],
+      ),
+      floatingActionButton: StreamBuilder(
+        initialData: false,
+        stream: depositBloc.getSingleItem,
+        builder: (context, AsyncSnapshot<bool> isSinglePage) {
+          if (isSinglePage.data) {
+            return RaisedButton(
+              onPressed: depositBloc.openList,
+              elevation: 0,
+              color: Pigment.fromString("FAFAFA"),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text("Show offers from the community", style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor)),
+                  Icon(Icons.keyboard_arrow_down, color: Theme.of(context).primaryColor)
+                ],
               ),
-            )
-          ),
-        )
-      ],
+            );
+          } return Container();
+        }
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
