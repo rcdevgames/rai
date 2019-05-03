@@ -26,39 +26,64 @@ class ListTileDefault extends StatelessWidget {
   // 3 = Exit Early Count
   // 4 = Selected
 
+  Widget labelDepositDefault() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              color: Pigment.fromString("FAFAFA")
+            ),
+            child: Text("${DateFormat('EEEE').format(dateTime)} ${formatDate(dateTime, [dd, ' ', M, ' ', yyyy]).toString()}")
+          ),
+          Container(
+            height: 30,
+            width: 100,
+            decoration: BoxDecoration(
+              color: Colors.green,
+              borderRadius: BorderRadius.circular(5)
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Icon(Icons.star, size: 20, color: Colors.white),
+                Text("Best Rate", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400),)
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   Widget labelDeposit() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          decoration: BoxDecoration(
-            color: Pigment.fromString("FAFAFA")
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              color: Pigment.fromString("FAFAFA")
+            ),
+            child: Text("${DateFormat('EEEE').format(dateTime)} ${formatDate(dateTime, [dd, ' ', M, ' ', yyyy]).toString()}")
           ),
-          child: Text("${DateFormat('EEEE').format(dateTime)} ${formatDate(dateTime, [dd, ' ', M, ' ', yyyy]).toString()}")
-        ),
-        Container(
-          height: 30,
-          width: 100,
-          decoration: BoxDecoration(
-            color: Colors.green,
-            borderRadius: BorderRadius.circular(5)
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Icon(Icons.star, size: 20, color: Colors.white),
-              Text("Best Rate", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400),)
-            ],
-          ),
-        )
-      ],
+          Container(
+            height: 30,
+            width: 100,
+          )
+        ],
+      ),
     );
   }
 
   Widget labelDefault(BuildContext context) {
     return Positioned(
-      right: (MediaQuery.of(context).size.width / 1080) * 100,
+      right: (MediaQuery.of(context).size.width / 1080) * 35,
       child: Container(
         height: 30,
         width: 100,
@@ -78,38 +103,41 @@ class ListTileDefault extends StatelessWidget {
   }
 
   Widget labelExitEarly() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          decoration: BoxDecoration(
-            color: Pigment.fromString("FAFAFA")
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              color: Pigment.fromString("FAFAFA")
+            ),
+            child: Text("${DateFormat('EEEE').format(dateTime)} ${formatDate(dateTime, [dd, ' ', M, ' ', yyyy]).toString()}")
           ),
-          child: Text("${DateFormat('EEEE').format(dateTime)} ${formatDate(dateTime, [dd, ' ', M, ' ', yyyy]).toString()}")
-        ),
-        Container(
-          height: 30,
-          width: 100,
-          decoration: BoxDecoration(
-            color: Colors.green,
-            borderRadius: BorderRadius.circular(5)
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Icon(Icons.star, size: 20, color: Colors.white),
-              Text("Best Rate", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400),)
-            ],
-          ),
-        )
-      ],
+          Container(
+            height: 30,
+            width: 100,
+            decoration: BoxDecoration(
+              color: Colors.green,
+              borderRadius: BorderRadius.circular(5)
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Icon(Icons.star, size: 20, color: Colors.white),
+                Text("Best Rate", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400))
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 
   Widget labelSelected(BuildContext context) {
     return Positioned(
-      right: (MediaQuery.of(context).size.width / 1080) * 100,
+      right: (MediaQuery.of(context).size.width / 1080) * 55,
       child: Container(
         height: 30,
         width: 30,
@@ -120,6 +148,26 @@ class ListTileDefault extends StatelessWidget {
         child: Center(child: Icon(Icons.check, size: 20, color: Colors.white)),
       ),
     );
+  }
+
+  Widget label(BuildContext context, int i) {
+    switch (i) {
+      case 2:
+        return labelDefault(context);
+        break;
+      case 3:
+        return labelExitEarly();
+        break;
+      case 4:
+        return labelSelected(context);
+        break;
+      case 5:
+        return labelDeposit();
+        break;
+      default:
+        return labelDepositDefault();
+        break;
+    }
   }
 
   @override
@@ -155,13 +203,8 @@ class ListTileDefault extends StatelessWidget {
                   )
                 ),
               ),
-              isDefault == true ? (
-                (type == 1) ? labelDeposit() : (
-                (type == 2) ? labelDefault(context) : (
-                (type == 3) ? labelExitEarly() :
-                              labelSelected(context))
-                )
-              ):Container()
+
+              isDefault == true ? label(context, type):Container()
             ],
           ),
         ),

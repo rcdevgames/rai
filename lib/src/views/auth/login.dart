@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   Expanded(
                     child: InputPin(
-                      textStyle: TextStyle(color: Colors.black, fontSize: 45.0, fontWeight: FontWeight.w500),
+                      textStyle: TextStyle(color: Colors.black, fontSize: 45.0, fontWeight: FontWeight.w600, fontStyle: FontStyle.normal),
                       onBackPressed: loginBloc.removeCode,
                       onPressedKey: (String code) => loginBloc.inputCode(_key, code),
                       onForgotPassword: () => loginBloc.resetPin(_key),

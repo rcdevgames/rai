@@ -12,10 +12,11 @@ import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 class DepositBloc extends Object implements BlocBase {
   final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
   StreamSubscription timeout;
+  StreamSubscription timeout1;
   final depositInput = TextEditingController();
   final _listDeposit = BehaviorSubject<List<DepositMatch>>();
   final _businessDate = BehaviorSubject<String>();
-  final _singleitem = BehaviorSubject<bool>.seeded(true);
+  final _singleitem = BehaviorSubject<bool>();
   final _amount = BehaviorSubject<num>();
 
   Stream<List<DepositMatch>> get getListDeposit => _listDeposit.stream;
@@ -40,11 +41,13 @@ class DepositBloc extends Object implements BlocBase {
   addValue() {
     if (_amount != null && num.parse(depositInput.text) < _amount.value) {
       depositInput.text = (int.parse(depositInput.text) + 100).toString();
+      reCallFunction();
     }
   }
   removeValue() {
     if (_amount != null && int.parse(depositInput.text) > 100) {
       depositInput.text = (int.parse(depositInput.text) - 100).toString();
+      reCallFunction();
     }
   }
   onChange(int value) async {
@@ -55,10 +58,11 @@ class DepositBloc extends Object implements BlocBase {
       }else if (value > _amount.value) {
         depositInput.text = _amount.value.toString();
       }
+      reCallFunction();
     });
   }
   Future loadDepositMatch() async {
-    print('Call');
+    _singleitem.sink.add(false);
     try {
       var defaultBank = await repo.getDefaultBank();
       depositInput.text = defaultBank.bankAcctBalance.round().toString();
@@ -87,7 +91,34 @@ class DepositBloc extends Object implements BlocBase {
   openList() {
     _singleitem.sink.add(false);
   }
+  reCallFunction() {
+    print(depositInput.text);
+    timeout1?.cancel();
+    timeout1 = Future.delayed(Duration(milliseconds: 800)).asStream().listen((i) async {
+      _listDeposit.sink.add(null);
+      _singleitem.sink.add(false);
+      try {
+        var endDate = DateTime.parse(await sessions.load("businessDate"));
 
+        var depositsMatch = await repo.getDepositMatch(num.parse(depositInput.text), 10, await sessions.load("businessDate"), formatDate(endDate.add(const Duration(days: 540)), [yyyy, '-', mm, '-', dd]).toString());
+        depositsMatch.sort((a, b) => b.tag.compareTo(a.tag));
+        _singleitem.sink.add(true);
+        _listDeposit.sink.add(depositsMatch);
+      } catch (e) {
+        print(e);
+        try {
+          var error = json.decode(e.toString().replaceAll("Exception: ", ""));
+          if (error['errorCode'] == 401) {
+            sessions.clear();
+            navigatorKey.currentState.pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+          }
+          _listDeposit.sink.addError(error['message']);
+        } catch (e) {
+          _listDeposit.sink.addError(e.toString().replaceAll("Exception: ", ""));
+        }
+      }
+    });
+  }
 
 
 }

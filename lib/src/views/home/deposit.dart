@@ -7,6 +7,7 @@ import 'package:RAI/src/util/format_money.dart';
 import 'package:RAI/src/views/deposit/detail_purchase.dart';
 import 'package:RAI/src/wigdet/error_page.dart';
 import 'package:RAI/src/wigdet/input_deposit.dart';
+import 'package:RAI/src/wigdet/list_tile.dart';
 import 'package:RAI/src/wigdet/loading.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
@@ -36,14 +37,13 @@ class DepositPage extends StatelessWidget {
         children: <Widget>[
           Container(
             width: double.infinity,
-            height: (MediaQuery.of(context).size.height / 1080) * 220,
+            height: (MediaQuery.of(context).size.height / 1080) * 150,
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor
             ),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text("How much do you want to save?", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700)),
-                SizedBox(height: 20),
                 InputDeposit(
                   inputController: depositBloc.depositInput,
                   increaseValue: depositBloc.addValue,
@@ -60,7 +60,6 @@ class DepositPage extends StatelessWidget {
               child: StreamBuilder(
                 stream: depositBloc.getListDeposit,
                 builder: (context, AsyncSnapshot<List<DepositMatch>> snapshot) {
-                  print(snapshot.data.toString());
                   if (snapshot.hasData) {
                     return StreamBuilder(
                       initialData: true,
@@ -77,73 +76,26 @@ class DepositPage extends StatelessWidget {
                               return Column(
                                 children: <Widget>[
                                   SizedBox(height: i == 0 ? 20:0),
-                                  SizedBox(
-                                    height: 120,
-                                    child: Stack(
-                                      children: <Widget>[
-                                        Positioned(
-                                          bottom: 1,
-                                          width: MediaQuery.of(context).size.width,
-                                          child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(20, 0, 20, 25),
-                                            child: GestureDetector(
-                                              onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                                                builder: (BuildContext context) => DetailPurchasePage(snapshot.data[i])
-                                              )),
-                                              child: Container(
-                                                padding: EdgeInsets.all(20.0),
-                                                height: 80,
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(5),
-                                                  border: Border.all(width: 2, color: Colors.black26)
-                                                ),
-                                                child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: <Widget>[
-                                                    Row(
-                                                      children: <Widget>[
-                                                        Image.asset("assets/img/logo-scb.color.png", scale: 12,),
-                                                        SizedBox(width: 5),
-                                                        Text(formatMoney.format(snapshot.data[i].amount, true), style: TextStyle(fontSize: 18)),
-                                                      ],
-                                                    ),
-                                                    Text("${(snapshot.data[i].rate/100).toStringAsFixed(2)}%", style: TextStyle(fontSize: 18)),
-                                                    Text(formatMoney.format(snapshot.data[i].interest, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                                                  ],
-                                                )
-                                              )
-                                            ),
-                                          ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children: <Widget>[
-                                            Container(
-                                              padding: EdgeInsets.symmetric(horizontal: 10),
-                                              decoration: BoxDecoration(
-                                                color: Pigment.fromString("FAFAFA")
-                                              ),
-                                              child: Text("${DateFormat('EEEE').format(snapshot.data[i].maturityDate)} ${formatDate(snapshot.data[i].maturityDate, [dd, ' ', M, ' ', yyyy]).toString()}")
-                                            ),
-                                            snapshot.data[i].tag.contains("best") ? 
-                                            Container(
-                                              height: 30,
-                                              width: 100,
-                                              decoration: BoxDecoration(
-                                                color: Colors.green,
-                                                borderRadius: BorderRadius.circular(5)
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                children: <Widget>[
-                                                  Icon(Icons.star, size: 20, color: Colors.white),
-                                                  Text("Best Rate", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400),)
-                                                ],
-                                              ),
-                                            ):SizedBox(height: 30,width: 100)
-                                          ],
-                                        )
-                                      ],
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                                    child: ListTileDefault(
+                                      leading: Row(
+                                        children: <Widget>[
+                                          Image.asset("assets/img/logo-scb.color.png", scale: 12,),
+                                          SizedBox(width: 5),
+                                          Text(formatMoney.format(snapshot.data[i].amount, true), style: TextStyle(fontSize: 18)),
+                                        ],
+                                      ),
+                                      child: Text("${(snapshot.data[i].rate/100).toStringAsFixed(2)}%", style: TextStyle(fontSize: 18)),
+                                      trailing: Text(formatMoney.format(snapshot.data[i].interest, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                                      isDefault: true,
+                                      type: snapshot.data[i].tag.contains("best") ? 1:5,
+                                      dateTime: snapshot.data[i].maturityDate,
+                                      onTap: () {
+                                        Navigator.of(context).push(MaterialPageRoute(
+                                          builder: (BuildContext context) => DetailPurchasePage(snapshot.data[i])
+                                        ));
+                                      },
                                     ),
                                   ),
                                 ],
@@ -171,18 +123,25 @@ class DepositPage extends StatelessWidget {
         stream: depositBloc.getSingleItem,
         builder: (context, AsyncSnapshot<bool> isSinglePage) {
           if (isSinglePage.data) {
-            return RaisedButton(
+            return FloatingActionButton.extended(
               onPressed: depositBloc.openList,
-              elevation: 0,
-              color: Pigment.fromString("FAFAFA"),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text("Show offers from the community", style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor)),
-                  Icon(Icons.keyboard_arrow_down, color: Theme.of(context).primaryColor)
-                ],
-              ),
+              backgroundColor: Colors.white,
+              heroTag: "more",
+              label: Text("Show offers from the community", style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor)),
+              icon: Icon(Icons.keyboard_arrow_down, color: Theme.of(context).primaryColor),
             );
+            // return RaisedButton(
+            //   onPressed: depositBloc.openList,
+            //   elevation: 0,
+            //   color: Pigment.fromString("FAFAFA"),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: <Widget>[
+            //       Text("Show offers from the community", style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor)),
+            //       Icon(Icons.keyboard_arrow_down, color: Theme.of(context).primaryColor)
+            //     ],
+            //   ),
+            // );
           } return Container();
         }
       ),

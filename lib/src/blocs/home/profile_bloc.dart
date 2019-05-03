@@ -5,6 +5,7 @@ import 'package:RAI/src/models/history.dart';
 import 'package:RAI/src/providers/repository.dart';
 import 'package:RAI/src/util/bloc.dart';
 import 'package:RAI/src/util/session.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -12,17 +13,19 @@ class ProfileBloc extends Object implements BlocBase {
   final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
   final _isLoading = BehaviorSubject<bool>();
   final _accountList = BehaviorSubject<List<Bank>>();
-  final _historyList = BehaviorSubject<List<History>>();
+  final _historyList = BehaviorSubject<List<List<History>>>();
   final _totalBalance = BehaviorSubject<num>();
   final _selected = BehaviorSubject<int>();
   final _indexTab = BehaviorSubject<int>.seeded(0);
 
   Stream<bool> get getLoading => _isLoading.stream;
   Stream<List<Bank>> get getListBank => _accountList.stream;
-  Stream<List<History>> get getHistory => _historyList.stream;
+  Stream<List<List<History>>> get getHistory => _historyList.stream;
   Stream<num> get getTotalBalance => _totalBalance.stream;
   Stream<int> get getSelectedDefault => _selected.stream;
   Stream<int> get getIndexTab => _indexTab.stream;
+
+  Function(int) get updateIndexTab => _indexTab.sink.add;
 
   ProfileBloc() {
     fetchAccountList();
@@ -77,7 +80,11 @@ class ProfileBloc extends Object implements BlocBase {
           print(v.description);
         }
       });
-      _historyList.sink.add(_list);
+
+      List<List<History>> _newList = [];
+      groupBy(_list, (History obj) => obj.transactionDate).forEach((k, v) => _newList.add(v.map((item) => item).toList()));
+      print(_newList);
+      _historyList.sink.add(_newList);
     } catch (e) {
       print(e);
       try {
@@ -93,17 +100,17 @@ class ProfileBloc extends Object implements BlocBase {
     }
   }
 
-  setDefault(int id) async {
+  setDefault(BuildContext context, int id) async {
     try {
       resetAccountList();
       await repo.setDefaultAccountBank(id);
       await fetchAccountList();
     } catch (e) {
       var error = json.decode(e.toString().replaceAll("Exception: ", ""));
-        if (error['errorCode'] == 401) {
-          sessions.clear();
-          navigatorKey.currentState.pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
-        }
+        // if (error['errorCode'] == 401) {
+        //   sessions.clear();
+        //   Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+        // }
         _accountList.sink.addError(error['message']);
       } catch (e) {
         _historyList.sink.addError(e.toString().replaceAll("Exception: ", ""));

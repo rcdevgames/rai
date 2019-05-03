@@ -31,6 +31,12 @@ class _BankListPageState extends State<BankListPage> {
   }
 
   @override
+  void dispose() {
+    purchaseBloc?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
@@ -56,41 +62,46 @@ class _BankListPageState extends State<BankListPage> {
                   child: ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (ctx, i) {
-                      return Column(
-                        children: <Widget>[
-                          SizedBox(height: i == 0 ? 20:0),
-                          StreamBuilder(
-                            stream: purchaseBloc.getSelected,
-                            builder: (context, AsyncSnapshot<int> id) {
-                              print(id.data);
-                              return ListTileDefault(
-                                isDefault: id.hasData ? (snapshot.data[i].bankAcctId == id.data):false,
-                                isSelected: id.hasData ? (snapshot.data[i].bankAcctId == id.data):false,
-                                type: 4,
-                                onTap: () => purchaseBloc.updateSelected(snapshot.data[i].bankAcctId),
-                                leading: SizedBox(
-                                  width: 25,
-                                  height: 25,
-                                  child: Image.asset("assets/img/logo-${snapshot.data[i].bankCode.toLowerCase()}.color.png", fit: BoxFit.cover)
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text('Bank ${snapshot.data[i].bankAcctName}'),
-                                    Text('(${snapshot.data[i].bankAcctNo.substring(snapshot.data[i].bankAcctNo.length - 4)})'),
-                                  ],
-                                ),
-                                trailing: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text("Balance", style: TextStyle(fontWeight: FontWeight.bold)),
-                                    Text(formatMoney.format(snapshot.data[i].bankAcctBalance, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))
-                                  ],
-                                ),
-                              );
-                            }
-                          ),
-                        ],
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          children: <Widget>[
+                            SizedBox(height: i == 0 ? 20:0),
+                            StreamBuilder(
+                              stream: purchaseBloc.getSelected,
+                              builder: (context, AsyncSnapshot<int> id) {
+                                print(id.data);
+                                return ListTileDefault(
+                                  isDefault: id.hasData ? (snapshot.data[i].bankAcctId == id.data):false,
+                                  isSelected: id.hasData ? (snapshot.data[i].bankAcctId == id.data):false,
+                                  type: 4,
+                                  onTap: () => snapshot.data[i].bankAcctBalance < widget.depositMatch.amount ? {}:purchaseBloc.updateSelected(snapshot.data[i].bankAcctId),
+                                  leading: SizedBox(
+                                    width: 25,
+                                    height: 25,
+                                    child: snapshot.data[i].bankAcctBalance < widget.depositMatch.amount ? 
+                                    Image.asset("assets/img/logo-${snapshot.data[i].bankCode.toLowerCase()}.png", fit: BoxFit.cover):
+                                    Image.asset("assets/img/logo-${snapshot.data[i].bankCode.toLowerCase()}.color.png", fit: BoxFit.cover)
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text('Bank ${snapshot.data[i].bankAcctName}', style: TextStyle(color: snapshot.data[i].bankAcctBalance < widget.depositMatch.amount ? Colors.grey:Theme.of(context).primaryColor),),
+                                      Text('(${snapshot.data[i].bankAcctNo.substring(snapshot.data[i].bankAcctNo.length - 4)})', style: TextStyle(color: snapshot.data[i].bankAcctBalance < widget.depositMatch.amount ? Colors.grey:Theme.of(context).primaryColor),),
+                                    ],
+                                  ),
+                                  trailing: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text("Balance", style: TextStyle(fontWeight: FontWeight.bold, color: snapshot.data[i].bankAcctBalance < widget.depositMatch.amount ? Colors.grey:Theme.of(context).primaryColor)),
+                                      Text(formatMoney.format(snapshot.data[i].bankAcctBalance, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: snapshot.data[i].bankAcctBalance < widget.depositMatch.amount ? Colors.grey:Theme.of(context).primaryColor))
+                                    ],
+                                  ),
+                                );
+                              }
+                            ),
+                          ],
+                        ),
                       );
                     },
                   ),

@@ -25,16 +25,17 @@ class MainBloc extends Object implements BlocBase {
   }
 
   changeMenu(int index) {
+    print("Change index to $index");
     _menuIndex.sink.add(index);
     switch (index) {
       case 1:
-      _titleHeader.sink.add("Savings Summary");
+      _titleHeader.sink.add("My Cash");
         break;
       case 2:
       _titleHeader.sink.add("My Profile");
         break;
       default:
-      _titleHeader.sink.add("Choose Deposit");
+      _titleHeader.sink.add("Choose the amount you\'d like to switch up?");
         break;
     }
   }
@@ -55,3 +56,5 @@ class MainBloc extends Object implements BlocBase {
   }
 
 }
+
+final mainBloc = new MainBloc();

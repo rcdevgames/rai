@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:RAI/src/blocs/home/main_bloc.dart';
 import 'package:RAI/src/util/session.dart';
 import 'package:RAI/src/views/home/deposit.dart';
@@ -15,7 +17,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   final _key = GlobalKey<ScaffoldState>();
-  final mainBloc = new MainBloc();
+  MainBloc mainBloc;
   final List<Widget> pages = [
     new DepositPage(),
     new SavingPage(),
@@ -26,8 +28,15 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void initState() {
-    sessions.load("businessDate").then((date) {
-      businessDate = formatDate(DateTime.parse(date), [dd,' ',M,' ',yyyy]).toString();
+    mainBloc = new MainBloc();
+    var interval;
+    interval = new Timer.periodic(const Duration(seconds: 1), (i) async {
+      var date = await sessions.load("businessDate");
+      if(date != null) {
+        businessDate = formatDate(DateTime.parse(date), [dd,' ',M,' ',yyyy]).toString();
+        interval.cancel();
+      }
+      print('search Date, $date');
     });
     super.initState();
   }
@@ -39,10 +48,6 @@ class _MainPageState extends State<MainPage> {
     print('Main Dispose');
   }
 
-  toSummary() {
-    mainBloc.changeMenu(1);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,10 +57,10 @@ class _MainPageState extends State<MainPage> {
         elevation: 0,
         centerTitle: true,
         title: StreamBuilder(
-          initialData: "Choose Deposit",
+          initialData: "Choose the amount you\'d like to switch up?",
           stream: mainBloc.gettitleHeader,
           builder: (context, AsyncSnapshot<String> snapshot) {
-            return Text(snapshot.data);
+            return Text(snapshot.data, style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15));
           }
         ),
         flexibleSpace: StreamBuilder(
@@ -116,15 +121,15 @@ class _MainPageState extends State<MainPage> {
             items: [
               BottomNavigationBarItem(
                 icon: Icon(FontAwesomeIcons.piggyBank),
-                title: Text("Deposits")
+                title: Text("Deposit Offers")
               ),
               BottomNavigationBarItem(
                 icon: Icon(Savewise.icons8_graph),
-                title: Text("Summary")
+                title: Text("My Cash")
               ),
               BottomNavigationBarItem(
                 icon: Icon(Savewise.icons8_user_female),
-                title: Text("Profile")
+                title: Text("My Profile")
               ),
             ],
           );

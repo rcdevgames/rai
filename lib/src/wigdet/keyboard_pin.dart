@@ -123,7 +123,7 @@ class InputPinState extends State<InputPin> {
                   child: RaisedButton(
                     color: Colors.grey,
                     onPressed: widget.onForgotPassword,
-                    child: Text("forgot pin?", style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white)),
+                    child: Text("forgot pin?", style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white)),
                   ),
                 ),
               ),

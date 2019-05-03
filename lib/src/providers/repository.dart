@@ -21,6 +21,7 @@ class Repository {
   Future<DefaultBank> getDefaultBank() => userProvider.getDefaultBank();
   Future<List<Bank>> getBankList() => userProvider.getBankList();
   Future<List<History>> getHistory() => userProvider.getHistory();
+  Future purchaseDeposit(num amount, int bankAccId, String productId) => userProvider.purchaseDeposit(amount, bankAccId, productId);
 
   // Deposit Provider
   final depositProvider = new DepositProvider();

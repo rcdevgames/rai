@@ -18,7 +18,7 @@ class SavingPage extends StatelessWidget {
       children: <Widget>[
         Container(
           width: double.infinity,
-          height: (MediaQuery.of(context).size.height / 1080) * 220,
+          height: (MediaQuery.of(context).size.height / 1080) * 150,
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor
           ),

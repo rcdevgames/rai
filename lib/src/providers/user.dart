@@ -142,8 +142,31 @@ class UserProvider {
     Response response;
 
     try {
-      response = await api.patch("user/bankAccounts/$id/default", data: {});
+      response = await api.patch("user/bankAccounts/$id/default", data: {}, options: Api.headers(await sessions.load("token")));
       return response;
+    } on DioError catch (e) {
+      if(e.response != null) {
+        print(e.response.statusCode);
+        print(e.response.data);
+        if (e.response.statusCode == 401) {
+          throw Exception(json.encode({"errorCode": e.response.statusCode, "message": "Unautorized"}));
+        }else{
+          throw Exception(json.encode(e.response.data));
+        }
+      } else{
+        print(e.request);
+        print(e.message);
+        throw Exception(e.message.toString());
+      }
+    }
+  }
+
+  Future purchaseDeposit(num amount, int bankAccId, String productId) async {
+    var api = Api.access();
+    Response response;
+
+    try {
+      response = await api.post("user/deposits/", data: { "productId" : productId, "quantity" : amount, "bankAcctId" : bankAccId }, options: Api.headers(await sessions.load("token")));
     } on DioError catch (e) {
       if(e.response != null) {
         print(e.response.statusCode);

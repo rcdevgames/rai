@@ -28,6 +28,12 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
   }
 
   @override
+  void dispose() {
+    print('Detail dispose');
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _key,
@@ -105,8 +111,8 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
             ),
             SizedBox(height: 10),
             Container(
-              height: MediaQuery.of(context).size.width / 3.3,
-              margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 5),
+              height: MediaQuery.of(context).size.width / 5,
+              margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 4),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: Pigment.fromString("F6FBFF"),
@@ -156,6 +162,7 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
             color: Pigment.fromString("FAFAFA")
           ),
           child: RaisedButton.icon(
+            // onPressed: () => Navigator.pop(context, true),
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
               builder: (ctx) => BankListPage(widget.depositMatch)
             )),
