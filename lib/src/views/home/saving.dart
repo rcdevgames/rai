@@ -1,6 +1,13 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:RAI/src/models/savings.dart';
+import 'package:RAI/src/util/format_money.dart';
+import 'package:RAI/src/views/savings/saving_detail.dart';
+import 'package:RAI/src/wigdet/bloc_widget.dart';
+import 'package:RAI/src/wigdet/error_page.dart';
+import 'package:RAI/src/wigdet/list_tile.dart';
+import 'package:RAI/src/wigdet/loading.dart';
 import 'package:RAI/src/wigdet/slide_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -14,6 +21,9 @@ class SavingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final savingBloc = BlocProvider.of(context).savingBloc;
+    savingBloc.fetchSaving(context);
+
     return Column(
       children: <Widget>[
         Container(
@@ -29,127 +39,109 @@ class SavingPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Text("Total Savings", style: TextStyle(color: Colors.white)),
-                  Text("£ 25.000", style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold)),
+                  StreamBuilder(
+                    stream: savingBloc.getTotalSavings,
+                    builder: (context, AsyncSnapshot<num> snapshot) {
+                      if (snapshot.hasData) {
+                        return Text(formatMoney.format(snapshot.data), style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold));
+                      } return LoadingBlock(Theme.of(context).primaryColor);
+                    }
+                  ),
                 ],
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Text("Total Interest Earned", style: TextStyle(color: Colors.white)),
-                  Text("£ 452", style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold)),
+                  StreamBuilder(
+                    stream: savingBloc.getTotalInterest,
+                    builder: (context, AsyncSnapshot<num> snapshot) {
+                      if (snapshot.hasData) {
+                        return Text(formatMoney.format(snapshot.data), style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold));
+                      } return LoadingBlock(Theme.of(context).primaryColor);
+                    }
+                  ),
                 ],
               )
             ],
           ),
         ),
         Expanded(
-          child: LiquidPullToRefresh(
-            color: Theme.of(context).primaryColor.withOpacity(0.7),
-            key: _refreshIndicatorKey,
-            onRefresh: () {
-              final Completer<void> completer = Completer<void>();
-              Timer(const Duration(seconds: 3), () {
-                completer.complete();
-              });
-              return completer.future.then<void>((_) {
-                _refreshIndicatorKey.currentState.show();
-              });
-            },
-            child: ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: 2,
-              itemBuilder: (ctx, i) {
-                return Column(
-                  children: <Widget>[
-                    SizedBox(height: i == 0 ? 20:0),
-                    SizedBox(
-                      height: 143,
-                      child: Stack(
+          child: StreamBuilder(
+            stream: savingBloc.getListSavings,
+            builder: (context, AsyncSnapshot<List<Savings>> snapshot) {
+              if (snapshot.hasData) {
+                
+                return LiquidPullToRefresh(
+                  color: Theme.of(context).primaryColor.withOpacity(0.7),
+                  key: _refreshIndicatorKey,
+                  onRefresh: () => savingBloc.fetchSaving(context),
+                  child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: 2,
+                    itemBuilder: (ctx, i) {
+                      return Column(
                         children: <Widget>[
-                          Positioned(
-                            bottom: 0,
-                            width: MediaQuery.of(context).size.width,
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(20, 0, 20, 25),
-                              child: Slidable(
-                                delegate: new SlidableDrawerDelegate(),
-                                actionExtentRatio: 0.25,
-                                secondaryActions: <Widget>[
-                                  ItemsAction(
-                                    caption: 'Explore Exit Early Options',
-                                    color: Theme.of(context).primaryColor,
-                                    onTap: () => print('More'),
-                                  )
-                                ],
-                                child: GestureDetector(
-                                  onTap: (){},
-                                  child: Container(
-                                    padding: EdgeInsets.all(8.0),
-                                    height: 110,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      border: Border.all(width: 2, color: Colors.black26)
+                          SizedBox(height: i == 0 ? 20:0),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            child: Slidable(
+                              actionExtentRatio: 0.40,
+                              delegate: new SlidableDrawerDelegate(),
+                              secondaryActions: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 14, bottom: 21, left: 5),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(5),
+                                    child: ItemsAction(
+                                      caption: 'Explore Switch Out Options',
+                                      color: Theme.of(context).primaryColor,
+                                      onTap: () {},
                                     ),
-                                    child: Center(
-                                      child: ListTile(
-                                        title: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Row(
-                                              children: <Widget>[
-                                                Image.asset("assets/img/logo-scb.color.png", scale: 15,),
-                                                SizedBox(width: 5),
-                                                Text("£ 9.000"),
-                                              ],
-                                            ),
-                                            Text((Random.secure().nextInt(10) / 10).toString()),
-                                            Text("£ 175"),
-                                          ],
-                                        ),
-                                        subtitle: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            LinearPercentIndicator(
-                                              width: MediaQuery.of(context).size.width - 100,
-                                              lineHeight: 18,
-                                              percent: (Random.secure().nextInt(10) / 10),
-                                              progressColor: Theme.of(context).primaryColor,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ),
-                              ),
-                            ),
-                          ),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 10),
-                                  decoration: BoxDecoration(
-                                    color: Pigment.fromString("FAFAFA")
                                   ),
-                                  child: Text("Matures 12 Jan 2020")
-                                ),
-                                Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 10),
-                                  decoration: BoxDecoration(
-                                    color: Pigment.fromString("FAFAFA")
-                                  ),
-                                  child: Text("In Early Exit (1)", style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor))
                                 ),
                               ],
+                              child: ListTileDefault(
+                                leading: Row(
+                                  children: <Widget>[
+                                    Image.asset("assets/img/logo-scb.color.png", scale: 12,),
+                                    SizedBox(width: 5),
+                                    Text(formatMoney.format(snapshot.data[i].quantity, true), style: TextStyle(fontSize: 18)),
+                                  ],
+                                ),
+                                child: Text("${(snapshot.data[i].rate/100).toStringAsFixed(2)}%", style: TextStyle(fontSize: 18)),
+                                trailing: Text(formatMoney.format(snapshot.data[i].accruedInterest, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                                isDefault: true,
+                                type: 3,
+                                progressBarValue: savingBloc.countPercentage(savingBloc.businessDate, snapshot.data[i].maturityDate),
+                                dateTime: DateTime.now(),
+                                exited: null,
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (BuildContext context) => SavingDetailPage(snapshot.data[i], savingBloc.businessDate)
+                                  ));
+                                },
+                              ),
                             )
+                          )
                         ],
-                      ),
-                    ),
-                  ],
+                      );
+                    },
+                  ),
                 );
-              },
-            ),
+              }else if(snapshot.hasError) {
+                return Center(
+                  child: ErrorPage(
+                    message: snapshot.error,
+                    buttonText: "Try Again",
+                    onPressed: () {
+                      savingBloc.updateListSavings(null);
+                      savingBloc.fetchSaving(context);
+                    },
+                  ),
+                );
+              } return LoadingBlock(Theme.of(context).primaryColor);
+            }
           ),
         )
       ],

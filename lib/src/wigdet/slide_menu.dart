@@ -29,6 +29,7 @@ class ItemsAction extends ClosableSlideAction {
             : Colors.white;
     return Container(
       color: color,
+      padding: EdgeInsets.all(8.0),
       child: Center(
         child: Text(
           caption ?? '',

@@ -38,6 +38,7 @@ dependencies:
   date_format: ^1.0.6
   flutter_masked_text: ^0.8.0
   flutter_money_formatter: ^0.8.0
+  swipedetector: ^1.2.0
 
 dev_dependencies:
   flutter_test:
@@ -119,7 +120,7 @@ flutter:
       - asset: assets/fonts/Gotham-XLightItalic.otf
         weight: 200
         style: italic
-    - family: Proxima
+    - family: ProximaNova
       fonts:
       - asset: assets/fonts/ProximaNova-AltBold.otf
       - asset: assets/fonts/ProximaNova-AltLight.otf

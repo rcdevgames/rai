@@ -2,6 +2,7 @@ import 'package:RAI/src/models/deposit_match.dart';
 import 'package:RAI/src/util/format_money.dart';
 import 'package:RAI/src/util/session.dart';
 import 'package:RAI/src/views/deposit/bank_list.dart';
+import 'package:RAI/src/wigdet/bloc_widget.dart';
 import 'package:RAI/src/wigdet/savewise_icons.dart';
 import 'package:RAI/src/wigdet/separator.dart';
 import 'package:date_format/date_format.dart';
@@ -162,7 +163,9 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
             color: Pigment.fromString("FAFAFA")
           ),
           child: RaisedButton.icon(
-            // onPressed: () => Navigator.pop(context, true),
+            // onPressed: () {
+            //   Navigator.popUntil(context, ModalRoute.withName('/main'));
+            // },
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
               builder: (ctx) => BankListPage(widget.depositMatch)
             )),

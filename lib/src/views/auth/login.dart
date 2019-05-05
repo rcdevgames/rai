@@ -68,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  Text("OneUp.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor)),
+                  Text("OneUp.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Theme.of(context).primaryColor)),
                   SizedBox(height: 50),
                   SizedBox(
                     height: 30,
@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   Expanded(
                     child: InputPin(
-                      textStyle: TextStyle(color: Colors.black, fontSize: 45.0, fontWeight: FontWeight.w600, fontStyle: FontStyle.normal),
+                      textStyle: TextStyle(color: Colors.black, fontSize: 45.0, fontWeight: FontWeight.w600),
                       onBackPressed: loginBloc.removeCode,
                       onPressedKey: (String code) => loginBloc.inputCode(_key, code),
                       onForgotPassword: () => loginBloc.resetPin(_key),

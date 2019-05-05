@@ -28,6 +28,13 @@ class Sessions {
     prefs = await SharedPreferences.getInstance();
     return prefs.getString(key);
   }
+
+  Future<String> flashMessage(String key) async {
+    prefs = await SharedPreferences.getInstance();
+    var data = prefs.getString(key);
+    prefs.remove(key);
+    return data;
+  }
 }
 
 final sessions = Sessions();

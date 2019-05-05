@@ -5,6 +5,8 @@ import 'package:RAI/src/blocs/home/profile_bloc.dart';
 import 'package:RAI/src/models/bank.dart';
 import 'package:RAI/src/models/history.dart';
 import 'package:RAI/src/util/format_money.dart';
+import 'package:RAI/src/views/profile/profile.dart';
+import 'package:RAI/src/wigdet/bloc_widget.dart';
 import 'package:RAI/src/wigdet/error_page.dart';
 import 'package:RAI/src/wigdet/list_tile.dart';
 import 'package:RAI/src/wigdet/loading.dart';
@@ -18,19 +20,14 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:pigment/pigment.dart';
 
 class ProfilePage extends StatelessWidget {
+  final _key = GlobalKey<ScaffoldState>();
   final GlobalKey<RefreshIndicatorState> _bankAccountKey = GlobalKey<RefreshIndicatorState>();
   final GlobalKey<RefreshIndicatorState> _historyKey = GlobalKey<RefreshIndicatorState>();
-  final profileBloc = new ProfileBloc();
   TabController _tabController;
 
   @override
-  void dispose() {
-    profileBloc?.dispose();
-    print("close");
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final profileBloc = BlocProvider.of(context).profileBloc;
     final Map<int, Widget> contents = {
       0:Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -66,18 +63,20 @@ class ProfilePage extends StatelessWidget {
                             ],
                             secondaryActions: <Widget>[
                               Padding(
-                                padding: const EdgeInsets.only(top: 15, bottom: 20, left: 5),
+                                padding: const EdgeInsets.only(top: 14, bottom: 21, left: 5),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(5),
                                   child: ItemsAction(
                                     caption: 'Edit',
                                     color: Theme.of(context).primaryColor,
-                                    onTap: () {},
+                                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (ctx) => AccountDetailPage(snapshot.data[i])
+                                    )),
                                   ),
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(top: 15, bottom: 20, left: 5),
+                                padding: const EdgeInsets.only(top: 14, bottom: 21, left: 5),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(5),
                                   child: ItemsAction(
@@ -194,69 +193,82 @@ class ProfilePage extends StatelessWidget {
         )
   };
     
-    return Column(
-      children: <Widget>[
-        Container(
-          width: double.infinity,
-          height: (MediaQuery.of(context).size.height / 1080) * 150,
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor
+    return Scaffold(
+      key: _key,
+      body: Column(
+        children: <Widget>[
+          Container(
+            width: double.infinity,
+            height: (MediaQuery.of(context).size.height / 1080) * 150,
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text("Total Linked Accounts Balance", style: TextStyle(color: Colors.white)),
+                StreamBuilder(
+                  stream: profileBloc.getTotalBalance,
+                  builder: (context, AsyncSnapshot<num> snapshot) {
+                    if (snapshot.hasData) {
+                      return Text(formatMoney.format(snapshot.data, true), style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold));
+                    } return LoadingBlock(Colors.white);
+                  }
+                ),
+              ],
+            ),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Text("Total Linked Accounts Balance", style: TextStyle(color: Colors.white)),
-              StreamBuilder(
-                stream: profileBloc.getTotalBalance,
-                builder: (context, AsyncSnapshot<num> snapshot) {
-                  if (snapshot.hasData) {
-                    return Text(formatMoney.format(snapshot.data, true), style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold));
-                  } return LoadingBlock(Colors.white);
-                }
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: StreamBuilder(
-            initialData: 0,
-            stream: profileBloc.getIndexTab,
-            builder: (context, AsyncSnapshot<int> snapshot) {
-              return Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20, bottom: 30),
-                    child: CupertinoSegmentedControl(
-                      pressedColor: Theme.of(context).primaryColor.withOpacity(0.7),
-                      borderColor: Theme.of(context).primaryColor,
-                      selectedColor: Theme.of(context).primaryColor,
-                      onValueChanged: (v) => profileBloc.updateIndexTab(v),
-                      groupValue: snapshot.data,
-                      children: {
-                        0: SizedBox(
-                          height: 50,
-                          width: MediaQuery.of(context).size.width / 2.2,
-                          child: Center(child: Text("LINKED ACCOUNTS", style: TextStyle(color: snapshot.data == 1 ? Theme.of(context).primaryColor:Colors.white, fontWeight: FontWeight.w600)))
-                        ),
-                        1: SizedBox(
-                          height: 50,
-                          width: MediaQuery.of(context).size.width / 2.2,
-                          child: Center(child: Text("MY ACTIVITIES", style: TextStyle(color: snapshot.data == 0 ? Theme.of(context).primaryColor:Colors.white, fontWeight: FontWeight.w600)))
-                        )
-                      },
+          Expanded(
+            child: StreamBuilder(
+              initialData: 0,
+              stream: profileBloc.getIndexTab,
+              builder: (context, AsyncSnapshot<int> snapshot) {
+                return Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20, bottom: 30),
+                      child: CupertinoSegmentedControl(
+                        pressedColor: Theme.of(context).primaryColor.withOpacity(0.7),
+                        borderColor: Theme.of(context).primaryColor,
+                        selectedColor: Theme.of(context).primaryColor,
+                        onValueChanged: (v) => profileBloc.updateIndexTab(v),
+                        groupValue: snapshot.data,
+                        children: {
+                          0: SizedBox(
+                            height: 50,
+                            width: MediaQuery.of(context).size.width / 2.2,
+                            child: Center(child: Text("LINKED ACCOUNTS", style: TextStyle(color: snapshot.data == 1 ? Theme.of(context).primaryColor:Colors.white, fontWeight: FontWeight.w600)))
+                          ),
+                          1: SizedBox(
+                            height: 50,
+                            width: MediaQuery.of(context).size.width / 2.2,
+                            child: Center(child: Text("MY ACTIVITIES", style: TextStyle(color: snapshot.data == 0 ? Theme.of(context).primaryColor:Colors.white, fontWeight: FontWeight.w600)))
+                          )
+                        },
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: contents[snapshot.data]
-                  )
-                ],
-              );
-            }
+                    Expanded(
+                      child: contents[snapshot.data]
+                    )
+                  ],
+                );
+              }
+            )
           )
-        )
-      ],
+        ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+          builder: (ctx) => AccountDetailPage(null)
+        )),
+        backgroundColor: Colors.white,
+        heroTag: "add",
+        label: Text("Add Account", style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor)),
+        icon: Icon(Icons.add, color: Theme.of(context).primaryColor),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

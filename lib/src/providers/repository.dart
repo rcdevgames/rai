@@ -3,6 +3,7 @@ import 'package:RAI/src/models/default_bank.dart';
 import 'package:RAI/src/models/deposit_match.dart';
 import 'package:RAI/src/models/history.dart';
 import 'package:RAI/src/models/oAuth.dart';
+import 'package:RAI/src/models/savings.dart';
 import 'package:RAI/src/models/user.dart';
 import 'package:RAI/src/providers/auth.dart';
 import 'package:RAI/src/providers/deposit.dart';
@@ -22,6 +23,7 @@ class Repository {
   Future<List<Bank>> getBankList() => userProvider.getBankList();
   Future<List<History>> getHistory() => userProvider.getHistory();
   Future purchaseDeposit(num amount, int bankAccId, String productId) => userProvider.purchaseDeposit(amount, bankAccId, productId);
+  Future<List<Savings>> getSavingList() => userProvider.getSavingList();
 
   // Deposit Provider
   final depositProvider = new DepositProvider();

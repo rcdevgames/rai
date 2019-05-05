@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:RAI/src/models/bank.dart';
 import 'package:RAI/src/models/default_account.dart';
 import 'package:RAI/src/models/default_bank.dart';
-import 'package:RAI/src/models/deposit_match.dart';
 import 'package:RAI/src/models/history.dart';
+import 'package:RAI/src/models/savings.dart';
 import 'package:RAI/src/models/user.dart';
 import 'package:RAI/src/util/api.dart';
 import 'package:RAI/src/util/session.dart';
@@ -167,6 +167,30 @@ class UserProvider {
 
     try {
       response = await api.post("user/deposits/", data: { "productId" : productId, "quantity" : amount, "bankAcctId" : bankAccId }, options: Api.headers(await sessions.load("token")));
+    } on DioError catch (e) {
+      if(e.response != null) {
+        print(e.response.statusCode);
+        print(e.response.data);
+        if (e.response.statusCode == 401) {
+          throw Exception(json.encode({"errorCode": e.response.statusCode, "message": "Unautorized"}));
+        }else{
+          throw Exception(json.encode(e.response.data));
+        }
+      } else{
+        print(e.request);
+        print(e.message);
+        throw Exception(e.message.toString());
+      }
+    }
+  }
+
+  Future<List<Savings>> getSavingList() async {
+    var api = Api.access();
+    Response response;
+
+    try {
+      response = await api.get("user/deposits?isCurrent=1", options: Api.headers(await sessions.load("token")));
+      return compute(savingsFromJson, response.data['data'].toString());
     } on DioError catch (e) {
       if(e.response != null) {
         print(e.response.statusCode);

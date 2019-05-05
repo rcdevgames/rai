@@ -113,23 +113,19 @@ class ListTileDefault extends StatelessWidget {
             decoration: BoxDecoration(
               color: Pigment.fromString("FAFAFA")
             ),
-            child: Text("${DateFormat('EEEE').format(dateTime)} ${formatDate(dateTime, [dd, ' ', M, ' ', yyyy]).toString()}")
+            child: Text("Matures ${formatDate(dateTime, [dd, ' ', M, ' ', yyyy]).toString()}")
+            // child: Text("Matures ${DateFormat('EEEE').format(dateTime)} ${formatDate(dateTime, [dd, ' ', M, ' ', yyyy]).toString()}")
           ),
-          Container(
-            height: 30,
-            width: 100,
+          exited != null && exited > 0 ? Container(
+            padding: EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.circular(5)
+              color: Pigment.fromString("FAFAFA")
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Icon(Icons.star, size: 20, color: Colors.white),
-                Text("Best Rate", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400))
-              ],
-            ),
-          )
+            child: Text("Switching Out (${exited})")
+          ):Container(
+            height: 20,
+            width: 100,
+          ),
         ],
       ),
     );
@@ -177,7 +173,7 @@ class ListTileDefault extends StatelessWidget {
       children: <Widget>[
         Container(
           margin: const EdgeInsets.only(bottom: 20),
-          height: 105,
+          height: progressBarValue != null ? 125:105,
           child: Stack(
             children: <Widget>[
               Positioned(
@@ -187,17 +183,34 @@ class ListTileDefault extends StatelessWidget {
                   onTap: onTap,
                   child: Container(
                     padding: EdgeInsets.all(20.0),
-                    height: 90,
+                    height: progressBarValue != null ? 115:90,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       border: isSelected ? Border.all(width: 2.5, color: Theme.of(context).primaryColor) : Border.all(width: 2, color: Colors.black26)
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        leading,
-                        child,
-                        trailing
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            leading,
+                            child,
+                            trailing
+                          ],
+                        ),
+                        progressBarValue != null ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            LinearPercentIndicator(
+                              width: MediaQuery.of(context).size.width - 100,
+                              lineHeight: 18,
+                              percent: progressBarValue,
+                              progressColor: Pigment.fromString("#69be28"),
+                              backgroundColor: Theme.of(context).primaryColor,
+                            ),
+                          ],
+                        ):Container()
                       ],
                     )
                   )

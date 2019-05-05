@@ -4,7 +4,10 @@ import 'dart:math';
 import 'package:RAI/src/blocs/home/deposit_bloc.dart';
 import 'package:RAI/src/models/deposit_match.dart';
 import 'package:RAI/src/util/format_money.dart';
+import 'package:RAI/src/util/session.dart';
 import 'package:RAI/src/views/deposit/detail_purchase.dart';
+import 'package:RAI/src/wigdet/bloc_widget.dart';
+import 'package:RAI/src/wigdet/dialog.dart';
 import 'package:RAI/src/wigdet/error_page.dart';
 import 'package:RAI/src/wigdet/input_deposit.dart';
 import 'package:RAI/src/wigdet/list_tile.dart';
@@ -18,20 +21,9 @@ import 'package:pigment/pigment.dart';
 
 class DepositPage extends StatelessWidget {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
-  final depositBloc = new DepositBloc();
-  
-  @override
-  void dispose() { 
-    depositBloc?.dispose();
-  }
-
-  @override
-  void didUpdateWidget (Type oldWidget) {
-    print("Update");
-  }
-  
   @override
   Widget build(BuildContext context) {
+    final depositBloc = BlocProvider.of(context).depositBloc;
     return Scaffold(
       body: Column(
         children: <Widget>[
@@ -91,10 +83,15 @@ class DepositPage extends StatelessWidget {
                                       isDefault: true,
                                       type: snapshot.data[i].tag.contains("best") ? 1:5,
                                       dateTime: snapshot.data[i].maturityDate,
-                                      onTap: () {
-                                        Navigator.of(context).push(MaterialPageRoute(
+                                      onTap: () async {
+                                        await Navigator.of(context).push(MaterialPageRoute(
                                           builder: (BuildContext context) => DetailPurchasePage(snapshot.data[i])
                                         ));
+                                        var data = await sessions.flashMessage("purchased");
+                                        if (data != null) {
+                                          dialogs.alertWithIcon(context, icon: Icons.check_circle_outline, title: "Success!", message: "Deposit successful. See My Savings to watch your deposit grow!");
+                                          BlocProvider.of(context).changeMenu(1);
+                                        }
                                       },
                                     ),
                                   ),

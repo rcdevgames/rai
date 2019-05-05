@@ -9,6 +9,7 @@ import 'package:RAI/src/util/session.dart';
 import 'package:RAI/src/wigdet/dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:RAI/src/wigdet/bloc_widget.dart';
 
 class PurchaseBloc extends Object implements BlocBase {
   // MainBloc mainBloc;
@@ -58,7 +59,7 @@ class PurchaseBloc extends Object implements BlocBase {
     try {
       _isLoading.sink.add(true);
       await repo.purchaseDeposit(depositMatch.amount, _selected.value, depositMatch.id);
-      dialogs.alertWithIcon(key.currentContext, icon: Icons.check_circle_outline, title: "Success", message: "Deposit successful. See My Cash to watch your deposit grow!");
+      sessions.save("purchased", "Deposit successful. See My Savings to watch your deposit grow!");
       _isLoading.sink.add(false);
       Navigator.of(key.currentContext).popUntil(ModalRoute.withName('/main'));
     } catch (e) {

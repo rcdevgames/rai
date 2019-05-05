@@ -1,7 +1,16 @@
+import 'package:RAI/src/models/bank.dart';
 import 'package:flutter/material.dart';
 import 'package:pigment/pigment.dart';
 
-class ExitEarlyPage extends StatelessWidget {
+class AccountDetailPage extends StatefulWidget {
+  Bank details;
+  AccountDetailPage(this.details);
+
+  @override
+  AccountDetailPageState createState() => AccountDetailPageState();
+}
+
+class AccountDetailPageState extends State<AccountDetailPage> {
   final _key = GlobalKey<ScaffoldState>();
 
   @override
@@ -9,7 +18,7 @@ class ExitEarlyPage extends StatelessWidget {
     return Scaffold(
       key: _key,
       appBar: AppBar(
-        title: Text("Saving Detail"),
+        title: Text(widget.details == null ? "Add Accounts":"Edit Accounts"),
         actions: <Widget>[
           IconButton(
             onPressed: () => Navigator.of(context).pushNamed('/help'),
@@ -25,13 +34,11 @@ class ExitEarlyPage extends StatelessWidget {
             color: Pigment.fromString("FAFAFA")
           ),
           child: RaisedButton.icon(
-            onPressed: () {
-              Navigator.popUntil(context, ModalRoute.withName('/main'));
-            },
+            onPressed: () {},
             color: Theme.of(context).primaryColor,
             icon: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-              child: Text("Confirm Switch Out", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center),
+              child: Text("SAVE", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center),
             ),
             label: Icon(Icons.arrow_forward_ios, color: Colors.white),
           ),
