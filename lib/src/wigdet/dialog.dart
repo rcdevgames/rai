@@ -9,23 +9,7 @@ class Dialogs {
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        return Platform.isAndroid ? 
-        AlertDialog(
-          title: Text(title),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(description)
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text("Confirm"),
-            )
-          ],
-        ):CupertinoAlertDialog(
+        return CupertinoAlertDialog(
           title: Text(title),
           content: SingleChildScrollView(
             child: ListBody(
@@ -50,38 +34,9 @@ class Dialogs {
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        return Platform.isAndroid ? 
-        AlertDialog(
+        return CupertinoAlertDialog(
           title: Text(title),
           actions: <Widget>[
-            FlatButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(cancel),
-            ),
-            FlatButton(
-              onPressed: () {
-                Navigator.pop(context);
-                onTap();
-              },
-              child: Text(confirm),
-            ),
-          ],
-        ): CupertinoAlertDialog(
-          title: Text(title),
-          actions: Platform.isAndroid ? 
-          <Widget>[
-            FlatButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(cancel),
-            ),
-            FlatButton(
-              onPressed: () {
-                Navigator.pop(context);
-                onTap();
-              },
-              child: Text(confirm),
-            ),
-          ]: <Widget>[
             CupertinoDialogAction(
               onPressed: () => Navigator.pop(context),
               child: Text(cancel),
@@ -153,17 +108,7 @@ class Dialogs {
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        return Platform.isAndroid ? 
-        AlertDialog(
-          title: Text(title),
-          content: child,
-          actions: <Widget>[
-            FlatButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text("OK"),
-            ),
-          ],
-        ): CupertinoAlertDialog(
+        return CupertinoAlertDialog(
           title: Text(title),
           content: child,
           actions: <Widget>[
@@ -179,6 +124,7 @@ class Dialogs {
 
   alertWithIcon(BuildContext context, {IconData icon, String title, String message}) {
     information(context, title: "", child: Column(
+      mainAxisSize: MainAxisSize.min,
       children: <Widget>[ 
         icon != null ? Icon(icon, color: Theme.of(context).primaryColor, size: 120):SizedBox(),
         SizedBox(height: icon != null ? 10:0),

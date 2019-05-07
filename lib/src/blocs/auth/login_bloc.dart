@@ -69,9 +69,10 @@ class LoginBloc extends Object implements BlocBase {
   }
 
   checkIdentification(GlobalKey<ScaffoldState> key) async {
+    var list = await localAuth.getAvailableBiometrics();
     String code = await sessions.load("userPin");
     await Future.delayed(const Duration(milliseconds: 800));
-    if (Platform.isIOS && (code != null && code.length == 6)) {
+    if (list.length > 0 && (code != null && code.length == 6)) {
       try {
         bool didAuthenticate = await localAuth.authenticateWithBiometrics(
             localizedReason: 'Please authenticate to login',

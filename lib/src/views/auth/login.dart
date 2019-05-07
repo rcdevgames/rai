@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   SizedBox(height: 20),
                   Text("OneUp.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Theme.of(context).primaryColor)),
-                  SizedBox(height: 50),
+                  SizedBox(height: MediaQuery.of(context).size.height / 20),
                   SizedBox(
                     height: 30,
                     width: MediaQuery.of(context).size.width / 2.2,
