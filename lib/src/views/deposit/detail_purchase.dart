@@ -24,13 +24,11 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
   @override
   void initState() {
     sessions.load('businessDate').then((date) => businessDate = DateTime.parse(date));
-    print(widget.depositMatch.toJson());
     super.initState();
   }
 
   @override
   void dispose() {
-    print('Detail dispose');
     super.dispose();
   }
 

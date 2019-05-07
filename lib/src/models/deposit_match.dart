@@ -12,6 +12,7 @@ class DepositMatch {
     String id;
     String currency;
     DateTime maturityDate;
+    DateTime expiryDate;
     num amount;
     num rate;
     String bankName;
@@ -24,6 +25,7 @@ class DepositMatch {
         this.id,
         this.currency,
         this.maturityDate,
+        this.expiryDate,
         this.amount,
         this.rate,
         this.bankName,
@@ -37,6 +39,7 @@ class DepositMatch {
         id: json["id"],
         currency: json["currency"],
         maturityDate: DateTime.parse(json["maturityDate"]),
+        expiryDate: json["expiryDate"] == null ? null : DateTime.parse(json["expiryDate"]),
         amount: json["amount"],
         rate: json["rate"],
         bankName: json["bankName"],
@@ -50,6 +53,7 @@ class DepositMatch {
         "id": id,
         "currency": currency,
         "maturityDate": "${maturityDate.year.toString().padLeft(4, '0')}-${maturityDate.month.toString().padLeft(2, '0')}-${maturityDate.day.toString().padLeft(2, '0')}",
+        "expiryDate": expiryDate == null ? null : "${expiryDate.year.toString().padLeft(4, '0')}-${expiryDate.month.toString().padLeft(2, '0')}-${expiryDate.day.toString().padLeft(2, '0')}",
         "amount": amount,
         "rate": rate,
         "bankName": bankName,

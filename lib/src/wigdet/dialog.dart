@@ -45,7 +45,7 @@ class Dialogs {
     );
   }
 
-  prompt(BuildContext context, String title, Function onTap) {
+  prompt(BuildContext context, String title, Function onTap, {String cancel = "Cancel", String confirm = "Confirm"}) {
     return showDialog(
       context: context,
       barrierDismissible: true,
@@ -56,14 +56,14 @@ class Dialogs {
           actions: <Widget>[
             FlatButton(
               onPressed: () => Navigator.pop(context),
-              child: Text("Cancel"),
+              child: Text(cancel),
             ),
             FlatButton(
               onPressed: () {
                 Navigator.pop(context);
                 onTap();
               },
-              child: Text("Confirm"),
+              child: Text(confirm),
             ),
           ],
         ): CupertinoAlertDialog(
@@ -72,26 +72,26 @@ class Dialogs {
           <Widget>[
             FlatButton(
               onPressed: () => Navigator.pop(context),
-              child: Text("Cancel"),
+              child: Text(cancel),
             ),
             FlatButton(
               onPressed: () {
                 Navigator.pop(context);
                 onTap();
               },
-              child: Text("Confirm"),
+              child: Text(confirm),
             ),
           ]: <Widget>[
             CupertinoDialogAction(
               onPressed: () => Navigator.pop(context),
-              child: Text("Cancel"),
+              child: Text(cancel),
             ),
             CupertinoDialogAction(
               onPressed: () {
                 Navigator.pop(context);
                 onTap();
               },
-              child: Text("Confirm"),
+              child: Text(confirm),
             )
           ]
         );
@@ -179,13 +179,13 @@ class Dialogs {
 
   alertWithIcon(BuildContext context, {IconData icon, String title, String message}) {
     information(context, title: "", child: Column(
-        children: <Widget>[ 
-          icon != null ? Icon(icon, color: Theme.of(context).primaryColor, size: 120):SizedBox(),
-          SizedBox(height: icon != null ? 10:0),
-          Text(title != null ? title:"", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor)),
-          Text(message != null ? message:"", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor.withOpacity(0.7))),
-        ],
-      ));
+      children: <Widget>[ 
+        icon != null ? Icon(icon, color: Theme.of(context).primaryColor, size: 120):SizedBox(),
+        SizedBox(height: icon != null ? 10:0),
+        Text(title != null ? title:"", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor)),
+        Text(message != null ? message:"", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor.withOpacity(0.7))),
+      ],
+    ));
   }
 }
 

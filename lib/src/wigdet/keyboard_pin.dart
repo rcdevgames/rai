@@ -4,11 +4,13 @@ class InputPin extends StatefulWidget {
   final Function onBackPressed, onPressedKey;
   final VoidCallback onForgotPassword;
   final TextStyle textStyle;
+  final bool isLogin;
   InputPin({
     this.onBackPressed,
     this.onPressedKey,
     this.onForgotPassword,
     this.textStyle,
+    this.isLogin = true
   });
 
   InputPinState createState() => InputPinState();
@@ -115,7 +117,7 @@ class InputPinState extends State<InputPin> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              ClipRRect(
+              widget.isLogin ? ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: SizedBox(
                   width: (MediaQuery.of(context).size.width/1080) * 300,
@@ -126,6 +128,9 @@ class InputPinState extends State<InputPin> {
                     child: Text("forgot pin?", style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white)),
                   ),
                 ),
+              ):Container(
+                width: (MediaQuery.of(context).size.width/1080) * 350,
+                height: 30,
               ),
               SizedBox(width: 10),
               Expanded(

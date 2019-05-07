@@ -1,3 +1,4 @@
+import 'package:RAI/src/util/data.dart';
 import 'package:RAI/src/util/session.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,44 +11,13 @@ class TourPage extends StatefulWidget {
 
 class _TourPageState extends State<TourPage> {
   final _keyTour = GlobalKey<ScaffoldState>();
-  String skipText;
-  final List<Map<String, String>> listTour = [
-    {
-      'title': '1',
-      'description': 'Welcome to SAVEWISE, we can help you save better with more flexibility.',
-      // 'imgSrc': 'css/images/dashboard_image@2x.png',
-      'color': '#4493cd'
-    },
-    {
-      'title': '2',
-      'description': 'Decide the amount you\'d like to save.',
-      // 'imgSrc': 'css/images/maps_image@2x.png',
-      'color': '#FFD603'
-    },
-    {
-      'title': '3',
-      'description': 'Choose the deposit that\'s best for you.',
-      // 'imgSrc': 'css/images/incidents_image@2x.png',
-      'color': '#E5003E'
-    },
-    {
-      'title': '4',
-      'description': 'Watch your savings grow to maturity.',
-      // 'imgSrc': 'css/images/customers_image@2x.png',
-      'color': '#009636'
-    },
-    {
-      'title': '5',
-      'description': 'Need your money back early? Explore our Early Exit options.',
-      // 'imgSrc': 'css/images/customers_image@2x.png',
-      'color': '#009636'
-    }
-  ];
+  bool skipText;
+  final List<Map<String, String>> listTour = Static.LIST_TOUR;
 
   @override
   void initState() {
     checkHasTour();
-    skipText = "Skip";
+    skipText = false;
     super.initState();
   }
 
@@ -80,11 +50,11 @@ class _TourPageState extends State<TourPage> {
                 onPageChanged: (i) {
                   if ((i+1) == listTour.length) {
                     setState(() {
-                      skipText = "Login";
+                      skipText = true;
                     });
                   }else{
                     setState(() {
-                      skipText = "Skip";
+                      skipText = false;
                     });
                   }
                 },
@@ -136,15 +106,15 @@ class _TourPageState extends State<TourPage> {
                     elevation: 0,
                     child: Text("Terms", style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor, fontSize: 18)),
                   ),
-                  RaisedButton(
+                  skipText ? RaisedButton(
                     onPressed: () {
                       sessions.save("tour", "1");
                       Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
                     },
                     color: Colors.transparent,
                     elevation: 0,
-                    child: Text(skipText, style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor, fontSize: 18)),
-                  ),
+                    child: Text("Login", style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor, fontSize: 18)),
+                  ):Container(),
                 ],
               ),
             )

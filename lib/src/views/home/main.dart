@@ -47,7 +47,6 @@ class _MainPageState extends State<MainPage> {
   void dispose() {
     mainBloc?.dispose();
     super.dispose();
-    print('Main Dispose');
   }
 
   @override
@@ -124,15 +123,15 @@ class _MainPageState extends State<MainPage> {
               currentIndex: snapshot.data,
               items: [
                 BottomNavigationBarItem(
-                  icon: Icon(FontAwesomeIcons.piggyBank),
+                  icon: Icon(Savewise.icons8_percentage),
                   title: Text("Deposit Offers", style: TextStyle(fontSize: 12))
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Savewise.icons8_graph),
-                  title: Text("My Cash", style: TextStyle(fontSize: 12))
+                  icon: Icon(Savewise.icon_pounds),
+                  title: Text("My Money", style: TextStyle(fontSize: 12))
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Savewise.icons8_user_female),
+                  icon: Icon(Savewise.icons8_user),
                   title: Text("My Profile", style: TextStyle(fontSize: 12))
                 ),
               ],

@@ -8,12 +8,19 @@ class FormatMoney {
             symbol: '£',
             thousandSeparator: ',',
             decimalSeparator: '.',
+            fractionDigits: 2,
             symbolAndNumberSeparator: ' ',
             compactFormatType: CompactFormatType.short
         )
     );
-    if (withSymbol == null) return fmf.output.compactNonSymbol;
-    return fmf.output.compactSymbolOnLeft;
+    String money;
+    if (withSymbol == null) {
+      money = fmf.output.nonSymbol;
+    }else{
+      money = fmf.output.symbolOnLeft;
+    }
+    
+    return money.substring(0, money.length-3);
   }
 }
 

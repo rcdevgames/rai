@@ -14,7 +14,7 @@ class SavingBloc extends Object implements BlocBase {
   DateTime businessDate;
 
   Stream<List<Savings>> get getListSavings => _listSavings.stream;
-  Stream<num> get getTotalSavings => _totalInterest.stream;
+  Stream<num> get getTotalSavings => _totalSavings.stream;
   Stream<num> get getTotalInterest => _totalInterest.stream;
 
   Function(List<Savings>) get updateListSavings => _listSavings.sink.add;
@@ -26,29 +26,32 @@ class SavingBloc extends Object implements BlocBase {
     _totalInterest.close();
   }
 
-  fetchSaving(BuildContext context) async {
+  Future fetchSaving(BuildContext context, bool refresh) async {
     businessDate = DateTime.parse(await sessions.load("businessDate"));
-    try {
-      var result = await repo.getSavingList();
-      num interest = 0, saving = 0;
-      result.asMap().forEach((i, v) {
-        interest += v.accruedInterest;
-        saving += v.quantity;
-      });
-      _totalInterest.sink.add(interest);
-      _totalSavings.sink.add(saving);
-      _listSavings.sink.add(result);
-    } catch (e) {
-      print(e);
+    if (_listSavings.value == null || refresh == true) {
       try {
-        var error = json.decode(e.toString().replaceAll("Exception: ", ""));
-        if (error['errorCode'] == 401 || error['errorCode'] == 403) {
-          sessions.clear();
-          Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
-        }
-        _listSavings.sink.addError(error['message']);
+        var result = await repo.getSavingList();
+        num interest = 0, saving = 0;
+        result.asMap().forEach((i, v) {
+          interest += v.accruedInterest;
+          saving += v.quantity;
+        });
+        _totalInterest.sink.add(interest);
+        _totalSavings.sink.add(saving);
+        _listSavings.sink.add(result);
+        print(result);
       } catch (e) {
-        _listSavings.sink.addError(e.toString().replaceAll("Exception: ", ""));
+        print(e);
+        try {
+          var error = json.decode(e.toString().replaceAll("Exception: ", ""));
+          if (error['errorCode'] == 401 || error['errorCode'] == 403) {
+            sessions.clear();
+            Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+          }
+          _listSavings.sink.addError(error['message']);
+        } catch (e) {
+          _listSavings.sink.addError(e.toString().replaceAll("Exception: ", ""));
+        }
       }
     }
   }

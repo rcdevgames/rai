@@ -18,7 +18,7 @@ class DepositProvider {
       if(e.response != null) {
         print(e.response.statusCode);
         print(e.response.data);
-        if (e.response.statusCode == 401) {
+        if (e.response.statusCode == 401 || e.response.statusCode == 403) {
           throw Exception(json.encode({"errorCode": e.response.statusCode, "message": "Unautorized"}));
         }else{
           throw Exception(json.encode(e.response.data));

@@ -38,7 +38,9 @@ dependencies:
   date_format: ^1.0.6
   flutter_masked_text: ^0.8.0
   flutter_money_formatter: ^0.8.0
-  swipedetector: ^1.2.0
+  flip_card: ^0.2.1
+  page_transition: ^1.0.9
+  url_launcher: ^5.0.2
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +66,8 @@ flutter:
     - assets/img/logo-lo.png
     - assets/img/logo-scb.color.png
     - assets/img/logo-scb.png
+    - assets/img/touchid.png
+
     - assets/svg/savewise-logo.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see

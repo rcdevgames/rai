@@ -24,7 +24,6 @@ class MainBloc extends Object implements BlocBase {
     _depositBloc = new DepositBloc();
     _savingBloc = new SavingBloc();
     _profileBloc = new ProfileBloc();
-    print('panggil');
   }
 
   DepositBloc get depositBloc => _depositBloc;
@@ -33,7 +32,6 @@ class MainBloc extends Object implements BlocBase {
 
   @override
   void dispose() {
-    print("Main Disposed");
     _titleHeader.close();
     _menuIndex.close();
     _depositBloc.dispose();
@@ -42,7 +40,6 @@ class MainBloc extends Object implements BlocBase {
   }
 
   changeMenu(int index) {
-    print("Change index to $index");
     _menuIndex.sink.add(index);
     switch (index) {
       case 1:

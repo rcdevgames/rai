@@ -19,7 +19,8 @@ class InputDeposit extends StatelessWidget {
       height: 60,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(50)
+        borderRadius: BorderRadius.circular(50),
+        border: Border.all(width: 1, color: Theme.of(context).primaryColor.withOpacity(0.3))
       ),
       child: Row(
         children: <Widget>[
@@ -50,8 +51,8 @@ class InputDeposit extends StatelessWidget {
             child: TextField(
               controller: inputController,
               decoration: InputDecoration(
-                prefixText: "£",
-                prefixStyle: TextStyle(fontSize: 25),
+                // prefixText: "£",
+                // prefixStyle: TextStyle(fontSize: 25),
                 border: InputBorder.none
               ),
               style: TextStyle(fontSize: 35),

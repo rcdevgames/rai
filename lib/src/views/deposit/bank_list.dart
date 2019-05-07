@@ -70,12 +70,15 @@ class _BankListPageState extends State<BankListPage> {
                             StreamBuilder(
                               stream: purchaseBloc.getSelected,
                               builder: (context, AsyncSnapshot<int> id) {
-                                print(id.data);
                                 return ListTileDefault(
                                   isDefault: id.hasData ? (snapshot.data[i].bankAcctId == id.data):false,
                                   isSelected: id.hasData ? (snapshot.data[i].bankAcctId == id.data):false,
                                   type: 4,
-                                  onTap: () => snapshot.data[i].bankAcctBalance < widget.depositMatch.amount ? {}:purchaseBloc.updateSelected(snapshot.data[i].bankAcctId),
+                                  onTap: () => snapshot.data[i].bankAcctBalance < widget.depositMatch.amount ? {}:{
+                                    purchaseBloc.updateSelected(snapshot.data[i].bankAcctId),
+                                    purchaseBloc.selectbank(snapshot.data[i])
+                                    
+                                  },
                                   leading: SizedBox(
                                     width: 25,
                                     height: 25,

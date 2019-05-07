@@ -15,9 +15,10 @@ class ListTileDefault extends StatelessWidget {
   bool isSelected;
   int type;
   int exited;
+  int lefts;
   GestureTapCallback onTap;
 
-  ListTileDefault({Key key, this.leading, this.child, this.trailing, this.progressBarValue, this.isDefault = false, this.onTap, this.dateTime, this.exited, this.type = 1, this.isSelected = false}):super(key:key);
+  ListTileDefault({Key key, this.leading, this.child, this.trailing, this.progressBarValue, this.isDefault = false, this.onTap, this.dateTime, this.exited, this.type = 1, this.isSelected = false, this.lefts = 0}):super(key:key);
 
 
   // Type
@@ -28,7 +29,7 @@ class ListTileDefault extends StatelessWidget {
 
   Widget labelDepositDefault() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -37,23 +38,33 @@ class ListTileDefault extends StatelessWidget {
             decoration: BoxDecoration(
               color: Pigment.fromString("FAFAFA")
             ),
-            child: Text("${DateFormat('EEEE').format(dateTime)} ${formatDate(dateTime, [dd, ' ', M, ' ', yyyy]).toString()}")
+            child: Text("Matures ${formatDate(dateTime, [dd, ' ', MM, ' ', yyyy]).toString()}")
           ),
-          Container(
+          lefts > 0 ?Container(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              color: Pigment.fromString("FAFAFA")
+            ),
+            child: Text("${lefts.toString()} Days Left")
+          ):Container(
             height: 30,
             width: 100,
-            decoration: BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.circular(5)
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Icon(Icons.star, size: 20, color: Colors.white),
-                Text("Best Rate", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400),)
-              ],
-            ),
           )
+          // Container(
+          //   height: 30,
+          //   width: 100,
+          //   decoration: BoxDecoration(
+          //     color: Colors.green,
+          //     borderRadius: BorderRadius.circular(5)
+          //   ),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //     children: <Widget>[
+          //       Icon(Icons.star, size: 20, color: Colors.white),
+          //       Text("Best Rate", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400),)
+          //     ],
+          //   ),
+          // )
         ],
       ),
     );

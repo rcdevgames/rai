@@ -26,7 +26,7 @@ class UserProvider {
       if(e.response != null) {
         print(e.response.statusCode);
         print(e.response.data);
-        if (e.response.statusCode == 401) {
+        if (e.response.statusCode == 401 || e.response.statusCode == 403) {
           throw Exception(json.encode({"errorCode": e.response.statusCode, "message": "Unautorized"}));
         }else{
           throw Exception(json.encode(e.response.data));
@@ -52,7 +52,7 @@ class UserProvider {
       if(e.response != null) {
         print(e.response.statusCode);
         print(e.response.data);
-        if (e.response.statusCode == 401) {
+        if (e.response.statusCode == 401 || e.response.statusCode == 403) {
           throw Exception(json.encode({"errorCode": e.response.statusCode, "message": "Unautorized"}));
         }else{
           throw Exception(json.encode(e.response.data));
@@ -76,7 +76,7 @@ class UserProvider {
       if(e.response != null) {
         print(e.response.statusCode);
         print(e.response.data);
-        if (e.response.statusCode == 401) {
+        if (e.response.statusCode == 401 || e.response.statusCode == 403) {
           throw Exception(json.encode({"errorCode": e.response.statusCode, "message": "Unautorized"}));
         }else{
           throw Exception(json.encode(e.response.data));
@@ -100,7 +100,7 @@ class UserProvider {
       if(e.response != null) {
         print(e.response.statusCode);
         print(e.response.data);
-        if (e.response.statusCode == 401) {
+        if (e.response.statusCode == 401 || e.response.statusCode == 403) {
           throw Exception(json.encode({"errorCode": e.response.statusCode, "message": "Unautorized"}));
         }else{
           throw Exception(json.encode(e.response.data));
@@ -124,7 +124,7 @@ class UserProvider {
       if(e.response != null) {
         print(e.response.statusCode);
         print(e.response.data);
-        if (e.response.statusCode == 401) {
+        if (e.response.statusCode == 401 || e.response.statusCode == 403) {
           throw Exception(json.encode({"errorCode": e.response.statusCode, "message": "Unautorized"}));
         }else{
           throw Exception(json.encode(e.response.data));
@@ -148,7 +148,7 @@ class UserProvider {
       if(e.response != null) {
         print(e.response.statusCode);
         print(e.response.data);
-        if (e.response.statusCode == 401) {
+        if (e.response.statusCode == 401 || e.response.statusCode == 403) {
           throw Exception(json.encode({"errorCode": e.response.statusCode, "message": "Unautorized"}));
         }else{
           throw Exception(json.encode(e.response.data));
@@ -171,7 +171,7 @@ class UserProvider {
       if(e.response != null) {
         print(e.response.statusCode);
         print(e.response.data);
-        if (e.response.statusCode == 401) {
+        if (e.response.statusCode == 401 || e.response.statusCode == 403) {
           throw Exception(json.encode({"errorCode": e.response.statusCode, "message": "Unautorized"}));
         }else{
           throw Exception(json.encode(e.response.data));
@@ -195,7 +195,57 @@ class UserProvider {
       if(e.response != null) {
         print(e.response.statusCode);
         print(e.response.data);
-        if (e.response.statusCode == 401) {
+        if (e.response.statusCode == 401 || e.response.statusCode == 403) {
+          throw Exception(json.encode({"errorCode": e.response.statusCode, "message": "Unautorized"}));
+        }else{
+          throw Exception(json.encode(e.response.data));
+        }
+      } else{
+        print(e.request);
+        print(e.message);
+        throw Exception(e.message.toString());
+      }
+    }
+  }
+
+  Future cancelSwitchOut(String requestId) async {
+    var api = Api.access();
+    Response response;
+
+    try {
+      response = await api.patch("user/deposits/matchorders/$requestId/cancel", data:{}, options: Api.headers(await sessions.load("token")));
+      
+    } on DioError catch (e) {
+      if(e.response != null) {
+        print(e.response.statusCode);
+        print(e.response.data);
+        if (e.response.statusCode == 401 || e.response.statusCode == 403) {
+          throw Exception(json.encode({"errorCode": e.response.statusCode, "message": "Unautorized"}));
+        }else{
+          throw Exception(json.encode(e.response.data));
+        }
+      } else{
+        print(e.request);
+        print(e.message);
+        throw Exception(e.message.toString());
+      }
+    }
+  }
+
+  Future sendMatchOrder(String termDepositId, num quantity) async {
+    var api = Api.access();
+    Response response;
+
+    try {
+      response = await api.post("user/deposits/matchorders", data: {
+        "termDepositId": termDepositId,
+        "quantity": quantity
+      }, options: Api.headers(await sessions.load("token")));
+    } on DioError catch (e) {
+      if(e.response != null) {
+        print(e.response.statusCode);
+        print(e.response.data);
+        if (e.response.statusCode == 401 || e.response.statusCode == 403) {
           throw Exception(json.encode({"errorCode": e.response.statusCode, "message": "Unautorized"}));
         }else{
           throw Exception(json.encode(e.response.data));

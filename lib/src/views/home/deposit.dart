@@ -25,6 +25,7 @@ class DepositPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final depositBloc = BlocProvider.of(context).depositBloc;
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       body: Column(
         children: <Widget>[
           Container(
@@ -34,7 +35,7 @@ class DepositPage extends StatelessWidget {
               color: Theme.of(context).primaryColor
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 InputDeposit(
                   inputController: depositBloc.depositInput,
@@ -81,7 +82,8 @@ class DepositPage extends StatelessWidget {
                                       child: Text("${(snapshot.data[i].rate/100).toStringAsFixed(2)}%", style: TextStyle(fontSize: 18)),
                                       trailing: Text(formatMoney.format(snapshot.data[i].interest, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                                       isDefault: true,
-                                      type: snapshot.data[i].tag.contains("best") ? 1:5,
+                                      type: 1,
+                                      lefts: snapshot.data[i].isNew == false ? snapshot.data[i].expiryDate.difference(depositBloc.businessDate).inDays:0,
                                       dateTime: snapshot.data[i].maturityDate,
                                       onTap: () async {
                                         await Navigator.of(context).push(MaterialPageRoute(
@@ -104,8 +106,8 @@ class DepositPage extends StatelessWidget {
                     );
                   }else if(snapshot.hasError) {
                     return ErrorPage(
-                      message: snapshot.data.toString(), 
-                      onPressed: depositBloc.loadDepositMatch,
+                      message: snapshot.error.toString(), 
+                      onPressed: depositBloc.reCallFunction,
                       buttonText: "Try Again",
                     );
                   } return LoadingBlock(Theme.of(context).primaryColor);
@@ -120,25 +122,31 @@ class DepositPage extends StatelessWidget {
         stream: depositBloc.getSingleItem,
         builder: (context, AsyncSnapshot<bool> isSinglePage) {
           if (isSinglePage.data) {
-            return FloatingActionButton.extended(
-              onPressed: depositBloc.openList,
-              backgroundColor: Colors.white,
-              heroTag: "more",
-              label: Text("Show offers from the community", style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor)),
-              icon: Icon(Icons.keyboard_arrow_down, color: Theme.of(context).primaryColor),
-            );
-            // return RaisedButton(
+            // return FloatingActionButton.extended(
             //   onPressed: depositBloc.openList,
-            //   elevation: 0,
-            //   color: Pigment.fromString("FAFAFA"),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.center,
-            //     children: <Widget>[
-            //       Text("Show offers from the community", style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor)),
-            //       Icon(Icons.keyboard_arrow_down, color: Theme.of(context).primaryColor)
-            //     ],
-            //   ),
+            //   backgroundColor: Colors.white,
+            //   heroTag: "more",
+            //   label: Text("Show offers from the community", style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor)),
+            //   icon: Icon(Icons.keyboard_arrow_down, color: Theme.of(context).primaryColor),
             // );
+            return RaisedButton(
+              onPressed: depositBloc.openList,
+              elevation: 0,
+              color: Pigment.fromString("FAFAFA"),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text("Like to see more options?", style: TextStyle(fontSize: 14, color: Theme.of(context).primaryColor.withOpacity(0.25), fontWeight: FontWeight.w600)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text("Show Community Offers", style: TextStyle(fontSize: 17, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600)),
+                      Icon(Icons.keyboard_arrow_down, color: Theme.of(context).primaryColor)
+                    ],
+                  ),
+                ],
+              ),
+            );
           } return Container();
         }
       ),

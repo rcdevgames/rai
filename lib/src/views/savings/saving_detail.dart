@@ -89,40 +89,41 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
               Expanded(child: Text("Status", style: TextStyle(fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)))
             ],
           ),
-          Container(
-            margin: EdgeInsets.only(top: 10),
-            height: MediaQuery.of(context).size.height / 3.35,
-            child: ListView.builder(
-              itemCount: mySwitchOut.length,
-              itemBuilder: (ctx, i) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 6,
-                            child: Text(formatMoney.format(mySwitchOut[i].quantity, true))
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 4.5,
-                            child: Text(formatMoney.format(mySwitchOut[i].transferredInterest, true))
-                          ),
-                          Expanded(child: Text(mySwitchOut[i].status == 'Active' ? "${mySwitchOut[i].status} (${mySwitchOut[i].expiredDate.difference(widget.businessDate).inDays} Days Left)":"${mySwitchOut[i].status}", style: TextStyle(fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)))
-                        ],
-                      ),
-                      mySwitchOut[i].status == 'Active' ? RaisedButton(
-                        onPressed: detailSavingBloc.exitEarly,
-                        elevation: 0,
-                        color: Pigment.fromString("#FAFAFA"),
-                        child: Text("Cancel Early Exit Anytime", style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black38)),
-                      ):Container()
-                    ],
-                  ),
-                );
-              },
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.only(top: 10),
+              child: ListView.builder(
+                itemCount: mySwitchOut.length,
+                itemBuilder: (ctx, i) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width / 6,
+                              child: Text(formatMoney.format(mySwitchOut[i].quantity, true))
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width / 4.5,
+                              child: Text(formatMoney.format(mySwitchOut[i].transferredInterest, true))
+                            ),
+                            Expanded(child: Text(mySwitchOut[i].status == 'Active' ? "${mySwitchOut[i].status} (${mySwitchOut[i].expiredDate.difference(widget.businessDate).inDays} Days Left)":"${mySwitchOut[i].status}", style: TextStyle(fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)))
+                          ],
+                        ),
+                        mySwitchOut[i].status == 'Active' ? RaisedButton(
+                          onPressed: () => detailSavingBloc.exitEarly(context, mySwitchOut[i].requestId),
+                          elevation: 0,
+                          color: Pigment.fromString("#FAFAFA"),
+                          child: Text("Cancel Switch Out Anytime", style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black38)),
+                        ):Container()
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           )
         ],
@@ -170,7 +171,7 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Column(
                             children: <Widget>[
@@ -178,16 +179,21 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
                               Text(formatMoney.format(widget.item.quantity, true), style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)),
                             ],
                           ),
-                          VerticalDivider(
-                            indent: 1,
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: (MediaQuery.of(context).size.width / 1080) * 40),
+                              decoration: BoxDecoration(
+                                border: Border(left: BorderSide(width: 1, color: Theme.of(context).primaryColor.withOpacity(0.3)), right: BorderSide(width: 1, color: Theme.of(context).primaryColor.withOpacity(0.3)))
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Text("Interest", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)),
+                                  Text("${(widget.item.rate/100).toStringAsFixed(2)} %", style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)),
+                                ],
+                              ),
+                            ),
                           ),
-                          Column(
-                            children: <Widget>[
-                              Text("Interest", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)),
-                              Text("${widget.item.rate/100} %", style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)),
-                            ],
-                          ),
-                          VerticalDivider(),
                           Column(
                             children: <Widget>[
                               Text("Earned", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)),
@@ -264,12 +270,12 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
               ),
               child: RaisedButton.icon(
                 onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (ctx) => ExitEarlyPage()
+                  builder: (ctx) => ExitEarlyPage(widget.item, widget.businessDate)
                 )),
                 color: Theme.of(context).primaryColor,
                 icon: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                  child: Text("EXPLORE SWITCH OUT OPTIONS", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center),
+                  child: Text("EXPLORE SWITCH OUT OPTIONS", style: TextStyle(fontSize: (MediaQuery.of(context).size.width/1080) * 40, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center),
                 ),
                 label: Icon(Icons.arrow_forward_ios, color: Colors.white),
               ),
@@ -278,7 +284,7 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
         ),
         StreamBuilder(
           initialData: false,
-          stream: null,
+          stream: detailSavingBloc.getLoading,
           builder: (context, snapshot) {
             return Loading(snapshot.data);
           }

@@ -72,18 +72,15 @@ class ProfileBloc extends Object implements BlocBase {
   Future fetchHistory() async {
     try {
       var _data = await repo.getHistory();
-      print("data $_data");
       List<History> _list = [];
       _data.forEach((v) {
         if (v.category != "Request") {
           _list.add(v);
-          print(v.description);
         }
       });
 
       List<List<History>> _newList = [];
       groupBy(_list, (History obj) => obj.transactionDate).forEach((k, v) => _newList.add(v.map((item) => item).toList()));
-      print(_newList);
       _historyList.sink.add(_newList);
     } catch (e) {
       print(e);

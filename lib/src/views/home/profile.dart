@@ -233,6 +233,7 @@ class ProfilePage extends StatelessWidget {
                         pressedColor: Theme.of(context).primaryColor.withOpacity(0.7),
                         borderColor: Theme.of(context).primaryColor,
                         selectedColor: Theme.of(context).primaryColor,
+                        unselectedColor: Colors.transparent,
                         onValueChanged: (v) => profileBloc.updateIndexTab(v),
                         groupValue: snapshot.data,
                         children: {
@@ -259,14 +260,22 @@ class ProfilePage extends StatelessWidget {
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (ctx) => AccountDetailPage(null)
-        )),
-        backgroundColor: Colors.white,
-        heroTag: "add",
-        label: Text("Add Account", style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor)),
-        icon: Icon(Icons.add, color: Theme.of(context).primaryColor),
+      floatingActionButton: StreamBuilder(
+        initialData: 0,
+        stream: profileBloc.getIndexTab,
+        builder: (context, AsyncSnapshot<int> snapshot) {
+          if (snapshot.data == 0) {
+            return FloatingActionButton.extended(
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (ctx) => AccountDetailPage(null)
+              )),
+              backgroundColor: Colors.white,
+              heroTag: "add",
+              label: Text("Add Account", style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor)),
+              icon: Icon(Icons.add, color: Theme.of(context).primaryColor),
+            );
+          } return Container();
+        }
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

@@ -32,7 +32,6 @@ class LoginBloc extends Object implements BlocBase {
 
   inputCode(GlobalKey<ScaffoldState> key, String code) {
     int codeLength = _pin.value == null ? 0 : _pin.value.length;
-    print(codeLength);
     if (codeLength < 5) {
       _pin.sink.add(_pin.value + code);
     }else{
