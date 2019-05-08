@@ -167,6 +167,7 @@ class UserProvider {
 
     try {
       response = await api.post("user/deposits/", data: { "productId" : productId, "quantity" : amount, "bankAcctId" : bankAccId }, options: Api.headers(await sessions.load("token")));
+      print(response.data);
     } on DioError catch (e) {
       if(e.response != null) {
         print(e.response.statusCode);

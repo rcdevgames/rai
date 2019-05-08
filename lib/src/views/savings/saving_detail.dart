@@ -63,9 +63,12 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(formatDate(widget.item.history[i].eventTime, [dd,' ',M,' ',yyyy])),
-                  SizedBox(width: 15),
                   Expanded(
+                    flex: 3,
+                    child: Text(formatDate(widget.item.history[i].eventTime, [dd,' ',M,' ',yyyy]))
+                  ),
+                  Expanded(
+                    flex: 6,
                     child: Text(widget.item.history[i].description),
                   )
                 ],
@@ -108,16 +111,16 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
                             ),
                             SizedBox(
                               width: MediaQuery.of(context).size.width / 4.5,
-                              child: Text(formatMoney.format(mySwitchOut[i].transferredInterest, true))
+                              child: Text(formatMoney.format(mySwitchOut[i].transferredInterest, true, true))
                             ),
-                            Expanded(child: Text(mySwitchOut[i].status == 'Active' ? "${mySwitchOut[i].status} (${mySwitchOut[i].expiredDate.difference(widget.businessDate).inDays} Days Left)":"${mySwitchOut[i].status}", style: TextStyle(fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)))
+                            Expanded(child: Text(mySwitchOut[i].status == 'Active' ? "${mySwitchOut[i].status} (${mySwitchOut[i].expiredDate.difference(widget.businessDate).inDays} Days Left)":"${mySwitchOut[i].status}", style: TextStyle(fontWeight: FontWeight.w700, color: mySwitchOut[i].status == 'Active' ? Pigment.fromString("##69be28") : Theme.of(context).primaryColor)))
                           ],
                         ),
                         mySwitchOut[i].status == 'Active' ? RaisedButton(
                           onPressed: () => detailSavingBloc.exitEarly(context, mySwitchOut[i].requestId),
                           elevation: 0,
                           color: Pigment.fromString("#FAFAFA"),
-                          child: Text("Cancel Switch Out Anytime", style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black38)),
+                          child: Text("Cancel Switch Out"),
                         ):Container()
                       ],
                     ),
@@ -146,7 +149,7 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
           body: Column(
             children: <Widget>[
               Container(
-                margin: EdgeInsets.fromLTRB(25, 20, 25, 10),
+                margin: EdgeInsets.fromLTRB(13, 20, 13, 10),
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                 height: MediaQuery.of(context).size.height / 3.5,
                 decoration: BoxDecoration(
@@ -154,6 +157,7 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
                   borderRadius: BorderRadius.circular(10)
                 ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Row(
@@ -197,59 +201,58 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
                           Column(
                             children: <Widget>[
                               Text("Earned", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)),
-                              Text(formatMoney.format(widget.item.accruedInterest, true), style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)),
+                              Text(formatMoney.format(widget.item.accruedInterest, true, true), style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)),
                             ],
                           )
                         ],
                       ),
                     ),
-                    LinearPercentIndicator(
-                      width: MediaQuery.of(context).size.width - 85,
-                      lineHeight: 18,
-                      percent: detailSavingBloc.countPercentage(widget.businessDate, widget.item.maturityDate),
-                      progressColor: Pigment.fromString("#69be28"),
-                      backgroundColor: Theme.of(context).primaryColor,
+                    FittedBox(
+                      child: LinearPercentIndicator(
+                        width: MediaQuery.of(context).size.width,
+                        lineHeight: 20,
+                        percent: detailSavingBloc.countPercentage(widget.businessDate, widget.item.maturityDate),
+                        progressColor: Pigment.fromString("#69be28"),
+                        backgroundColor: Theme.of(context).primaryColor,
+                      ),
                     ),
                     Text("${widget.item.maturityDate.difference(widget.businessDate).inDays} days left till maturity on ${formatDate(widget.item.maturityDate, [dd, ' ', M, ' ', yyyy])}")
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: StreamBuilder(
-                  initialData: 0,
-                  stream: detailSavingBloc.getIndex,
-                  builder: (context, AsyncSnapshot<int> snapshot) {
-                    return CupertinoSegmentedControl(
-                      pressedColor: Theme.of(context).primaryColor.withOpacity(0.7),
-                      borderColor: Theme.of(context).primaryColor,
-                      unselectedColor: Colors.transparent,
-                      selectedColor: Theme.of(context).primaryColor,
-                      onValueChanged: (v) => detailSavingBloc.updateIndex(v),
-                      groupValue: snapshot.data,
-                      children: {
-                        0: SizedBox(
-                          height: 50,
-                          width: MediaQuery.of(context).size.width,
-                          child: Center(child: Text("HISOTRY", style: TextStyle(color: snapshot.data == 1 ? Theme.of(context).primaryColor:Colors.white, fontWeight: FontWeight.w600)))
-                        ),
-                        1: SizedBox(
-                          height: 50,
-                          width: MediaQuery.of(context).size.width,
-                          child: Center(child: Text("MY SWITCH OUT", style: TextStyle(color: snapshot.data == 0 ? Theme.of(context).primaryColor:Colors.white, fontWeight: FontWeight.w600)))
-                        )
-                      },
-                    );
-                  }
-                ),
+              StreamBuilder(
+                initialData: 0,
+                stream: detailSavingBloc.getIndex,
+                builder: (context, AsyncSnapshot<int> snapshot) {
+                  return CupertinoSegmentedControl(
+                    pressedColor: Theme.of(context).primaryColor.withOpacity(0.7),
+                    borderColor: Theme.of(context).primaryColor,
+                    unselectedColor: Colors.transparent,
+                    selectedColor: Theme.of(context).primaryColor,
+                    onValueChanged: (v) => detailSavingBloc.updateIndex(v),
+                    groupValue: snapshot.data,
+                    children: {
+                      0: SizedBox(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        child: Center(child: Text("HISOTRY", style: TextStyle(color: snapshot.data == 1 ? Theme.of(context).primaryColor:Colors.white, fontWeight: FontWeight.w600)))
+                      ),
+                      1: SizedBox(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        child: Center(child: Text("MY SWITCH OUT", style: TextStyle(color: snapshot.data == 0 ? Theme.of(context).primaryColor:Colors.white, fontWeight: FontWeight.w600)))
+                      )
+                    },
+                  );
+                }
               ),
               Expanded(
                 child: Container(
-                  margin: EdgeInsets.fromLTRB(25, 10, 25, 10),
+                  margin: EdgeInsets.fromLTRB(13, 10, 13, 0),
                   padding: EdgeInsets.fromLTRB(20, 20, 20, 5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Theme.of(context).primaryColor.withOpacity(0.12)
+                    color: Colors.grey.shade200
                   ),
                   child: StreamBuilder(
                     initialData: 0,

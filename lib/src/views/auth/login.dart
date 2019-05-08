@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  SizedBox(height: 50),
+                  SizedBox(height: 20),
                   Center(
                     child: SizedBox(
                       height: 100,
@@ -67,12 +67,14 @@ class _LoginPageState extends State<LoginPage> {
                       child: SvgPicture.asset('assets/svg/savewise-logo.svg'),
                     ),
                   ),
-                  SizedBox(height: 20),
-                  Text("OneUp.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Theme.of(context).primaryColor)),
+                  SizedBox(height: 10),
+                  Text("OneUp.", style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: Theme.of(context).primaryColor)),
+                  SizedBox(height: 5),
+                  Text("ENTER YOUR 6-DIGIT CODE", style: TextStyle(fontSize: 11, color: Colors.grey)),
                   SizedBox(height: MediaQuery.of(context).size.height / 20),
                   SizedBox(
                     height: 30,
-                    width: MediaQuery.of(context).size.width / 2.2,
+                    width: MediaQuery.of(context).size.width / 2,
                     child: StreamBuilder(
                       initialData: "",
                       stream: loginBloc.getPin,
@@ -93,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   Expanded(
                     child: InputPin(
-                      textStyle: TextStyle(color: Colors.black, fontSize: 45.0, fontWeight: FontWeight.w500),
+                      textStyle: TextStyle(color: Colors.black, fontSize: 45.0, fontWeight: FontWeight.w300),
                       onBackPressed: loginBloc.removeCode,
                       onPressedKey: (String code) => loginBloc.inputCode(_key, code),
                       onForgotPassword: () => loginBloc.resetPin(_key),

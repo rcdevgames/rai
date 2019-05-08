@@ -1,7 +1,7 @@
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 
 class FormatMoney {
-  String format(num value, [bool withSymbol]) {
+  String format(num value, [bool withSymbol, bool withDecimal = false]) {
     FlutterMoneyFormatter fmf = new FlutterMoneyFormatter(
         amount: value.toDouble(),
         settings: MoneyFormatterSettings(
@@ -20,7 +20,7 @@ class FormatMoney {
       money = fmf.output.symbolOnLeft;
     }
     
-    return money.substring(0, money.length-3);
+    return withDecimal == true ? money:money.substring(0, money.length-3);
   }
 }
 

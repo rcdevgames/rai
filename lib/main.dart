@@ -14,7 +14,8 @@ class MyApp extends StatelessWidget {
       title: Static.APP_NAME,
       theme: ThemeData(
         primaryColor: Pigment.fromString("#002244"),
-        fontFamily: 'ProximaNova',
+        fontFamily: 'Gotham',
+        // fontFamily: 'ProximaNova',
       ),
       routes: routes,
       navigatorKey: key,

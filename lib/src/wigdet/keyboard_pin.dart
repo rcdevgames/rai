@@ -119,15 +119,19 @@ class InputPinState extends State<InputPin> {
             children: <Widget>[
               widget.isLogin ? ClipRRect(
                 borderRadius: BorderRadius.circular(5),
-                child: SizedBox(
-                  width: (MediaQuery.of(context).size.width/1080) * 300,
-                  height: 30,
-                  child: RaisedButton(
-                    color: Colors.grey,
-                    onPressed: widget.onForgotPassword,
-                    child: Text("forgot pin?", style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white)),
+                child: InkWell(
+                  onTap: widget.onForgotPassword,
+                  child: Container(
+                    width: (MediaQuery.of(context).size.width/1080) * 300,
+                    height: 35,
+                    decoration: BoxDecoration(
+                      color: Colors.grey
+                    ),
+                    child: Center(
+                      child: Text("forgot pin?", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300)),
+                    ),
                   ),
-                ),
+                )
               ):Container(
                 width: (MediaQuery.of(context).size.width/1080) * 350,
                 height: 30,

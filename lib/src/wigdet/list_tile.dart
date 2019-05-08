@@ -27,9 +27,9 @@ class ListTileDefault extends StatelessWidget {
   // 3 = Exit Early Count
   // 4 = Selected
 
-  Widget labelDepositDefault() {
+  Widget labelDepositDefault(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
+      padding: EdgeInsets.only(left: 10, right: 10, top: (lefts > 0)? 6:0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -38,14 +38,14 @@ class ListTileDefault extends StatelessWidget {
             decoration: BoxDecoration(
               color: Pigment.fromString("FAFAFA")
             ),
-            child: Text("Matures ${formatDate(dateTime, [dd, ' ', MM, ' ', yyyy]).toString()}")
+            child: Text("Matures ${formatDate(dateTime, [dd, ' ', MM, ' ', yyyy]).toString()}", style: TextStyle(color: Theme.of(context).primaryColor.withOpacity(0.6), fontSize: 12))
           ),
           lefts > 0 ?Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
               color: Pigment.fromString("FAFAFA")
             ),
-            child: Text("${lefts.toString()} Days Left")
+            child: Text("${lefts.toString()} Days Left", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 12, fontWeight: FontWeight.w800))
           ):Container(
             height: 30,
             width: 100,
@@ -113,7 +113,7 @@ class ListTileDefault extends StatelessWidget {
     );
   }
 
-  Widget labelExitEarly() {
+  Widget labelExitEarly(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
@@ -132,7 +132,7 @@ class ListTileDefault extends StatelessWidget {
             decoration: BoxDecoration(
               color: Pigment.fromString("FAFAFA")
             ),
-            child: Text("Switching Out (${exited})")
+            child: Text("Switching Out (${exited})", style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w800))
           ):Container(
             height: 20,
             width: 100,
@@ -163,7 +163,7 @@ class ListTileDefault extends StatelessWidget {
         return labelDefault(context);
         break;
       case 3:
-        return labelExitEarly();
+        return labelExitEarly(context);
         break;
       case 4:
         return labelSelected(context);
@@ -172,7 +172,7 @@ class ListTileDefault extends StatelessWidget {
         return labelDeposit();
         break;
       default:
-        return labelDepositDefault();
+        return labelDepositDefault(context);
         break;
     }
   }
@@ -196,11 +196,11 @@ class ListTileDefault extends StatelessWidget {
                     padding: EdgeInsets.all(20.0),
                     height: progressBarValue != null ? 115:90,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: isSelected ? Border.all(width: 2.5, color: Theme.of(context).primaryColor) : Border.all(width: 2, color: Colors.black26)
+                      borderRadius: BorderRadius.circular(10),
+                      border: isSelected ? Border.all(width: 2.5, color: Theme.of(context).primaryColor) : Border.all(width: 2, color: Colors.black26.withOpacity(0.1))
                     ),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -210,17 +210,14 @@ class ListTileDefault extends StatelessWidget {
                             trailing
                           ],
                         ),
-                        progressBarValue != null ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            LinearPercentIndicator(
-                              width: MediaQuery.of(context).size.width - 100,
-                              lineHeight: 18,
-                              percent: progressBarValue,
-                              progressColor: Pigment.fromString("#69be28"),
-                              backgroundColor: Theme.of(context).primaryColor,
-                            ),
-                          ],
+                        progressBarValue != null ? FittedBox(
+                          child: LinearPercentIndicator(
+                            width: MediaQuery.of(context).size.width,
+                            lineHeight: 20,
+                            percent: progressBarValue,
+                            progressColor: Pigment.fromString("#69be28"),
+                            backgroundColor: Theme.of(context).primaryColor,
+                          ),
                         ):Container()
                       ],
                     )

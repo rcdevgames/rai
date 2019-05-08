@@ -12,8 +12,8 @@ class _HelpPageState extends State<HelpPage> {
   final _key = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-    var style = TextStyle(fontWeight: FontWeight.w600, color: Theme.of(context).primaryColor, fontSize: 18);
-    var styleChild = TextStyle(color: Theme.of(context).primaryColor, fontSize: 18);
+    var style = TextStyle(fontWeight: FontWeight.w600, color: Theme.of(context).primaryColor, fontSize: 15);
+    var styleChild = TextStyle(color: Theme.of(context).primaryColor, fontSize: 15);
     return Scaffold(
       key: _key,
       appBar: AppBar(
@@ -28,7 +28,7 @@ class _HelpPageState extends State<HelpPage> {
               child: Text("How Does it work?", style: style),
             ),
             CarouselSlider(
-              height: MediaQuery.of(context).size.height / 3,
+              height: MediaQuery.of(context).size.height / 2.5,
               enableInfiniteScroll: false,
               items: Static.LIST_TOUR.map((i) {
                 return Builder(

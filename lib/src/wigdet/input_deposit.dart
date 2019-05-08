@@ -38,7 +38,7 @@ class InputDeposit extends StatelessWidget {
                 timer.cancel();
               },
               onTap: () => decreaseValue(),
-              child: Icon(Icons.remove_circle, size: 35, color: Theme.of(context).primaryColor),
+              child: Icon(Icons.remove_circle, size: 25, color: Theme.of(context).primaryColor),
             ),
           ),
           // IconButton(
@@ -55,7 +55,7 @@ class InputDeposit extends StatelessWidget {
                 // prefixStyle: TextStyle(fontSize: 25),
                 border: InputBorder.none
               ),
-              style: TextStyle(fontSize: 35),
+              style: TextStyle(fontSize: 28),
               textAlign: TextAlign.center,
               keyboardType: TextInputType.number,
               onChanged: onValueChange,
@@ -78,7 +78,7 @@ class InputDeposit extends StatelessWidget {
                 timer.cancel();
               },
               onTap: () => increaseValue(),
-              child: Icon(Icons.add_circle, size: 35, color: Theme.of(context).primaryColor),
+              child: Icon(Icons.add_circle, size: 25, color: Theme.of(context).primaryColor),
             ),
           ),
           // IconButton(

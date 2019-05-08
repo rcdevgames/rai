@@ -68,7 +68,7 @@ class DepositBloc extends Object implements BlocBase {
 
       var depositsMatch = await repo.getDepositMatch(num.parse(depositInput.numberValue.toString()), 10, user.businessDate, formatDate(endDate.add(const Duration(days: 540)), [yyyy, '-', mm, '-', dd]).toString());
       depositsMatch.sort((a, b) => b.tag.compareTo(a.tag));
-      _singleitem.sink.add(true);
+      if(depositsMatch.length > 0) _singleitem.sink.add(true);
       _listDeposit.sink.add(depositsMatch);
 
 
@@ -76,7 +76,7 @@ class DepositBloc extends Object implements BlocBase {
       depositInput.addListener(() {
         timeout?.cancel();
         timeout = Future.delayed(Duration(milliseconds: 1500)).asStream().listen((i) {
-          if (depositInput.numberValue < 100) {
+          if (depositInput.numberValue < 100 && _oldAmount.value > 100) {
             depositInput.updateValue(100);
           }else if (depositInput.numberValue > _amount.value) {
             depositInput.updateValue(_amount.value);
@@ -113,7 +113,7 @@ class DepositBloc extends Object implements BlocBase {
 
         var depositsMatch = await repo.getDepositMatch(num.parse(depositInput.numberValue.toString()), 10, await sessions.load("businessDate"), formatDate(endDate.add(const Duration(days: 540)), [yyyy, '-', mm, '-', dd]).toString());
         depositsMatch.sort((a, b) => b.tag.compareTo(a.tag));
-        _singleitem.sink.add(true);
+        if(depositsMatch.length > 0) _singleitem.sink.add(true);
         _listDeposit.sink.add(depositsMatch);
         _oldAmount.sink.add(depositInput.numberValue);
       } catch (e) {

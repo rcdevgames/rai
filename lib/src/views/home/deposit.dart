@@ -53,7 +53,7 @@ class DepositPage extends StatelessWidget {
               child: StreamBuilder(
                 stream: depositBloc.getListDeposit,
                 builder: (context, AsyncSnapshot<List<DepositMatch>> snapshot) {
-                  if (snapshot.hasData) {
+                  if (snapshot.hasData && snapshot.data.length > 0) {
                     return StreamBuilder(
                       initialData: true,
                       stream: depositBloc.getSingleItem,
@@ -93,6 +93,8 @@ class DepositPage extends StatelessWidget {
                                         if (data != null) {
                                           dialogs.alertWithIcon(context, icon: Icons.check_circle_outline, title: "Success!", message: "Deposit successful. See My Savings to watch your deposit grow!");
                                           BlocProvider.of(context).changeMenu(1);
+                                          BlocProvider.of(context).savingBloc.updateListSavings(null);
+                                          BlocProvider.of(context).savingBloc.fetchSaving(context, true);
                                         }
                                       },
                                     ),
@@ -103,6 +105,22 @@ class DepositPage extends StatelessWidget {
                           ),
                         );
                       }
+                    );
+                  }else if(snapshot.hasData && snapshot.data.length < 1) {
+                    return LiquidPullToRefresh(
+                      color: Theme.of(context).primaryColor.withOpacity(0.7),
+                      key: _refreshIndicatorKey,
+                      onRefresh: depositBloc.loadDepositMatch,
+                      child: ListView(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(top: 30),
+                            child: Center(
+                              child: Text("Data not found", style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColor)),
+                            ),
+                          )
+                        ],
+                      ),
                     );
                   }else if(snapshot.hasError) {
                     return ErrorPage(
@@ -136,11 +154,12 @@ class DepositPage extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Text("Like to see more options?", style: TextStyle(fontSize: 14, color: Theme.of(context).primaryColor.withOpacity(0.25), fontWeight: FontWeight.w600)),
+                  Text("Like to see more options?", style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor.withOpacity(0.35), fontWeight: FontWeight.w600)),
+                  SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text("Show Community Offers", style: TextStyle(fontSize: 17, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600)),
+                      Text("Show Community Offers", style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w400)),
                       Icon(Icons.keyboard_arrow_down, color: Theme.of(context).primaryColor)
                     ],
                   ),

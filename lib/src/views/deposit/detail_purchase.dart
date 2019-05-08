@@ -48,6 +48,7 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: ListView(
+          physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           children: <Widget>[
             Row(
@@ -59,7 +60,7 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
               ],
             ),
             SizedBox(height: 10),
-            Text("You are depositing", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 30, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+            Text("You are depositing", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 28, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
             SizedBox(height: 10),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -71,24 +72,24 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
               ],
             ),
             SizedBox(height: 20),
-            Text("@ ${(widget.depositMatch.rate/100).toStringAsFixed(2)}% gross interest per year", style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
+            Text("@ ${(widget.depositMatch.rate/100).toStringAsFixed(2)}% gross interest per year", style: TextStyle(fontSize: 14), textAlign: TextAlign.center),
             SizedBox(height: 10),
             Text("maturing in ${(widget.depositMatch.maturityDate.difference(businessDate).inDays/30).toStringAsFixed(0)} month time", style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             Stack(
               alignment: AlignmentDirectional.center,
               children: <Widget>[
                 Container(
-                  width: 35,
-                  height: 35,
+                  width: 25,
+                  height: 25,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(35),
                     color: Colors.green
                   ),
-                  child: Icon(Savewise.arrow_down, color: Colors.white, size: 35),
+                  child: Center(child: Icon(Savewise.arrow_down, color: Colors.white, size: 22)),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height / 6.5,
+                  height: MediaQuery.of(context).size.height / 10,
                   child: RotatedBox(
                     quarterTurns: 1,
                     child: DotSeparator(color: Colors.grey)
@@ -96,7 +97,7 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             Text("On ${formatDate(widget.depositMatch.maturityDate, [dd,' ',M,' ',yyyy]).toString()}, you will get back", style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
             SizedBox(height: 10),
             Row(
@@ -110,43 +111,46 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
             ),
             SizedBox(height: 10),
             Container(
-              height: MediaQuery.of(context).size.width / 5,
-              margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 4),
+              height: MediaQuery.of(context).size.width / 4,
+              margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 7),
+              padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(10),
                 color: Pigment.fromString("F6FBFF"),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Text("Expected Interest"),
+                  Text("Including gross interest of", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text("£", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 25)),
                       SizedBox(width: 5),
-                      Text(formatMoney.format(widget.depositMatch.interest), style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 35))
+                      Text(formatMoney.format(widget.depositMatch.interest), style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 40, fontWeight: FontWeight.w800))
                     ],
                   ),
                 ],
               ),
             ),
             SizedBox(height: 10),
-            Ink(
+            Container(
+              padding: EdgeInsets.all(8.0),
               height: MediaQuery.of(context).size.width / 8,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
-                color: Colors.grey.withOpacity(0.3),
+                color: Colors.grey.withOpacity(0.15),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Icon(Icons.info_outline),
+                  SizedBox(width: 5),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width / 1.2,
-                    child: Text("Don/'t sweat it! Get back your principle at anytime, if you need your money back urgently.")
+                    width: MediaQuery.of(context).size.width / 1.3,
+                    child: Text("Need some money back early? Explore out Switch Out options.", style: TextStyle(fontSize: 11))
                   )
                 ],
               ),
@@ -170,9 +174,9 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
             color: Theme.of(context).primaryColor,
             icon: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-              child: Text("Choose Account", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center),
+              child: Text("Confirm Deposit", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center),
             ),
-            label: Icon(Icons.arrow_forward_ios, color: Colors.white),
+            label: Icon(Icons.arrow_forward_ios, color: Colors.white, size: 17),
           ),
         )
       ),

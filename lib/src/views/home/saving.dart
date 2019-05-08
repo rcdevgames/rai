@@ -35,28 +35,28 @@ class SavingPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text("Total Savings", style: TextStyle(color: Colors.white)),
+                  Text("Total Deposits", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700)),
                   StreamBuilder(
                     stream: savingBloc.getTotalSavings,
                     builder: (context, AsyncSnapshot<num> snapshot) {
                       if (snapshot.hasData) {
-                        return Text(formatMoney.format(snapshot.data, true), style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold));
+                        return Text(formatMoney.format(snapshot.data, true), style: TextStyle(color: Colors.white, fontSize: 30));
                       } return LoadingBlock(Theme.of(context).primaryColor);
                     }
                   ),
                 ],
               ),
               Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text("Total Interest Earned", style: TextStyle(color: Colors.white)),
+                  Text("Total Interest Due", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700)),
                   StreamBuilder(
                     stream: savingBloc.getTotalInterest,
                     builder: (context, AsyncSnapshot<num> snapshot) {
                       if (snapshot.hasData) {
-                        return Text(formatMoney.format(snapshot.data, true), style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold));
+                        return Text(formatMoney.format(snapshot.data, true), style: TextStyle(color: Colors.white, fontSize: 30));
                       } return LoadingBlock(Theme.of(context).primaryColor);
                     }
                   ),
@@ -95,9 +95,25 @@ class SavingPage extends StatelessWidget {
                                     child: ItemsAction(
                                       caption: 'Explore Switch Out Options',
                                       color: Theme.of(context).primaryColor,
-                                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                                        builder: (ctx) => ExitEarlyPage(snapshot.data[i], savingBloc.businessDate)
-                                      )),
+                                      onTap: () async {
+                                        await Navigator.of(context).push(MaterialPageRoute(
+                                          builder: (ctx) => ExitEarlyPage(snapshot.data[i], savingBloc.businessDate)
+                                        ));
+                                        var session = await sessions.flashMessage("switchout");
+                                        print("session : $session");
+                                        if(session != null) {
+                                          savingBloc.updateListSavings(null);
+                                          savingBloc.fetchSaving(context, true);
+                                          dialogs.prompt(context, session, () async {
+                                            const url = 'mailto:smith@example.org?subject=News&body=New%20plugin';
+                                            if (await canLaunch(url)) {
+                                              await launch(url);
+                                            } else {
+                                              dialogs.alert(context, "", "Could not launch $url");
+                                            }
+                                          }, cancel: "Not Now", confirm: "Invite");
+                                        }
+                                      },
                                     ),
                                   ),
                                 ),
@@ -115,7 +131,7 @@ class SavingPage extends StatelessWidget {
                                 isDefault: true,
                                 type: 3,
                                 progressBarValue: savingBloc.countPercentage(savingBloc.businessDate, snapshot.data[i].maturityDate),
-                                dateTime: DateTime.now(),
+                                dateTime: snapshot.data[i].maturityDate,
                                 exited: snapshot.data[i].exitEarlyRequests != null ? snapshot.data[i].exitEarlyRequests.where((v) => v.status == "Active").toList().length:0,
                                 onTap: () async {
                                   var data = await Navigator.of(context).push(MaterialPageRoute(

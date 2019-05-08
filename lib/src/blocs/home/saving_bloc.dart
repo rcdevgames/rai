@@ -27,6 +27,7 @@ class SavingBloc extends Object implements BlocBase {
   }
 
   Future fetchSaving(BuildContext context, bool refresh) async {
+    sessions.remove("switchout");
     businessDate = DateTime.parse(await sessions.load("businessDate"));
     if (_listSavings.value == null || refresh == true) {
       try {

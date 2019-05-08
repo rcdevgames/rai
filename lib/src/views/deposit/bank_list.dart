@@ -67,6 +67,10 @@ class _BankListPageState extends State<BankListPage> {
                         child: Column(
                           children: <Widget>[
                             SizedBox(height: i == 0 ? 20:0),
+                            i == 0 ? Padding(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              child: Text("Choose an account", style: TextStyle(fontSize: 30, fontWeight: FontWeight.w800, color: Theme.of(context).primaryColor)),
+                            ):Container(),
                             StreamBuilder(
                               stream: purchaseBloc.getSelected,
                               builder: (context, AsyncSnapshot<int> id) {
@@ -136,7 +140,7 @@ class _BankListPageState extends State<BankListPage> {
                   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                   child: Text("Choose Account", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center),
                 ),
-                label: Icon(Icons.arrow_forward_ios, color: Colors.white),
+                label: Icon(Icons.arrow_forward_ios, color: Colors.white, size: 17),
               ),
             )
           )

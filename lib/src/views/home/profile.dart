@@ -107,8 +107,8 @@ class ProfilePage extends StatelessWidget {
                               trailing: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Text("Balance", style: TextStyle(fontWeight: FontWeight.bold)),
-                                  Text(formatMoney.format(snapshot.data[i].bankAcctBalance, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))
+                                  Text("Balance", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13)),
+                                  Text(formatMoney.format(snapshot.data[i].bankAcctBalance, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18))
                                 ],
                               ),
                             ),
@@ -150,7 +150,7 @@ class ProfilePage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(formatDate(snapshot.data[i][0].transactionDate, [dd,' ',M,' ',yyyy]).toString(), style: TextStyle(fontSize: 11)),
+                          Text(formatDate(snapshot.data[i][0].transactionDate, [dd,' ',M,' ',yyyy]).toString(), style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
                           SizedBox(height: 15),
                           Column(
                             children: snapshot.data[i].map((v) => Padding(
@@ -164,9 +164,9 @@ class ProfilePage extends StatelessWidget {
                                     child: Image.asset("assets/img/logo-${v.bankAccRefCode.toLowerCase()}.color.png", fit: BoxFit.cover)
                                   ),
                                   SizedBox(width: 10),
-                                  Expanded(child: Text(v.description, style: TextStyle(), textAlign: TextAlign.justify,)),
-                                  SizedBox(width: 10),
-                                  v.category == "In" ? Icon(Savewise.icons8_1_circled_right, color: Theme.of(context).primaryColor):Icon(Savewise.icons8_1_circled_left, color: Pigment.fromString("69be28"))
+                                  Expanded(child: Text(v.description, style: TextStyle(color: Colors.grey.shade500), textAlign: TextAlign.justify)),
+                                  SizedBox(width: 20),
+                                  v.category == "In" ? Icon(Savewise.icons8_1_circled_right, color: Theme.of(context).primaryColor, size: 20):Icon(Savewise.icons8_1_circled_left, color: Pigment.fromString("69be28"), size: 20)
                                 ],
                               )
                             )).toList()
@@ -208,12 +208,12 @@ class ProfilePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text("Total Linked Accounts Balance", style: TextStyle(color: Colors.white)),
+                Text("Total Linked Accounts Balance", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800)),
                 StreamBuilder(
                   stream: profileBloc.getTotalBalance,
                   builder: (context, AsyncSnapshot<num> snapshot) {
                     if (snapshot.hasData) {
-                      return Text(formatMoney.format(snapshot.data, true), style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold));
+                      return Text(formatMoney.format(snapshot.data, true), style: TextStyle(color: Colors.white, fontSize: 35));
                     } return LoadingBlock(Colors.white);
                   }
                 ),
@@ -240,12 +240,12 @@ class ProfilePage extends StatelessWidget {
                           0: SizedBox(
                             height: 50,
                             width: MediaQuery.of(context).size.width / 2.2,
-                            child: Center(child: Text("LINKED ACCOUNTS", style: TextStyle(color: snapshot.data == 1 ? Theme.of(context).primaryColor:Colors.white, fontWeight: FontWeight.w600)))
+                            child: Center(child: Text("LINKED ACCOUNTS", style: TextStyle(color: snapshot.data == 1 ? Theme.of(context).primaryColor:Colors.white, fontWeight: FontWeight.w700)))
                           ),
                           1: SizedBox(
                             height: 50,
                             width: MediaQuery.of(context).size.width / 2.2,
-                            child: Center(child: Text("MY ACTIVITIES", style: TextStyle(color: snapshot.data == 0 ? Theme.of(context).primaryColor:Colors.white, fontWeight: FontWeight.w600)))
+                            child: Center(child: Text("HISTORY", style: TextStyle(color: snapshot.data == 0 ? Theme.of(context).primaryColor:Colors.white, fontWeight: FontWeight.w700)))
                           )
                         },
                       ),
@@ -271,7 +271,7 @@ class ProfilePage extends StatelessWidget {
               )),
               backgroundColor: Colors.white,
               heroTag: "add",
-              label: Text("Add Account", style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor)),
+              label: Text("Add Account", style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700)),
               icon: Icon(Icons.add, color: Theme.of(context).primaryColor),
             );
           } return Container();

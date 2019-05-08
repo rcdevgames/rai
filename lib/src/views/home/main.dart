@@ -60,7 +60,7 @@ class _MainPageState extends State<MainPage> {
           elevation: 0,
           centerTitle: true,
           title: StreamBuilder(
-            initialData: "Choose the amount you\'d like to switch up?",
+            initialData: "",
             stream: mainBloc.gettitleHeader,
             builder: (context, AsyncSnapshot<String> snapshot) {
               return Text(snapshot.data, style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15));
@@ -70,9 +70,14 @@ class _MainPageState extends State<MainPage> {
             initialData: 0,
             stream: mainBloc.getMenuIndex,
             builder: (context, AsyncSnapshot<int> snapshot) {
-              if (snapshot.data == 2) {
+              if (snapshot.data == 0) {
                 return Padding(
-                  padding: const EdgeInsets.only(top: 65),
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Center(child: Text("Choose the amount you\'d like to switch up?", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13, color: Colors.white))),
+                );
+              } else if (snapshot.data == 2) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 63),
                   child: Center(child: Text(businessDate, style: TextStyle(color: Colors.white70))),
                 );
               } return SizedBox();

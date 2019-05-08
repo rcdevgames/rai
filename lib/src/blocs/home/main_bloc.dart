@@ -43,13 +43,13 @@ class MainBloc extends Object implements BlocBase {
     _menuIndex.sink.add(index);
     switch (index) {
       case 1:
-      _titleHeader.sink.add("My Cash");
+      _titleHeader.sink.add("My Money");
         break;
       case 2:
       _titleHeader.sink.add("My Profile");
         break;
       default:
-      _titleHeader.sink.add("Choose the amount you\'d like to switch up?");
+      _titleHeader.sink.add("");
         break;
     }
   }
