@@ -18,7 +18,7 @@ class AccountDetailPageState extends State<AccountDetailPage> {
     return Scaffold(
       key: _key,
       appBar: AppBar(
-        title: Text(widget.details == null ? "Add Accounts":"Edit Accounts"),
+        title: Text(widget.details == null ? "Add Accounts":"Edit Accounts", style: TextStyle(fontWeight: FontWeight.normal)),
         actions: <Widget>[
           IconButton(
             onPressed: () => Navigator.of(context).pushNamed('/help'),

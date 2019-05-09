@@ -9,7 +9,7 @@ class HelpDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Help - ${detail.title}"),
+        title: Text("Help - ${detail.title}", style: TextStyle(fontWeight: FontWeight.normal)),
       ),
       body: Container(
         width: double.infinity,

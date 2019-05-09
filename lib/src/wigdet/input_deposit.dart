@@ -4,18 +4,19 @@ import 'package:flutter/material.dart';
 
 
 class InputDeposit extends StatelessWidget {
+  double width;
   TextEditingController inputController;
   Function increaseValue;
   Function decreaseValue;
   ValueChanged<String> onValueChange;
-  InputDeposit({Key key, @required this.inputController, @required this.increaseValue, @required this.decreaseValue, @required this.onValueChange}) : super(key: key);
+  InputDeposit({Key key, @required this.inputController, @required this.increaseValue, @required this.decreaseValue, @required this.onValueChange, this.width}) : super(key: key);
 
   var timer;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width / 1.3,
+      width: width == null ? MediaQuery.of(context).size.width / 1.3 : width.toDouble(),
       height: 60,
       decoration: BoxDecoration(
         color: Colors.white,

@@ -89,26 +89,33 @@ class ProfilePage extends StatelessWidget {
                             ],
                             child: ListTileDefault(
                               isDefault: id.hasData ? (snapshot.data[i].bankAcctId == id.data):false,
-                              isSelected: id.hasData ? (snapshot.data[i].bankAcctId == id.data):false,
                               type: 2,
                               onTap: () {},
-                              leading: SizedBox(
-                                width: 25,
-                                height: 25,
-                                child: Image.asset("assets/img/logo-${snapshot.data[i].bankCode.toLowerCase()}.color.png", fit: BoxFit.cover)
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                              child: Row(
                                 children: <Widget>[
-                                  Text('Bank ${snapshot.data[i].bankAcctName}'),
-                                  Text('(${snapshot.data[i].bankAcctNo.substring(snapshot.data[i].bankAcctNo.length - 4)})'),
-                                ],
-                              ),
-                              trailing: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text("Balance", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13)),
-                                  Text(formatMoney.format(snapshot.data[i].bankAcctBalance, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18))
+                                  SizedBox(
+                                    width: 25,
+                                    height: 25,
+                                    child: Image.asset("assets/img/logo-${snapshot.data[i].bankCode.toLowerCase()}.color.png", fit: BoxFit.cover)
+                                  ),
+                                  SizedBox(width: 15),
+                                  Expanded(
+                                                                      child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text('Bank ${snapshot.data[i].bankAcctName}'),
+                                        Text('(${snapshot.data[i].bankAcctNo.substring(snapshot.data[i].bankAcctNo.length - 4)})'),
+                                      ],
+                                    ),
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text("Balance", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12, color: Theme.of(context).primaryColor)),
+                                      Text(formatMoney.format(snapshot.data[i].bankAcctBalance, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Theme.of(context).primaryColor))
+                                    ],
+                                  )
                                 ],
                               ),
                             ),
@@ -164,7 +171,7 @@ class ProfilePage extends StatelessWidget {
                                     child: Image.asset("assets/img/logo-${v.bankAccRefCode.toLowerCase()}.color.png", fit: BoxFit.cover)
                                   ),
                                   SizedBox(width: 10),
-                                  Expanded(child: Text(v.description, style: TextStyle(color: Colors.grey.shade500), textAlign: TextAlign.justify)),
+                                  Expanded(child: Text(v.description, style: TextStyle(color: Colors.grey.shade500, fontSize: 15))),
                                   SizedBox(width: 20),
                                   v.category == "In" ? Icon(Savewise.icons8_1_circled_right, color: Theme.of(context).primaryColor, size: 20):Icon(Savewise.icons8_1_circled_left, color: Pigment.fromString("69be28"), size: 20)
                                 ],

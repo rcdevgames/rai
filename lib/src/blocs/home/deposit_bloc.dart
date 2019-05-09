@@ -75,7 +75,7 @@ class DepositBloc extends Object implements BlocBase {
       // Handle Listener
       depositInput.addListener(() {
         timeout?.cancel();
-        timeout = Future.delayed(Duration(milliseconds: 1500)).asStream().listen((i) {
+        timeout = Future.delayed(Duration(milliseconds: 1000)).asStream().listen((i) {
           if (depositInput.numberValue < 100 && _oldAmount.value > 100) {
             depositInput.updateValue(100);
           }else if (depositInput.numberValue > _amount.value) {

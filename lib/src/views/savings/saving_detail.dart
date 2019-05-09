@@ -2,10 +2,12 @@ import 'package:RAI/src/blocs/saving/detail_bloc.dart';
 import 'package:RAI/src/models/savings.dart';
 import 'package:RAI/src/util/format_money.dart';
 import 'package:RAI/src/views/savings/exit_early.dart';
+import 'package:RAI/src/wigdet/button.dart';
 import 'package:RAI/src/wigdet/loading.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:pigment/pigment.dart';
 
@@ -138,7 +140,7 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
         Scaffold(
           key: _key,
           appBar: AppBar(
-            title: Text("Saving Detail"),
+            title: Text("Saving Detail", style: TextStyle(fontWeight: FontWeight.normal)),
             actions: <Widget>[
               IconButton(
                 onPressed: () => Navigator.of(context).pushNamed('/help'),
@@ -174,38 +176,35 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Column(
+                      child: 
+                      Table(
+                        children: <TableRow>[
+                          TableRow(
                             children: <Widget>[
-                              Text("Deposit", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)),
-                              Text(formatMoney.format(widget.item.quantity, true), style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)),
-                            ],
-                          ),
-                          Expanded(
-                            child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: (MediaQuery.of(context).size.width / 1080) * 40),
-                              decoration: BoxDecoration(
-                                border: Border(left: BorderSide(width: 1, color: Theme.of(context).primaryColor.withOpacity(0.3)), right: BorderSide(width: 1, color: Theme.of(context).primaryColor.withOpacity(0.3)))
+                              Text("Deposit", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border(left: BorderSide(), right: BorderSide())
+                                ),
+                                child: Text("Interest", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center)
                               ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Text("Interest", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)),
-                                  Text("${(widget.item.rate/100).toStringAsFixed(2)} %", style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)),
-                                ],
-                              ),
-                            ),
+                              Text("Earned", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
+                            ]
                           ),
-                          Column(
+                          TableRow(
                             children: <Widget>[
-                              Text("Earned", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)),
-                              Text(formatMoney.format(widget.item.accruedInterest, true, true), style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)),
-                            ],
+                              Text(formatMoney.format(widget.item.quantity, true), style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border(left: BorderSide(), right: BorderSide())
+                                ),
+                                child: Text("${(widget.item.rate/100).toStringAsFixed(2)}%", style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center)
+                              ),
+                              Text(formatMoney.format(widget.item.accruedInterest, true), style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center)
+                            ]
                           )
                         ],
-                      ),
+                      )
                     ),
                     FittedBox(
                       child: LinearPercentIndicator(
@@ -265,24 +264,11 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
               )
             ],
           ),
-          bottomNavigationBar: SafeArea(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              decoration: BoxDecoration(
-                color: Pigment.fromString("FAFAFA")
-              ),
-              child: RaisedButton.icon(
-                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (ctx) => ExitEarlyPage(widget.item, widget.businessDate)
-                )),
-                color: Theme.of(context).primaryColor,
-                icon: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                  child: Text("EXPLORE SWITCH OUT OPTIONS", style: TextStyle(fontSize: (MediaQuery.of(context).size.width/1080) * 40, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center),
-                ),
-                label: Icon(Icons.arrow_forward_ios, color: Colors.white),
-              ),
-            )
+          bottomNavigationBar: ButtonBottom(
+            title: "EXPLORE SWITCH OUT OPTIONS",
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (ctx) => ExitEarlyPage(widget.item, widget.businessDate)
+            )),
           ),
         ),
         StreamBuilder(

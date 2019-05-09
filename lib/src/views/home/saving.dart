@@ -127,7 +127,7 @@ class SavingPage extends StatelessWidget {
                                   ],
                                 ),
                                 child: Text("${(snapshot.data[i].rate/100).toStringAsFixed(2)}%", style: TextStyle(fontSize: 18)),
-                                trailing: Text(formatMoney.format(snapshot.data[i].accruedInterest, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                                trailing: Text(formatMoney.format(snapshot.data[i].accruedInterest, true, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Theme.of(context).primaryColor)),
                                 isDefault: true,
                                 type: 3,
                                 progressBarValue: savingBloc.countPercentage(savingBloc.businessDate, snapshot.data[i].maturityDate),

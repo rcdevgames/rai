@@ -17,7 +17,7 @@ class _HelpPageState extends State<HelpPage> {
     return Scaffold(
       key: _key,
       appBar: AppBar(
-        title: Text("Help"),
+        title: Text("Help", style: TextStyle(fontWeight: FontWeight.normal)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

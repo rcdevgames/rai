@@ -128,7 +128,11 @@ class _MainPageState extends State<MainPage> {
               currentIndex: snapshot.data,
               items: [
                 BottomNavigationBarItem(
-                  icon: Icon(Savewise.icons8_percentage),
+                  icon: SizedBox(
+                    height: 25,
+                    width: 25,
+                    child: Icon(Savewise.icons8_percentage, size: 20)
+                  ),
                   title: Text("Deposit Offers", style: TextStyle(fontSize: 12))
                 ),
                 BottomNavigationBarItem(

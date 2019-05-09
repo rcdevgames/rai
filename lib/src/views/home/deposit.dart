@@ -76,11 +76,11 @@ class DepositPage extends StatelessWidget {
                                         children: <Widget>[
                                           Image.asset("assets/img/logo-scb.color.png", scale: 12,),
                                           SizedBox(width: 5),
-                                          Text(formatMoney.format(snapshot.data[i].amount, true), style: TextStyle(fontSize: 18)),
+                                          Text(formatMoney.format(depositBloc.depositInput.numberValue, true), style: TextStyle(fontSize: 18)),
                                         ],
                                       ),
                                       child: Text("${(snapshot.data[i].rate/100).toStringAsFixed(2)}%", style: TextStyle(fontSize: 18)),
-                                      trailing: Text(formatMoney.format(snapshot.data[i].interest, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                                      trailing: Text(formatMoney.format(snapshot.data[i].interest, true, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Theme.of(context).primaryColor)),
                                       isDefault: true,
                                       type: 1,
                                       lefts: snapshot.data[i].isNew == false ? snapshot.data[i].expiryDate.difference(depositBloc.businessDate).inDays:0,
