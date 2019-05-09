@@ -3,6 +3,7 @@ import 'package:RAI/src/util/format_money.dart';
 import 'package:RAI/src/util/session.dart';
 import 'package:RAI/src/views/deposit/bank_list.dart';
 import 'package:RAI/src/wigdet/bloc_widget.dart';
+import 'package:RAI/src/wigdet/button.dart';
 import 'package:RAI/src/wigdet/savewise_icons.dart';
 import 'package:RAI/src/wigdet/separator.dart';
 import 'package:date_format/date_format.dart';
@@ -37,7 +38,7 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
     return Scaffold(
       key: _key,
       appBar: AppBar(
-        title: Text("Make Deposit"),
+        title: Text("Make Deposit", style: TextStyle(fontWeight: FontWeight.normal)),
         actions: <Widget>[
           IconButton(
             onPressed: () => Navigator.of(context).pushNamed('/help'),
@@ -134,7 +135,7 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
                 ],
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 15),
             Container(
               padding: EdgeInsets.all(8.0),
               height: MediaQuery.of(context).size.width / 8,
@@ -158,28 +159,12 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
           ],
         ),
       ),
-      bottomNavigationBar: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          decoration: BoxDecoration(
-            color: Pigment.fromString("FAFAFA")
-          ),
-          child: RaisedButton.icon(
-            // onPressed: () {
-            //   Navigator.popUntil(context, ModalRoute.withName('/main'));
-            // },
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (ctx) => BankListPage(widget.depositMatch)
-            )),
-            color: Theme.of(context).primaryColor,
-            icon: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-              child: Text("Confirm Deposit", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center),
-            ),
-            label: Icon(Icons.arrow_forward_ios, color: Colors.white, size: 17),
-          ),
-        )
-      ),
+      bottomNavigationBar: ButtonBottom(
+        title: "Confirm Deposit",
+        onTap: () => Navigator.of(context).push(MaterialPageRoute(
+          builder: (ctx) => BankListPage(widget.depositMatch)
+        )),
+      )
     );
   }
 }

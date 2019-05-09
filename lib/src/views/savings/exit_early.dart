@@ -1,6 +1,7 @@
 import 'package:RAI/src/blocs/saving/switchout_bloc.dart';
 import 'package:RAI/src/models/savings.dart';
 import 'package:RAI/src/util/format_money.dart';
+import 'package:RAI/src/wigdet/button.dart';
 import 'package:RAI/src/wigdet/input_deposit.dart';
 import 'package:RAI/src/wigdet/loading.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ class _ExitEarlyPageState extends State<ExitEarlyPage> {
           key: _key,
           resizeToAvoidBottomPadding: false,
           appBar: AppBar(
-            title: Text("Saving Detail"),
+            title: Text("Saving Detail", style: TextStyle(fontWeight: FontWeight.normal)),
             actions: <Widget>[
               IconButton(
                 onPressed: () => Navigator.of(context).pushNamed('/help'),
@@ -54,7 +55,7 @@ class _ExitEarlyPageState extends State<ExitEarlyPage> {
                   child: Text("How much would you like back from?", style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900, color: Theme.of(context).primaryColor), textAlign: TextAlign.center,),
                 ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(25, 20, 25, 10),
+                  margin: EdgeInsets.fromLTRB(10, 20, 10, 10),
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                   height: MediaQuery.of(context).size.height / 5.5,
                   decoration: BoxDecoration(
@@ -82,35 +83,21 @@ class _ExitEarlyPageState extends State<ExitEarlyPage> {
                           initialData: 0,
                           stream: switchOutBloc.getAmount,
                           builder: (context, AsyncSnapshot<num> snapshot) {
-                            return Row(
-                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Column(
+                            return Table(
+                              children: <TableRow>[
+                                TableRow(
                                   children: <Widget>[
-                                    Text("Deposit", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)),
-                                    Text(formatMoney.format(!snapshot.hasError ? snapshot.data:0, true), style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor))
-                                  ],
+                                    Text("Deposit", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
+                                    Container(decoration: BoxDecoration(border: Border(left: BorderSide(), right: BorderSide())),child: Text("Rate", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center)),
+                                    Text("Interest Due", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
+                                  ]
                                 ),
-                                Expanded(
-                                  child: Container(
-                                    margin: EdgeInsets.symmetric(horizontal: (MediaQuery.of(context).size.width / 1080) * 40),
-                                    decoration: BoxDecoration(
-                                      border: Border(left: BorderSide(width: 1, color: Theme.of(context).primaryColor.withOpacity(0.3)), right: BorderSide(width: 1, color: Theme.of(context).primaryColor.withOpacity(0.3)))
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Text("Rate", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)),
-                                        Text("${(widget.item.rate/100).toStringAsFixed(2)} %", style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Column(
+                                TableRow(
                                   children: <Widget>[
-                                    Text("Interest Due", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)),
-                                    Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 1), true), style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)),
-                                  ],
+                                    Text(formatMoney.format(!snapshot.hasError ? snapshot.data:0, true), style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
+                                    Container(decoration: BoxDecoration(border: Border(left: BorderSide(), right: BorderSide())),child: Text("${(widget.item.rate/100).toStringAsFixed(2)}%", style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center)),
+                                    Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 1), true), style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center)
+                                  ]
                                 )
                               ],
                             );
@@ -120,24 +107,28 @@ class _ExitEarlyPageState extends State<ExitEarlyPage> {
                     ],
                   ),
                 ),
-                InputDeposit(
-                  inputController: switchOutBloc.ctrlAmount,
-                  increaseValue: () {
-                    FocusScope.of(context).requestFocus(new FocusNode());
-                    switchOutBloc.addValue();
-                  },
-                  decreaseValue: () {
-                    FocusScope.of(context).requestFocus(new FocusNode());
-                    switchOutBloc.removeValue();
-                  },
-                  onValueChange: switchOutBloc.onChange,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: InputDeposit(
+                    width: MediaQuery.of(context).size.width,
+                    inputController: switchOutBloc.ctrlAmount,
+                    increaseValue: () {
+                      FocusScope.of(context).requestFocus(new FocusNode());
+                      switchOutBloc.addValue();
+                    },
+                    decreaseValue: () {
+                      FocusScope.of(context).requestFocus(new FocusNode());
+                      switchOutBloc.removeValue();
+                    },
+                    onValueChange: switchOutBloc.onChange,
+                  ),
                 ),
                 Expanded(
                   child: FlipCard(
                     direction: FlipDirection.VERTICAL,
                     front: Container(
                       padding: EdgeInsets.all(16),
-                      margin: EdgeInsets.fromLTRB(25, 10, 25, 0),
+                      margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
                       decoration: BoxDecoration(
                         color: Theme.of(context).primaryColor.withOpacity(0.15),
                         borderRadius: BorderRadius.circular(10)
@@ -178,37 +169,37 @@ class _ExitEarlyPageState extends State<ExitEarlyPage> {
                                     TableRow(
                                       children: [
                                         Text(""),
-                                        Text("Week 1", style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600)),
-                                        Text("Week 2", style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600)),
-                                        Text("Week 3", style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600)),
-                                        Text("Week 4", style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600)),
-                                        Text("Week 5", style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600)),
+                                        Text("Week 1", style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600, fontSize: 12)),
+                                        Text("Week 2", style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600, fontSize: 12)),
+                                        Text("Week 3", style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600, fontSize: 12)),
+                                        Text("Week 4", style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600, fontSize: 12)),
+                                        Text("Week 5", style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600, fontSize: 12)),
                                       ]
                                     ),
                                     TableRow(
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 15),
+                                          padding: const EdgeInsets.symmetric(vertical: 10),
                                           child: Text("Keep"),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 15),
+                                          padding: const EdgeInsets.symmetric(vertical: 10),
                                           child: Text("100%", textAlign: TextAlign.center),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 15),
+                                          padding: const EdgeInsets.symmetric(vertical: 10),
                                           child: Text("75%", textAlign: TextAlign.center),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 15),
+                                          padding: const EdgeInsets.symmetric(vertical: 10),
                                           child: Text("50%", textAlign: TextAlign.center),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 15),
+                                          padding: const EdgeInsets.symmetric(vertical: 10),
                                           child: Text("25%", textAlign: TextAlign.center),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 15),
+                                          padding: const EdgeInsets.symmetric(vertical: 10),
                                           child: Text("0%", textAlign: TextAlign.center),
                                         ),
                                       ]
@@ -237,29 +228,16 @@ class _ExitEarlyPageState extends State<ExitEarlyPage> {
               ],
             ),
           ),
-          bottomNavigationBar: SafeArea(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              decoration: BoxDecoration(
-                color: Pigment.fromString("FAFAFA")
-              ),
-              child: StreamBuilder(
-                initialData: 0,
-                stream: switchOutBloc.getAmount,
-                builder: (context, AsyncSnapshot<num> snapshot) {
-                  return RaisedButton.icon(
-                    onPressed: snapshot.data > 0 ? () => switchOutBloc.confirmSwitchOut(context, widget.item.termDepositId):null,
-                    color: Theme.of(context).primaryColor,
-                    icon: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                      child: Text("Confirm Switch Out", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center),
-                    ),
-                    label: Icon(Icons.arrow_forward_ios, color: Colors.white),
-                  );
-                }
-              ),
-            )
-          ),
+          bottomNavigationBar: StreamBuilder(
+            initialData: 0,
+            stream: switchOutBloc.getAmount,
+            builder: (context, AsyncSnapshot<num> snapshot) {
+              return ButtonBottom(
+                title: "Confirm Switch Out",
+                onTap: snapshot.data > 0 ? () => switchOutBloc.confirmSwitchOut(context, widget.item.termDepositId):null,
+              );
+            }
+          )
         ),
         StreamBuilder(
           initialData: false,

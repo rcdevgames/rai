@@ -120,19 +120,19 @@ class ListTileDefault extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.symmetric(horizontal: 5),
             decoration: BoxDecoration(
               color: Pigment.fromString("FAFAFA")
             ),
-            child: Text("Matures ${formatDate(dateTime, [dd, ' ', M, ' ', yyyy]).toString()}")
+            child: Text("Matures ${formatDate(dateTime, [dd, ' ', M, ' ', yyyy]).toString()}", style: TextStyle(fontSize: 13))
             // child: Text("Matures ${DateFormat('EEEE').format(dateTime)} ${formatDate(dateTime, [dd, ' ', M, ' ', yyyy]).toString()}")
           ),
           exited != null && exited > 0 ? Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.symmetric(horizontal: 5),
             decoration: BoxDecoration(
               color: Pigment.fromString("FAFAFA")
             ),
-            child: Text("Switching Out (${exited})", style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w800))
+            child: Text("Switching Out (${exited})", style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700, fontSize: 13))
           ):Container(
             height: 20,
             width: 100,
@@ -202,7 +202,7 @@ class ListTileDefault extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
-                        Row(
+                        (leading == null || trailing == null) ? child : Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             leading,

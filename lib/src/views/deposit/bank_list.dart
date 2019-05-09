@@ -4,6 +4,7 @@ import 'package:RAI/src/blocs/deposit/purchase.dart';
 import 'package:RAI/src/models/bank.dart';
 import 'package:RAI/src/models/deposit_match.dart';
 import 'package:RAI/src/util/format_money.dart';
+import 'package:RAI/src/wigdet/button.dart';
 import 'package:RAI/src/wigdet/error_page.dart';
 import 'package:RAI/src/wigdet/list_tile.dart';
 import 'package:RAI/src/wigdet/loading.dart';
@@ -43,7 +44,7 @@ class _BankListPageState extends State<BankListPage> {
         Scaffold(
           key: _key,
           appBar: AppBar(
-            title: Text("Make Deposit"),
+            title: Text("Make Deposit", style: TextStyle(fontWeight: FontWeight.normal)),
             actions: <Widget>[
               IconButton(
                 onPressed: () => Navigator.of(context).pushNamed('/help'),
@@ -127,22 +128,9 @@ class _BankListPageState extends State<BankListPage> {
               } return LoadingBlock(Theme.of(context).primaryColor);
             }
           ),
-          bottomNavigationBar: SafeArea(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              decoration: BoxDecoration(
-                color: Pigment.fromString("FAFAFA")
-              ),
-              child: RaisedButton.icon(
-                onPressed: () => purchaseBloc.doPurchase(_key, widget.depositMatch),
-                color: Theme.of(context).primaryColor,
-                icon: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                  child: Text("Choose Account", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center),
-                ),
-                label: Icon(Icons.arrow_forward_ios, color: Colors.white, size: 17),
-              ),
-            )
+          bottomNavigationBar: ButtonBottom(
+            title: "Choose Account",
+            onTap: () => purchaseBloc.doPurchase(_key, widget.depositMatch),
           )
         ),
         StreamBuilder(

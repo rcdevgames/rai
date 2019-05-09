@@ -12,7 +12,7 @@ class _TermPageState extends State<TermPage> {
     return Scaffold(
       key: _key,
       appBar: AppBar(
-        title: Text("Term"),
+        title: Text("Term", style: TextStyle(fontWeight: FontWeight.normal)),
       ),
       body: Center(
         child: Text("Term Page"),

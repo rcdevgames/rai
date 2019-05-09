@@ -12,7 +12,7 @@ class _ForgotPinPageState extends State<ForgotPinPage> {
     return Scaffold(
       key: _keyForget,
       appBar: AppBar(
-        title: Text("ForgotPin"),
+        title: Text("ForgotPin", style: TextStyle(fontWeight: FontWeight.normal)),
       ),
       body: Center(
         child: Text("ForgotPin Page"),

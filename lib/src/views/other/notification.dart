@@ -12,7 +12,7 @@ class _NotificationPageState extends State<NotificationPage> {
     return Scaffold(
       key: _key,
       appBar: AppBar(
-        title: Text("Notification"),
+        title: Text("Notification", style: TextStyle(fontWeight: FontWeight.normal)),
       ),
       body: Center(
         child: Text("Notification Page"),

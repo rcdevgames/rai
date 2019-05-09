@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "358870509051",
+    "firebase_url": "https://oneup-d595d.firebaseio.com",
+    "project_id": "oneup-d595d",
+    "storage_bucket": "oneup-d595d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:358870509051:android:a4a582d172a6081d",
+        "android_client_info": {
+          "package_name": "com.sc.oneup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "358870509051-ddqatuasju43ajbp8fh6i23i6mme0fkk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sc.oneup",
+            "certificate_hash": "1497c185f18cb4514205888d3e5edc9ae2f873be"
+          }
+        },
+        {
+          "client_id": "358870509051-cia7679f1nuprn97bdvr7hk9atfgbs9v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJmfKQIwIzSY_Up_gUNLS2wXtpf9ZZ5Fs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "358870509051-cia7679f1nuprn97bdvr7hk9atfgbs9v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "358870509051-tli73oege9lhboc0k7kocunnl9rej5fq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sc.oneup"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
