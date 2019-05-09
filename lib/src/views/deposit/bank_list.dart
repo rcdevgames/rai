@@ -44,7 +44,7 @@ class _BankListPageState extends State<BankListPage> {
         Scaffold(
           key: _key,
           appBar: AppBar(
-            title: Text("Make Deposit", style: TextStyle(fontWeight: FontWeight.normal)),
+            title: Text("Make Deposit", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
             actions: <Widget>[
               IconButton(
                 onPressed: () => Navigator.of(context).pushNamed('/help'),
@@ -84,25 +84,24 @@ class _BankListPageState extends State<BankListPage> {
                                     purchaseBloc.selectbank(snapshot.data[i])
                                     
                                   },
-                                  leading: SizedBox(
-                                    width: 25,
-                                    height: 25,
-                                    child: snapshot.data[i].bankAcctBalance < widget.depositMatch.amount ? 
-                                    Image.asset("assets/img/logo-${snapshot.data[i].bankCode.toLowerCase()}.png", fit: BoxFit.cover):
-                                    Image.asset("assets/img/logo-${snapshot.data[i].bankCode.toLowerCase()}.color.png", fit: BoxFit.cover)
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                  child: Row(
                                     children: <Widget>[
-                                      Text('Bank ${snapshot.data[i].bankAcctName}', style: TextStyle(color: snapshot.data[i].bankAcctBalance < widget.depositMatch.amount ? Colors.grey:Theme.of(context).primaryColor),),
-                                      Text('(${snapshot.data[i].bankAcctNo.substring(snapshot.data[i].bankAcctNo.length - 4)})', style: TextStyle(color: snapshot.data[i].bankAcctBalance < widget.depositMatch.amount ? Colors.grey:Theme.of(context).primaryColor),),
-                                    ],
-                                  ),
-                                  trailing: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text("Balance", style: TextStyle(fontWeight: FontWeight.bold, color: snapshot.data[i].bankAcctBalance < widget.depositMatch.amount ? Colors.grey:Theme.of(context).primaryColor)),
-                                      Text(formatMoney.format(snapshot.data[i].bankAcctBalance, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: snapshot.data[i].bankAcctBalance < widget.depositMatch.amount ? Colors.grey:Theme.of(context).primaryColor))
+                                      SizedBox(
+                                        width: 25,
+                                        height: 25,
+                                        child: snapshot.data[i].bankAcctBalance < widget.depositMatch.amount ? 
+                                        Image.asset("assets/img/logo-${snapshot.data[i].bankCode.toLowerCase()}.png", fit: BoxFit.cover):
+                                        Image.asset("assets/img/logo-${snapshot.data[i].bankCode.toLowerCase()}.color.png", fit: BoxFit.cover)
+                                      ),
+                                      SizedBox(width: 10),
+                                      Expanded(child: Text('Bank ${snapshot.data[i].bankAcctName}', style: TextStyle(color: snapshot.data[i].bankAcctBalance < widget.depositMatch.amount ? Colors.grey:Theme.of(context).primaryColor, fontSize: 12))),
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Text("Balance", style: TextStyle(fontWeight: FontWeight.normal, color: snapshot.data[i].bankAcctBalance < widget.depositMatch.amount ? Colors.grey:Theme.of(context).primaryColor)),
+                                          Text(formatMoney.format(snapshot.data[i].bankAcctBalance, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: snapshot.data[i].bankAcctBalance < widget.depositMatch.amount ? Colors.grey:Theme.of(context).primaryColor))
+                                        ],
+                                      )
                                     ],
                                   ),
                                 );
@@ -117,7 +116,7 @@ class _BankListPageState extends State<BankListPage> {
               }else if(snapshot.hasError) {
                 return Center(
                   child: ErrorPage(
-                    message: snapshot.error,
+                    message: snapshot.error.toString(),
                     onPressed: () async {
                       purchaseBloc.fetchBank(context);
                       purchaseBloc.resetList(null);
@@ -129,7 +128,7 @@ class _BankListPageState extends State<BankListPage> {
             }
           ),
           bottomNavigationBar: ButtonBottom(
-            title: "Choose Account",
+            title: "CONFIRM DEPOSIT",
             onTap: () => purchaseBloc.doPurchase(_key, widget.depositMatch),
           )
         ),

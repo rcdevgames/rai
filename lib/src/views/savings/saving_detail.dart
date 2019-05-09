@@ -67,11 +67,11 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
                 children: <Widget>[
                   Expanded(
                     flex: 3,
-                    child: Text(formatDate(widget.item.history[i].eventTime, [dd,' ',M,' ',yyyy]))
+                    child: Text(formatDate(widget.item.history[i].eventTime, [dd,' ',M,' ',yyyy]), style: TextStyle(fontSize: 13))
                   ),
                   Expanded(
                     flex: 6,
-                    child: Text(widget.item.history[i].description),
+                    child: Text(widget.item.history[i].description, style: TextStyle(fontSize: 13)),
                   )
                 ],
               ),
@@ -84,11 +84,11 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
           Row(
             children: <Widget>[
               SizedBox(
-                width: MediaQuery.of(context).size.width / 6,
+                width: MediaQuery.of(context).size.width / 5,
                 child: Text("Amount", style: TextStyle(fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor))
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width / 4.5,
+                width: MediaQuery.of(context).size.width / 3.5,
                 child: Text("Give Away", style: TextStyle(fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor))
               ),
               Expanded(child: Text("Status", style: TextStyle(fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor)))
@@ -108,11 +108,11 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
                         Row(
                           children: <Widget>[
                             SizedBox(
-                              width: MediaQuery.of(context).size.width / 6,
+                              width: MediaQuery.of(context).size.width / 5,
                               child: Text(formatMoney.format(mySwitchOut[i].quantity, true))
                             ),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width / 4.5,
+                              width: MediaQuery.of(context).size.width / 3.5,
                               child: Text(formatMoney.format(mySwitchOut[i].transferredInterest, true, true))
                             ),
                             Expanded(child: Text(mySwitchOut[i].status == 'Active' ? "${mySwitchOut[i].status} (${mySwitchOut[i].expiredDate.difference(widget.businessDate).inDays} Days Left)":"${mySwitchOut[i].status}", style: TextStyle(fontWeight: FontWeight.w700, color: mySwitchOut[i].status == 'Active' ? Pigment.fromString("##69be28") : Theme.of(context).primaryColor)))
@@ -140,7 +140,7 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
         Scaffold(
           key: _key,
           appBar: AppBar(
-            title: Text("Saving Detail", style: TextStyle(fontWeight: FontWeight.normal)),
+            title: Text("Savings Detail", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
             actions: <Widget>[
               IconButton(
                 onPressed: () => Navigator.of(context).pushNamed('/help'),
@@ -152,7 +152,7 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.fromLTRB(13, 20, 13, 10),
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 height: MediaQuery.of(context).size.height / 3.5,
                 decoration: BoxDecoration(
                   border: Border.all(width: 1, color: Theme.of(context).primaryColor.withOpacity(0.3)),
@@ -166,56 +166,62 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         SizedBox(
-                          width: 25,
-                          height: 25,
+                          width: 22,
+                          height: 22,
                           child: Image.asset("assets/img/logo-scb.color.png")
                         ),
-                        SizedBox(width: 10),
-                        Text("Standard Chartered Bank", style: TextStyle(fontSize: 16))
+                        SizedBox(width: 5),
+                        Text("Standard Chartered Bank", style: TextStyle(fontSize: 13))
+                      ],
+                    ),
+                    Table(
+                      children: <TableRow>[
+                        TableRow(
+                          children: <Widget>[
+                            Text("Deposit", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border(left: BorderSide(), right: BorderSide())
+                              ),
+                              child: Text("Interest", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center)
+                            ),
+                            Text("Earned", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
+                          ]
+                        ),
+                        TableRow(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10, bottom: 5),
+                              child: Text(formatMoney.format(widget.item.quantity, true), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.only(top: 10, bottom: 5),
+                              decoration: BoxDecoration(
+                                border: Border(left: BorderSide(), right: BorderSide())
+                              ),
+                              child: Text("${(widget.item.rate/100).toStringAsFixed(2)}%", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center)
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10, bottom: 5),
+                              child: Text(formatMoney.format(widget.item.accruedInterest, true, true), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
+                            )
+                          ]
+                        )
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: 
-                      Table(
-                        children: <TableRow>[
-                          TableRow(
-                            children: <Widget>[
-                              Text("Deposit", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
-                              Container(
-                                decoration: BoxDecoration(
-                                  border: Border(left: BorderSide(), right: BorderSide())
-                                ),
-                                child: Text("Interest", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center)
-                              ),
-                              Text("Earned", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
-                            ]
-                          ),
-                          TableRow(
-                            children: <Widget>[
-                              Text(formatMoney.format(widget.item.quantity, true), style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
-                              Container(
-                                decoration: BoxDecoration(
-                                  border: Border(left: BorderSide(), right: BorderSide())
-                                ),
-                                child: Text("${(widget.item.rate/100).toStringAsFixed(2)}%", style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center)
-                              ),
-                              Text(formatMoney.format(widget.item.accruedInterest, true), style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center)
-                            ]
-                          )
-                        ],
-                      )
-                    ),
-                    FittedBox(
-                      child: LinearPercentIndicator(
-                        width: MediaQuery.of(context).size.width,
-                        lineHeight: 20,
-                        percent: detailSavingBloc.countPercentage(widget.businessDate, widget.item.maturityDate),
-                        progressColor: Pigment.fromString("#69be28"),
-                        backgroundColor: Theme.of(context).primaryColor,
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: FittedBox(
+                        child: LinearPercentIndicator(
+                          width: MediaQuery.of(context).size.width,
+                          lineHeight: 27,
+                          percent: detailSavingBloc.countPercentage(widget.businessDate, widget.item.maturityDate),
+                          progressColor: Pigment.fromString("#69be28"),
+                          backgroundColor: Theme.of(context).primaryColor,
+                        ),
                       ),
                     ),
-                    Text("${widget.item.maturityDate.difference(widget.businessDate).inDays} days left till maturity on ${formatDate(widget.item.maturityDate, [dd, ' ', M, ' ', yyyy])}")
+                    Text("${widget.item.maturityDate.difference(widget.businessDate).inDays} days left till maturity on ${formatDate(widget.item.maturityDate, [dd, ' ', M, ' ', yyyy])}", style: TextStyle(fontSize: 12))
                   ],
                 ),
               ),
@@ -224,22 +230,30 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
                 stream: detailSavingBloc.getIndex,
                 builder: (context, AsyncSnapshot<int> snapshot) {
                   return CupertinoSegmentedControl(
-                    pressedColor: Theme.of(context).primaryColor.withOpacity(0.7),
-                    borderColor: Theme.of(context).primaryColor,
+                    pressedColor: Theme.of(context).primaryColor.withOpacity(0.2),
+                    borderColor: Colors.transparent,
                     unselectedColor: Colors.transparent,
-                    selectedColor: Theme.of(context).primaryColor,
+                    selectedColor: Colors.transparent,
                     onValueChanged: (v) => detailSavingBloc.updateIndex(v),
                     groupValue: snapshot.data,
                     children: {
-                      0: SizedBox(
-                        height: 50,
+                      0: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: snapshot.data == 0 ? Theme.of(context).primaryColor:Colors.grey),
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(5), bottomLeft: Radius.circular(5))
+                        ),
+                        height: 44,
                         width: MediaQuery.of(context).size.width,
-                        child: Center(child: Text("HISOTRY", style: TextStyle(color: snapshot.data == 1 ? Theme.of(context).primaryColor:Colors.white, fontWeight: FontWeight.w600)))
+                        child: Center(child: Text("HISTORY", style: TextStyle(color: snapshot.data == 0 ? Theme.of(context).primaryColor:Colors.grey, fontWeight: FontWeight.w700)))
                       ),
-                      1: SizedBox(
-                        height: 50,
+                      1: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: snapshot.data == 1 ? Theme.of(context).primaryColor:Colors.grey),
+                          borderRadius: BorderRadius.only(topRight: Radius.circular(5), bottomRight: Radius.circular(5))
+                        ),
+                        height: 44,
                         width: MediaQuery.of(context).size.width,
-                        child: Center(child: Text("MY SWITCH OUT", style: TextStyle(color: snapshot.data == 0 ? Theme.of(context).primaryColor:Colors.white, fontWeight: FontWeight.w600)))
+                        child: Center(child: Text("MY SWITCH OUT", style: TextStyle(color: snapshot.data == 1 ? Theme.of(context).primaryColor:Colors.grey, fontWeight: FontWeight.w700)))
                       )
                     },
                   );
@@ -251,7 +265,7 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
                   padding: EdgeInsets.fromLTRB(20, 20, 20, 5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Colors.grey.shade200
+                    color: Theme.of(context).primaryColor.withOpacity(0.05)
                   ),
                   child: StreamBuilder(
                     initialData: 0,
@@ -265,6 +279,7 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
             ],
           ),
           bottomNavigationBar: ButtonBottom(
+            icon: null,
             title: "EXPLORE SWITCH OUT OPTIONS",
             onTap: () => Navigator.of(context).push(MaterialPageRoute(
               builder: (ctx) => ExitEarlyPage(widget.item, widget.businessDate)
