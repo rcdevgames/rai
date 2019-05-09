@@ -17,7 +17,7 @@ class _HelpPageState extends State<HelpPage> {
     return Scaffold(
       key: _key,
       appBar: AppBar(
-        title: Text("Help", style: TextStyle(fontWeight: FontWeight.normal)),
+        title: Text("Help", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -79,7 +79,7 @@ class _HelpPageState extends State<HelpPage> {
                     onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => HelpDetailPage(i))),
                     child: Container(
                       width: double.infinity,
-                      padding: EdgeInsets.symmetric(vertical: 10),
+                      padding: EdgeInsets.fromLTRB(15, 25, 0, 25),
                       decoration: BoxDecoration(
                         border: Border(bottom: BorderSide(width: 1, color: Theme.of(context).primaryColor.withOpacity(0.3)))
                       ),
