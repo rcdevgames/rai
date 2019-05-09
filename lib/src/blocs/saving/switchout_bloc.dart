@@ -15,7 +15,7 @@ import 'package:rxdart/rxdart.dart';
 
 class SwitchOutBloc extends Object implements BlocBase {
   final localAuth = LocalAuthentication();
-  final ctrlAmount = new MoneyMaskedTextController(thousandSeparator: ',', decimalSeparator: '', precision: 0, leftSymbol: "£");
+  final ctrlAmount = new MoneyMaskedTextController(thousandSeparator: ',', decimalSeparator: '', precision: 0, leftSymbol: "£ ");
   Savings saving;
   StreamSubscription timeout;
 
@@ -24,6 +24,7 @@ class SwitchOutBloc extends Object implements BlocBase {
   final _isLoading = BehaviorSubject<bool>();
 
   Stream<num> get getAmount => _amount.stream;
+  Stream<num> get getOldAmount => _amountOld.stream;
   Stream<bool> get getLoading => _isLoading.stream;
 
   SwitchOutBloc(Savings saving) {
@@ -71,12 +72,14 @@ class SwitchOutBloc extends Object implements BlocBase {
   }
 
   addValue() {
+    _amountOld.sink.add(_amountOld.value);
     if (_amountOld.value != null && ctrlAmount.numberValue < _amountOld.value) {
       ctrlAmount.updateValue(ctrlAmount.numberValue + 100);
     }
   }
 
   removeValue() {
+    _amountOld.sink.add(_amountOld.value);
     if (_amountOld.value != null && ctrlAmount.numberValue > 100) {
       ctrlAmount.updateValue(ctrlAmount.numberValue - 100);
     }

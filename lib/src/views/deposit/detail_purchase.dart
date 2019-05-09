@@ -11,8 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:pigment/pigment.dart';
 
 class DetailPurchasePage extends StatefulWidget {
+  num amount;
   DepositMatch depositMatch;
-  DetailPurchasePage(this.depositMatch);
+  DetailPurchasePage(this.depositMatch, this.amount);
 
   @override
   _DetailPurchasePageState createState() => _DetailPurchasePageState();
@@ -38,7 +39,7 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
     return Scaffold(
       key: _key,
       appBar: AppBar(
-        title: Text("Make Deposit", style: TextStyle(fontWeight: FontWeight.normal)),
+        title: Text("Make Deposit", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
         actions: <Widget>[
           IconButton(
             onPressed: () => Navigator.of(context).pushNamed('/help'),
@@ -61,21 +62,24 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
               ],
             ),
             SizedBox(height: 10),
-            Text("You are depositing", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 28, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+            Text("You are depositing", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 25, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
             SizedBox(height: 10),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text("£", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 25)),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 3),
+                  child: Text("£", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 23)),
+                ),
                 SizedBox(width: 5),
-                Text(formatMoney.format(widget.depositMatch.amount), style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 35))
+                Text(formatMoney.format(widget.amount), style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 35))
               ],
             ),
             SizedBox(height: 20),
             Text("@ ${(widget.depositMatch.rate/100).toStringAsFixed(2)}% gross interest per year", style: TextStyle(fontSize: 14), textAlign: TextAlign.center),
             SizedBox(height: 10),
-            Text("maturing in ${(widget.depositMatch.maturityDate.difference(businessDate).inDays/30).toStringAsFixed(0)} month time", style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
+            Text("maturing in ${(widget.depositMatch.maturityDate.difference(businessDate).inDays/30).toStringAsFixed(0)} months", style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
             SizedBox(height: 10),
             Stack(
               alignment: AlignmentDirectional.center,
@@ -102,12 +106,15 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
             Text("On ${formatDate(widget.depositMatch.maturityDate, [dd,' ',M,' ',yyyy]).toString()}, you will get back", style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
             SizedBox(height: 10),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
-                Text("£", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 25)),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 3),
+                  child: Text("£", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 23)),
+                ),
                 SizedBox(width: 5),
-                Text(formatMoney.format(widget.depositMatch.amount + widget.depositMatch.interest), style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 35))
+                Text(formatMoney.format(widget.amount + widget.depositMatch.interest, null, true), style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 35), textAlign: TextAlign.center),
               ],
             ),
             SizedBox(height: 10),
@@ -122,14 +129,18 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Text("Including gross interest of", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
+                  Text("Including gross interest of", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16), textAlign: TextAlign.center),
+                  SizedBox(width: 5),
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      Text("£", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 25)),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 3),
+                        child: Text("£", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 23)),
+                      ),
                       SizedBox(width: 5),
-                      Text(formatMoney.format(widget.depositMatch.interest), style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 40, fontWeight: FontWeight.w800))
+                      Text(formatMoney.format(widget.depositMatch.interest, null, true), style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 40, fontWeight: FontWeight.w800)),
                     ],
                   ),
                 ],
@@ -137,9 +148,9 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
             ),
             SizedBox(height: 15),
             Container(
+              margin: EdgeInsets.symmetric(horizontal: 15),
               padding: EdgeInsets.all(8.0),
               height: MediaQuery.of(context).size.width / 8,
-              width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: Colors.grey.withOpacity(0.15),
@@ -150,8 +161,8 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
                   Icon(Icons.info_outline),
                   SizedBox(width: 5),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width / 1.3,
-                    child: Text("Need some money back early? Explore out Switch Out options.", style: TextStyle(fontSize: 11))
+                    width: MediaQuery.of(context).size.width / 1.45,
+                    child: Text("Need some money back early? Explore out Switch Out options.", style: TextStyle(fontSize: 10))
                   )
                 ],
               ),
@@ -160,7 +171,7 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
         ),
       ),
       bottomNavigationBar: ButtonBottom(
-        title: "Confirm Deposit",
+        title: "CONFIRM DEPOSIT",
         onTap: () => Navigator.of(context).push(MaterialPageRoute(
           builder: (ctx) => BankListPage(widget.depositMatch)
         )),

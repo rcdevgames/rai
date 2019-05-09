@@ -72,12 +72,14 @@ class _ConfirmPINPageState extends State<ConfirmPINPage> {
                 child: SvgPicture.asset('assets/svg/savewise-logo.svg'),
               ),
             ),
-            SizedBox(height: 20),
-            Text("OneUp.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Theme.of(context).primaryColor)),
-            SizedBox(height: MediaQuery.of(context).size.height / 15),
+            SizedBox(height: 10),
+            Text("OneUp.", style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: Theme.of(context).primaryColor)),
+            SizedBox(height: 10),
+            Text("ENTER YOUR 6-DIGIT CODE", style: TextStyle(fontSize: 10, color: Colors.grey)),
+            SizedBox(height: MediaQuery.of(context).size.height / 20),
             SizedBox(
               height: 30,
-              width: MediaQuery.of(context).size.width / 2.2,
+              width: MediaQuery.of(context).size.width / 1.9,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
@@ -90,9 +92,10 @@ class _ConfirmPINPageState extends State<ConfirmPINPage> {
                 ],
               ),
             ),
+
             Expanded(
               child: InputPin(
-                textStyle: TextStyle(color: Colors.black, fontSize: 45.0, fontWeight: FontWeight.w500),
+                textStyle: TextStyle(color: Colors.black, fontSize: 45.0, fontWeight: FontWeight.normal),
                 onBackPressed: () {
                   setState(() {
                     if (_pin.length > 0) {

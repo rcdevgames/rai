@@ -56,7 +56,7 @@ class SavingPage extends StatelessWidget {
                     stream: savingBloc.getTotalInterest,
                     builder: (context, AsyncSnapshot<num> snapshot) {
                       if (snapshot.hasData) {
-                        return Text(formatMoney.format(snapshot.data, true), style: TextStyle(color: Colors.white, fontSize: 30));
+                        return Text(formatMoney.format(snapshot.data, true, true), style: TextStyle(color: Colors.white, fontSize: 30));
                       } return LoadingBlock(Theme.of(context).primaryColor);
                     }
                   ),
@@ -121,7 +121,7 @@ class SavingPage extends StatelessWidget {
                               child: ListTileDefault(
                                 leading: Row(
                                   children: <Widget>[
-                                    Image.asset("assets/img/logo-scb.color.png", scale: 12,),
+                                    Image.asset("assets/img/logo-scb.color.png", scale: 15,),
                                     SizedBox(width: 5),
                                     Text(formatMoney.format(snapshot.data[i].quantity, true), style: TextStyle(fontSize: 18)),
                                   ],

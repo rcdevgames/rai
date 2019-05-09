@@ -37,11 +37,17 @@ class DepositPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                InputDeposit(
-                  inputController: depositBloc.depositInput,
-                  increaseValue: depositBloc.addValue,
-                  decreaseValue: depositBloc.removeValue,
-                  onValueChange: (val) => depositBloc.onChange(int.parse(val)),
+                StreamBuilder(
+                  stream: depositBloc.getAmount,
+                  builder: (context, AsyncSnapshot<num> snapshot) {
+                    print(snapshot.data);
+                    return InputDeposit(
+                      inputController: depositBloc.depositInput,
+                      increaseValue: (snapshot.hasData && depositBloc.depositInput.numberValue < snapshot.data) ? depositBloc.addValue:null,
+                      decreaseValue: depositBloc.depositInput.numberValue > 100 ? depositBloc.removeValue: null,
+                      onValueChange: (val) => depositBloc.onChange(int.parse(val)),
+                    );
+                  }
                 )
               ],
             ),
@@ -74,20 +80,20 @@ class DepositPage extends StatelessWidget {
                                     child: ListTileDefault(
                                       leading: Row(
                                         children: <Widget>[
-                                          Image.asset("assets/img/logo-scb.color.png", scale: 12,),
+                                          Image.asset("assets/img/logo-scb.color.png", scale: 15),
                                           SizedBox(width: 5),
-                                          Text(formatMoney.format(depositBloc.depositInput.numberValue, true), style: TextStyle(fontSize: 18)),
+                                          Text(formatMoney.format(depositBloc.depositInput.numberValue, true), style: TextStyle(fontSize: 16)),
                                         ],
                                       ),
-                                      child: Text("${(snapshot.data[i].rate/100).toStringAsFixed(2)}%", style: TextStyle(fontSize: 18)),
-                                      trailing: Text(formatMoney.format(snapshot.data[i].interest, true, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Theme.of(context).primaryColor)),
+                                      child: Text("${(snapshot.data[i].rate/100).toStringAsFixed(2)}%", style: TextStyle(fontSize: 16)),
+                                      trailing: Text(formatMoney.format(snapshot.data[i].interest, true, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Theme.of(context).primaryColor)),
                                       isDefault: true,
                                       type: 1,
                                       lefts: snapshot.data[i].isNew == false ? snapshot.data[i].expiryDate.difference(depositBloc.businessDate).inDays:0,
                                       dateTime: snapshot.data[i].maturityDate,
                                       onTap: () async {
                                         await Navigator.of(context).push(MaterialPageRoute(
-                                          builder: (BuildContext context) => DetailPurchasePage(snapshot.data[i])
+                                          builder: (BuildContext context) => DetailPurchasePage(snapshot.data[i], depositBloc.depositInput.numberValue)
                                         ));
                                         var data = await sessions.flashMessage("purchased");
                                         if (data != null) {
