@@ -6,21 +6,21 @@ import 'package:RAI/src/util/data.dart';
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-void main() => runApp(DevApp());
+void main() => runApp(UATApp());
 
-class DevApp extends StatefulWidget {
+class UATApp extends StatefulWidget {
 
   @override
-  _DevAppState createState() => _DevAppState();
+  _UATAppState createState() => _UATAppState();
 }
 
-class _DevAppState extends State<DevApp> {
+class _UATAppState extends State<UATApp> {
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   @override
   void initState() {
     firebaseCloudMessaging_Listeners();
-    sessions.save("env", "dev");
+    sessions.save("env", "uat");
     super.initState();
   }
 

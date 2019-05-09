@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:RAI/src/util/data.dart';
 import 'package:dio/dio.dart';
+import 'package:cryptoutils/cryptoutils.dart';
 
 class Api {
 
@@ -10,8 +12,8 @@ class Api {
     dio.options.connectTimeout = 50000;
     dio.options.receiveTimeout = 15000;
     dio.options.contentType=ContentType.parse("application/x-www-form-urlencoded");
-    dio.options.headers = {"Authorization":"Basic ${Static.TOKENOAUTH}"};
-
+    // dio.options.headers = {"Authorization":"Basic ${Static.TOKENOAUTH}"};
+    dio.options.headers = {"Authorization":"Basic ${encode(Static.CLIENTID, Static.CLIENTSECRET)}"};
     return dio;
   }
 
@@ -23,6 +25,12 @@ class Api {
     dio.options.headers = {"Content-Type": "application/json"};
 
     return dio;
+  }
+
+  static String encode(String clientId, String secretId) {
+  // var bytes = UTF8.encode(str);
+  var bytes = utf8.encode("$clientId:$secretId");
+  return CryptoUtils.bytesToBase64(bytes);
   }
 
   static Options headers(token) {
