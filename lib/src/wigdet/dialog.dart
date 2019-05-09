@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:pigment/pigment.dart';
 
 class Dialogs {
   alert(BuildContext context, String title, String description) {
@@ -126,7 +127,7 @@ class Dialogs {
     information(context, title: "", child: Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[ 
-        icon != null ? Icon(icon, color: Theme.of(context).primaryColor, size: 120):SizedBox(),
+        icon != null ? Icon(icon, color: icon == Icons.check_circle_outline ? Pigment.fromString("#69be28"):Theme.of(context).primaryColor, size: 120):SizedBox(),
         SizedBox(height: icon != null ? 10:0),
         Text(title != null ? title:"", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor)),
         Text(message != null ? message:"", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor.withOpacity(0.7))),

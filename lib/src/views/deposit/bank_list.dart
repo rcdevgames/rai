@@ -13,8 +13,9 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:pigment/pigment.dart';
 
 class BankListPage extends StatefulWidget {
+  num amount;
   DepositMatch depositMatch;
-  BankListPage(this.depositMatch);
+  BankListPage(this.depositMatch, this.amount);
   
   @override
   _BankListPageState createState() => _BankListPageState();
@@ -129,7 +130,7 @@ class _BankListPageState extends State<BankListPage> {
           ),
           bottomNavigationBar: ButtonBottom(
             title: "CONFIRM DEPOSIT",
-            onTap: () => purchaseBloc.doPurchase(_key, widget.depositMatch),
+            onTap: () => purchaseBloc.doPurchase(_key, widget.depositMatch, widget.amount),
           )
         ),
         StreamBuilder(

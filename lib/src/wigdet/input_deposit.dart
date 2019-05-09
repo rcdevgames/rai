@@ -9,13 +9,18 @@ class InputDeposit extends StatelessWidget {
   TextEditingController inputController;
   Function increaseValue;
   Function decreaseValue;
+  Function increaseLongPress;
+  Function decreaseLongPress;
+  Function increaseLongPressUp;
+  Function decreaseLongPressUp;
   ValueChanged<String> onValueChange;
-  InputDeposit({Key key, @required this.inputController, @required this.increaseValue, @required this.decreaseValue, @required this.onValueChange, this.width, this.height}) : super(key: key);
+  InputDeposit({Key key, @required this.inputController, @required this.increaseValue, @required this.decreaseValue, @required this.onValueChange, this.width, this.height, this.decreaseLongPress, this.increaseLongPress, this.increaseLongPressUp, this.decreaseLongPressUp}) : super(key: key);
 
-  var timer;
+  // var timer;
 
   @override
   Widget build(BuildContext context) {
+    // print(timer);
     return Container(
       width: width == null ? MediaQuery.of(context).size.width / 1.3 : width.toDouble(),
       height: height == null ? 60 : height.toDouble(),
@@ -29,16 +34,18 @@ class InputDeposit extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
-              onLongPress: () {
-                timer = new Timer(const Duration(milliseconds: 10), () {
-                  timer = new Timer.periodic(const Duration(milliseconds: 250), (i) {
-                    if(decreaseValue != null) decreaseValue();
-                  });
-                });
-              },
-              onLongPressUp: () {
-                timer.cancel();
-              },
+              onLongPress: decreaseLongPress,
+              // () {
+              //   timer = new Timer(const Duration(milliseconds: 10), () {
+              //     timer = new Timer.periodic(const Duration(milliseconds: 250), (i) {
+              //       if(decrease != null) decreaseValue();
+              //     });
+              //   });
+              // },
+              onLongPressUp: decreaseLongPressUp,
+              // () {
+              //   timer.cancel();
+              // },
               onTap: decreaseValue != null ? () => decreaseValue():null,
               child: Icon(Icons.remove_circle, size: 25, color: decreaseValue != null ? Theme.of(context).primaryColor:Colors.grey),
             ),
@@ -69,16 +76,18 @@ class InputDeposit extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
-              onLongPress: () {
-                timer = new Timer(const Duration(milliseconds: 10), () {
-                  timer = new Timer.periodic(const Duration(milliseconds: 250), (i) {
-                    if(increaseValue != null) increaseValue();
-                  });
-                });
-              },
-              onLongPressUp: () {
-                timer.cancel();
-              },
+              onLongPress: increaseLongPress,
+              // () {
+              //   timer = new Timer(const Duration(milliseconds: 10), () {
+              //     timer = new Timer.periodic(const Duration(milliseconds: 250), (i) {
+              //       if(increaseValue != null) increaseValue();
+              //     });
+              //   });
+              // },
+              onLongPressUp: increaseLongPressUp,
+              // () {
+              //   timer.cancel();
+              // },
               onTap: increaseValue != null ? () => increaseValue():null,
               child: Icon(Icons.add_circle, size: 25, color: increaseValue != null ? Theme.of(context).primaryColor:Colors.grey),
             ),

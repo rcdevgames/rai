@@ -27,7 +27,7 @@ class Loading extends StatelessWidget {
                 CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                 ),
-                Text("Loading...", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 12.0))
+                Text("Processing...", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 12.0))
               ],
             ),
           ),

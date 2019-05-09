@@ -30,7 +30,7 @@ class SwitchOutBloc extends Object implements BlocBase {
   SwitchOutBloc(Savings saving) {
     saving = saving;
     _amount.sink.add(saving.quantity);
-    if(saving.exitEarlyRequests.length > 0) {
+    if(saving.exitEarlyRequests != null &&saving.exitEarlyRequests.length > 0) {
       saving.exitEarlyRequests.forEach((v) {
         if (v.status == "Active") {
           _amount.sink.add(_amount.value - v.quantity);

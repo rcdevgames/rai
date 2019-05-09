@@ -1,3 +1,4 @@
+import 'package:RAI/src/util/session.dart';
 import 'package:flutter/material.dart';
 import 'package:pigment/pigment.dart';
 import 'package:RAI/route.dart';
@@ -27,6 +28,7 @@ class _MyAppState extends State<MyApp> {
   // if (Platform.isIOS) iOS_Permission();
 
   var token = await _firebaseMessaging.getToken();
+  sessions.save("NotificationToken", token);
   print(token);
 
   _firebaseMessaging.configure(

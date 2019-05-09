@@ -60,7 +60,7 @@ class DetailSavingBloc extends Object implements BlocBase {
       await repo.cancelSwitchOut(requestId);
       _isLoading.sink.add(false);
       Navigator.pop(context, true);
-      dialogs.alertWithIcon(context, icon: Icons.check_circle, title: "Success", message: "Switch Out Canceled.");
+      dialogs.alertWithIcon(context, icon: Icons.check_circle_outline, title: "Success", message: "Switch Out Canceled.");
     } catch (e) {
       print(e);
       try {

@@ -40,13 +40,15 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
 
   resort() async {
     List<ExitEarlyRequest> active = [], deactive = [];
-    widget.item.exitEarlyRequests.forEach((v) {
-      if(v.status == "Active") {
-        active.add(v);
-      }else{
-        deactive.add(v);
-      }
-    });
+    if (widget.item.exitEarlyRequests != null && widget.item.exitEarlyRequests.length > 0) {
+      widget.item.exitEarlyRequests.forEach((v) {
+        if(v.status == "Active") {
+          active.add(v);
+        }else{
+          deactive.add(v);
+        }
+      });
+    }
     mySwitchOut.addAll(active);
     mySwitchOut.addAll(deactive);
   }
@@ -97,7 +99,7 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
           Expanded(
             child: Container(
               margin: EdgeInsets.only(top: 10),
-              child: ListView.builder(
+              child: mySwitchOut.length > 0 ? ListView.builder(
                 itemCount: mySwitchOut.length,
                 itemBuilder: (ctx, i) {
                   return Padding(
@@ -128,6 +130,10 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
                     ),
                   );
                 },
+              ):Column(
+                children: <Widget>[
+                  Text("Data not found")
+                ],
               ),
             ),
           )

@@ -20,6 +20,8 @@ import 'package:pigment/pigment.dart';
 
 
 class DepositPage extends StatelessWidget {
+  Timer timer;
+
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,22 @@ class DepositPage extends StatelessWidget {
                       increaseValue: (snapshot.hasData && depositBloc.depositInput.numberValue < snapshot.data) ? depositBloc.addValue:null,
                       decreaseValue: depositBloc.depositInput.numberValue > 100 ? depositBloc.removeValue: null,
                       onValueChange: (val) => depositBloc.onChange(int.parse(val)),
+                      decreaseLongPress: () {
+                        timer = new Timer(const Duration(milliseconds: 10), () {
+                          timer = new Timer.periodic(const Duration(milliseconds: 250), (i) {
+                            if(depositBloc.depositInput.numberValue > 100) depositBloc.removeValue();
+                          });
+                        });
+                      },
+                      increaseLongPress: () {
+                        timer = new Timer(const Duration(milliseconds: 10), () {
+                          timer = new Timer.periodic(const Duration(milliseconds: 250), (i) {
+                            if(snapshot.hasData && depositBloc.depositInput.numberValue < snapshot.data != null) depositBloc.addValue();
+                          });
+                        });
+                      },
+                      increaseLongPressUp: () => timer.cancel(),
+                      decreaseLongPressUp: () => timer.cancel(),
                     );
                   }
                 )

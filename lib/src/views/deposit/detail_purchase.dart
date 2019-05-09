@@ -173,7 +173,7 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
       bottomNavigationBar: ButtonBottom(
         title: "CONFIRM DEPOSIT",
         onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (ctx) => BankListPage(widget.depositMatch)
+          builder: (ctx) => BankListPage(widget.depositMatch, widget.amount)
         )),
       )
     );

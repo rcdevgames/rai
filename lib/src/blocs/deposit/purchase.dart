@@ -65,12 +65,12 @@ class PurchaseBloc extends Object implements BlocBase {
     }
   }
 
-  doPurchase(GlobalKey<ScaffoldState> key, DepositMatch depositMatch) async {
+  doPurchase(GlobalKey<ScaffoldState> key, DepositMatch depositMatch, num amount) async {
     var list = await localAuth.getAvailableBiometrics();
     if (list.length > 0) {
       try {
-        transactionModal.purchaseModal(key.currentContext, _selectedBank.value, depositMatch.amount);
-        await Future.delayed(const Duration(seconds: 2));
+        // transactionModal.purchaseModal(key.currentContext, _selectedBank.value, amount);
+        // await Future.delayed(const Duration(seconds: 2));
         bool didAuthenticate = await localAuth.authenticateWithBiometrics(
             localizedReason: 'Please authenticate to process transaction',
             useErrorDialogs: false,
@@ -84,7 +84,7 @@ class PurchaseBloc extends Object implements BlocBase {
         if (didAuthenticate) {
           try {
             _isLoading.sink.add(true);
-            await repo.purchaseDeposit(depositMatch.amount, _selected.value, depositMatch.id);
+            await repo.purchaseDeposit(amount, _selected.value, depositMatch.id);
             sessions.save("purchased", "Deposit successful. See My Savings to watch your deposit grow!");
             _isLoading.sink.add(false);
             Navigator.of(key.currentContext).popUntil(ModalRoute.withName('/main'));
@@ -96,10 +96,10 @@ class PurchaseBloc extends Object implements BlocBase {
               sessions.clear();
               Navigator.of(key.currentContext).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
             }else if (error.containsKey("errorMessage")) {
-              dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "Error", message: error['errorMessage']);
+              dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "", message: error['errorMessage']);
               return false;
             }
-            dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "Error", message: error['message']);
+            dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "", message: error['message']);
           }
         }
       } on PlatformException catch (e) {
@@ -122,7 +122,7 @@ class PurchaseBloc extends Object implements BlocBase {
       if (data == true) {
         try {
             _isLoading.sink.add(true);
-            await repo.purchaseDeposit(depositMatch.amount, _selected.value, depositMatch.id);
+            await repo.purchaseDeposit(amount, _selected.value, depositMatch.id);
             sessions.save("purchased", "Deposit successful. See My Savings to watch your deposit grow!");
             _isLoading.sink.add(false);
             Navigator.of(key.currentContext).popUntil(ModalRoute.withName('/main'));
@@ -134,10 +134,10 @@ class PurchaseBloc extends Object implements BlocBase {
               sessions.clear();
               Navigator.of(key.currentContext).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
             }else if (error.containsKey("errorMessage")) {
-              dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "Error", message: error['errorMessage']);
+              dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "", message: error['errorMessage']);
               return false;
             }
-            dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "Error", message: error['message']);
+            dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "", message: error['message']);
           }
       }
     }

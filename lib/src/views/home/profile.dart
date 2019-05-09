@@ -96,11 +96,11 @@ class ProfilePage extends StatelessWidget {
                                 SizedBox(
                                   width: 25,
                                   height: 25,
-                                  child: Image.asset("assets/img/logo-${snapshot.data[i].bankCode.toLowerCase()}.color.png", fit: BoxFit.cover)
+                                  child: (snapshot.data[i].bankCode == "" || snapshot.data[i].bankCode == null) ? Placeholder():Image.asset("assets/img/logo-${snapshot.data[i].bankCode.toLowerCase()}.color.png", fit: BoxFit.cover)
                                 ),
                                 SizedBox(width: 15),
                                 Expanded(
-                                                                    child: Column(
+                                  child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
@@ -113,7 +113,7 @@ class ProfilePage extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     Text("Balance", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12, color: Theme.of(context).primaryColor)),
-                                    Text(formatMoney.format(snapshot.data[i].bankAcctBalance, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Theme.of(context).primaryColor))
+                                    Text(formatMoney.format(snapshot.data[i].bankAcctBalance, true, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Theme.of(context).primaryColor))
                                   ],
                                 )
                               ],
@@ -157,7 +157,7 @@ class ProfilePage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(formatDate(snapshot.data[i][0].transactionDate, [dd,' ',M,' ',yyyy]).toString(), style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
+                          Text(formatDate(snapshot.data[i][0].transactionDate, [dd,' ',M,' ',yyyy]).toString(), style: TextStyle(fontSize: 13, color: Theme.of(context).primaryColor.withOpacity(0.8))),
                           SizedBox(height: 15),
                           Column(
                             children: snapshot.data[i].map((v) => Padding(
@@ -171,7 +171,7 @@ class ProfilePage extends StatelessWidget {
                                     child: Image.asset("assets/img/logo-${v.bankAccRefCode.toLowerCase()}.color.png", fit: BoxFit.cover)
                                   ),
                                   SizedBox(width: 10),
-                                  Expanded(child: Text(v.description, style: TextStyle(color: Colors.grey.shade500, fontSize: 15))),
+                                  Expanded(child: Text(v.description, style: TextStyle(fontSize: 15))),
                                   SizedBox(width: 20),
                                   v.category == "In" ? Icon(Savewise.icons8_1_circled_right, color: Theme.of(context).primaryColor, size: 20):Icon(Savewise.icons8_1_circled_left, color: Pigment.fromString("69be28"), size: 20)
                                 ],
@@ -220,7 +220,7 @@ class ProfilePage extends StatelessWidget {
                   stream: profileBloc.getTotalBalance,
                   builder: (context, AsyncSnapshot<num> snapshot) {
                     if (snapshot.hasData) {
-                      return Text(formatMoney.format(snapshot.data, true), style: TextStyle(color: Colors.white, fontSize: 35));
+                      return Text(formatMoney.format(snapshot.data, true, true), style: TextStyle(color: Colors.white, fontSize: 35));
                     } return LoadingBlock(Colors.white);
                   }
                 ),
