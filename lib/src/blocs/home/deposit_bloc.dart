@@ -14,7 +14,7 @@ class DepositBloc extends Object implements BlocBase {
   final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
   StreamSubscription timeout;
   StreamSubscription timeout1;
-  final depositInput = new MoneyMaskedTextController(thousandSeparator: ',', decimalSeparator: '', precision: 0, leftSymbol: "£");
+  final depositInput = new MoneyMaskedTextController(thousandSeparator: ',', decimalSeparator: '', precision: 0, leftSymbol: "£ ");
   // final depositInput = TextEditingController();
   final _listDeposit = BehaviorSubject<List<DepositMatch>>();
   final _businessDate = BehaviorSubject<String>();
@@ -25,6 +25,7 @@ class DepositBloc extends Object implements BlocBase {
 
   Stream<List<DepositMatch>> get getListDeposit => _listDeposit.stream;
   Stream<bool> get getSingleItem => _singleitem.stream;
+  Stream<num> get getAmount => _amount.stream;
 
   Function(bool) get updateSingleItem => _singleitem.sink.add;
 
@@ -43,11 +44,13 @@ class DepositBloc extends Object implements BlocBase {
 
 
   addValue() {
+    _amount.sink.add(_amount.value);
     if (_amount != null && depositInput.numberValue < _amount.value) {
       depositInput.updateValue(depositInput.numberValue + 100);
     }
   }
   removeValue() {
+    _amount.sink.add(_amount.value);
     if (_amount != null && depositInput.numberValue > 100) {
       depositInput.updateValue(depositInput.numberValue - 100);
     }

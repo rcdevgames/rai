@@ -29,117 +29,117 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final profileBloc = BlocProvider.of(context).profileBloc;
     final Map<int, Widget> contents = {
-      0:Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: StreamBuilder(
-            stream: profileBloc.getListBank,
-            builder: (context, AsyncSnapshot<List<Bank>> snapshot) {
-              if (snapshot.hasData) {
-                return LiquidPullToRefresh(
-                  color: Theme.of(context).primaryColor.withOpacity(0.7),
-                  key: _bankAccountKey,
-                  onRefresh: profileBloc.fetchAccountList,
-                  child: ListView.builder(
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (ctx, i) {
-                      return StreamBuilder(
-                        stream: profileBloc.getSelectedDefault,
-                        builder: (context, AsyncSnapshot<int> id) {
-                          return Slidable(
-                            delegate: new SlidableDrawerDelegate(),
-                            actionExtentRatio: 0.25,
-                            actions: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(top: 15, bottom: 20, right: 5),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(5),
-                                  child: ItemsAction(
-                                    caption: 'Make Default',
-                                    color: Theme.of(context).primaryColor,
-                                    onTap: () => profileBloc.setDefault(context,snapshot.data[i].bankAcctId),
-                                  ),
-                                ),
-                              )
-                            ],
-                            secondaryActions: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(top: 14, bottom: 21, left: 5),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(5),
-                                  child: ItemsAction(
-                                    caption: 'Edit',
-                                    color: Theme.of(context).primaryColor,
-                                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (ctx) => AccountDetailPage(snapshot.data[i])
-                                    )),
-                                  ),
+      0:StreamBuilder(
+        stream: profileBloc.getListBank,
+        builder: (context, AsyncSnapshot<List<Bank>> snapshot) {
+          if (snapshot.hasData) {
+            return LiquidPullToRefresh(
+              color: Theme.of(context).primaryColor.withOpacity(0.7),
+              key: _bankAccountKey,
+              onRefresh: profileBloc.fetchAccountList,
+              child: ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (ctx, i) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: StreamBuilder(
+                      stream: profileBloc.getSelectedDefault,
+                      builder: (context, AsyncSnapshot<int> id) {
+                        return Slidable(
+                          delegate: new SlidableDrawerDelegate(),
+                          actionExtentRatio: 0.25,
+                          actions: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(top: 15, bottom: 13, right: 5),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: ItemsAction(
+                                  caption: 'Make Default',
+                                  color: Theme.of(context).primaryColor,
+                                  onTap: () => profileBloc.setDefault(context,snapshot.data[i].bankAcctId),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 14, bottom: 21, left: 5),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(5),
-                                  child: ItemsAction(
-                                    caption: 'Delete',
-                                    color: Theme.of(context).primaryColor,
-                                    onTap: () {},
-                                  ),
+                            )
+                          ],
+                          secondaryActions: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(top: 14, bottom: 13, left: 5),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: ItemsAction(
+                                  caption: 'Edit',
+                                  color: Theme.of(context).primaryColor,
+                                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (ctx) => AccountDetailPage(snapshot.data[i])
+                                  )),
                                 ),
-                              ),
-                            ],
-                            child: ListTileDefault(
-                              isDefault: id.hasData ? (snapshot.data[i].bankAcctId == id.data):false,
-                              type: 2,
-                              onTap: () {},
-                              child: Row(
-                                children: <Widget>[
-                                  SizedBox(
-                                    width: 25,
-                                    height: 25,
-                                    child: Image.asset("assets/img/logo-${snapshot.data[i].bankCode.toLowerCase()}.color.png", fit: BoxFit.cover)
-                                  ),
-                                  SizedBox(width: 15),
-                                  Expanded(
-                                                                      child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Text('Bank ${snapshot.data[i].bankAcctName}'),
-                                        Text('(${snapshot.data[i].bankAcctNo.substring(snapshot.data[i].bankAcctNo.length - 4)})'),
-                                      ],
-                                    ),
-                                  ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text("Balance", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12, color: Theme.of(context).primaryColor)),
-                                      Text(formatMoney.format(snapshot.data[i].bankAcctBalance, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Theme.of(context).primaryColor))
-                                    ],
-                                  )
-                                ],
                               ),
                             ),
-                          );
-                        }
-                      );
-                    },
-                  ),
-                );
-              }else if(snapshot.hasError) {
-                return Center(
-                  child: ErrorPage(
-                    message: snapshot.error,
-                    onPressed: () {
-                      profileBloc.resetAccountList();
-                      profileBloc.fetchAccountList();
-                    },
-                    buttonText: "Try Again",
-                  ),
-                );
-              } return LoadingBlock(Theme.of(context).primaryColor);
-            }
-          ),
-        ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 14, bottom: 13, left: 5),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: ItemsAction(
+                                  caption: 'Delete',
+                                  color: Theme.of(context).primaryColor,
+                                  onTap: () {},
+                                ),
+                              ),
+                            ),
+                          ],
+                          child: ListTileDefault(
+                            isDefault: id.hasData ? (snapshot.data[i].bankAcctId == id.data):false,
+                            type: 2,
+                            onTap: () {},
+                            child: Row(
+                              children: <Widget>[
+                                SizedBox(
+                                  width: 25,
+                                  height: 25,
+                                  child: Image.asset("assets/img/logo-${snapshot.data[i].bankCode.toLowerCase()}.color.png", fit: BoxFit.cover)
+                                ),
+                                SizedBox(width: 15),
+                                Expanded(
+                                                                    child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text('Bank ${snapshot.data[i].bankAcctName}'),
+                                      Text('(${snapshot.data[i].bankAcctNo.substring(snapshot.data[i].bankAcctNo.length - 4)})'),
+                                    ],
+                                  ),
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text("Balance", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12, color: Theme.of(context).primaryColor)),
+                                    Text(formatMoney.format(snapshot.data[i].bankAcctBalance, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Theme.of(context).primaryColor))
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      }
+                    ),
+                  );
+                },
+              ),
+            );
+          }else if(snapshot.hasError) {
+            return Center(
+              child: ErrorPage(
+                message: snapshot.error,
+                onPressed: () {
+                  profileBloc.resetAccountList();
+                  profileBloc.fetchAccountList();
+                },
+                buttonText: "Try Again",
+              ),
+            );
+          } return LoadingBlock(Theme.of(context).primaryColor);
+        }
+      ),
       1:StreamBuilder(
         stream: profileBloc.getHistory,
           builder: (context, AsyncSnapshot<List<List<History>>> snapshot) {
@@ -235,24 +235,32 @@ class ProfilePage extends StatelessWidget {
                 return Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.only(top: 20, bottom: 30),
+                      padding: const EdgeInsets.only(top: 15, bottom: 10),
                       child: CupertinoSegmentedControl(
-                        pressedColor: Theme.of(context).primaryColor.withOpacity(0.7),
-                        borderColor: Theme.of(context).primaryColor,
-                        selectedColor: Theme.of(context).primaryColor,
+                        pressedColor: Theme.of(context).primaryColor.withOpacity(0.1),
+                        borderColor: Colors.transparent,
+                        selectedColor: Colors.transparent,
                         unselectedColor: Colors.transparent,
                         onValueChanged: (v) => profileBloc.updateIndexTab(v),
                         groupValue: snapshot.data,
                         children: {
-                          0: SizedBox(
-                            height: 50,
+                          0: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: snapshot.data == 0 ? Theme.of(context).primaryColor:Colors.grey),
+                              borderRadius: BorderRadius.only(topLeft: Radius.circular(5), bottomLeft: Radius.circular(5))
+                            ),
+                            height: 45,
                             width: MediaQuery.of(context).size.width / 2.2,
-                            child: Center(child: Text("LINKED ACCOUNTS", style: TextStyle(color: snapshot.data == 1 ? Theme.of(context).primaryColor:Colors.white, fontWeight: FontWeight.w700)))
+                            child: Center(child: Text("LINKED ACCOUNTS", style: TextStyle(color: snapshot.data == 0 ? Theme.of(context).primaryColor:Colors.grey, fontWeight: FontWeight.w700)))
                           ),
-                          1: SizedBox(
-                            height: 50,
+                          1: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: snapshot.data == 1 ? Theme.of(context).primaryColor:Colors.grey),
+                              borderRadius: BorderRadius.only(topRight: Radius.circular(5), bottomRight: Radius.circular(5))
+                            ),
+                            height: 45,
                             width: MediaQuery.of(context).size.width / 2.2,
-                            child: Center(child: Text("HISTORY", style: TextStyle(color: snapshot.data == 0 ? Theme.of(context).primaryColor:Colors.white, fontWeight: FontWeight.w700)))
+                            child: Center(child: Text("HISTORY", style: TextStyle(color: snapshot.data == 1 ? Theme.of(context).primaryColor:Colors.grey, fontWeight: FontWeight.w700)))
                           )
                         },
                       ),
@@ -267,24 +275,24 @@ class ProfilePage extends StatelessWidget {
           )
         ],
       ),
-      floatingActionButton: StreamBuilder(
-        initialData: 0,
-        stream: profileBloc.getIndexTab,
-        builder: (context, AsyncSnapshot<int> snapshot) {
-          if (snapshot.data == 0) {
-            return FloatingActionButton.extended(
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (ctx) => AccountDetailPage(null)
-              )),
-              backgroundColor: Colors.white,
-              heroTag: "add",
-              label: Text("Add Account", style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700)),
-              icon: Icon(Icons.add, color: Theme.of(context).primaryColor),
-            );
-          } return Container();
-        }
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // floatingActionButton: StreamBuilder(
+      //   initialData: 0,
+      //   stream: profileBloc.getIndexTab,
+      //   builder: (context, AsyncSnapshot<int> snapshot) {
+      //     if (snapshot.data == 0) {
+      //       return FloatingActionButton.extended(
+      //         onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+      //           builder: (ctx) => AccountDetailPage(null)
+      //         )),
+      //         backgroundColor: Colors.white,
+      //         heroTag: "add",
+      //         label: Text("Add Account", style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700)),
+      //         icon: Icon(Icons.add, color: Theme.of(context).primaryColor),
+      //       );
+      //     } return Container();
+      //   }
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 
 class InputDeposit extends StatelessWidget {
   double width;
+  double height;
   TextEditingController inputController;
   Function increaseValue;
   Function decreaseValue;
   ValueChanged<String> onValueChange;
-  InputDeposit({Key key, @required this.inputController, @required this.increaseValue, @required this.decreaseValue, @required this.onValueChange, this.width}) : super(key: key);
+  InputDeposit({Key key, @required this.inputController, @required this.increaseValue, @required this.decreaseValue, @required this.onValueChange, this.width, this.height}) : super(key: key);
 
   var timer;
 
@@ -17,7 +18,7 @@ class InputDeposit extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width == null ? MediaQuery.of(context).size.width / 1.3 : width.toDouble(),
-      height: 60,
+      height: height == null ? 60 : height.toDouble(),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(50),
@@ -31,15 +32,15 @@ class InputDeposit extends StatelessWidget {
               onLongPress: () {
                 timer = new Timer(const Duration(milliseconds: 10), () {
                   timer = new Timer.periodic(const Duration(milliseconds: 250), (i) {
-                    decreaseValue();
+                    if(decreaseValue != null) decreaseValue();
                   });
                 });
               },
               onLongPressUp: () {
                 timer.cancel();
               },
-              onTap: () => decreaseValue(),
-              child: Icon(Icons.remove_circle, size: 25, color: Theme.of(context).primaryColor),
+              onTap: decreaseValue != null ? () => decreaseValue():null,
+              child: Icon(Icons.remove_circle, size: 25, color: decreaseValue != null ? Theme.of(context).primaryColor:Colors.grey),
             ),
           ),
           // IconButton(
@@ -71,15 +72,15 @@ class InputDeposit extends StatelessWidget {
               onLongPress: () {
                 timer = new Timer(const Duration(milliseconds: 10), () {
                   timer = new Timer.periodic(const Duration(milliseconds: 250), (i) {
-                    increaseValue();
+                    if(increaseValue != null) increaseValue();
                   });
                 });
               },
               onLongPressUp: () {
                 timer.cancel();
               },
-              onTap: () => increaseValue(),
-              child: Icon(Icons.add_circle, size: 25, color: Theme.of(context).primaryColor),
+              onTap: increaseValue != null ? () => increaseValue():null,
+              child: Icon(Icons.add_circle, size: 25, color: increaseValue != null ? Theme.of(context).primaryColor:Colors.grey),
             ),
           ),
           // IconButton(

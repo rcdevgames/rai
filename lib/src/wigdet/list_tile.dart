@@ -38,7 +38,7 @@ class ListTileDefault extends StatelessWidget {
             decoration: BoxDecoration(
               color: Pigment.fromString("FAFAFA")
             ),
-            child: Text("Matures ${formatDate(dateTime, [dd, ' ', MM, ' ', yyyy]).toString()}", style: TextStyle(color: Theme.of(context).primaryColor.withOpacity(0.6), fontSize: 12))
+            child: Text("Matures ${formatDate(dateTime, [dd, ' ', MM, ' ', yyyy]).toString()}", style: TextStyle(color: Theme.of(context).primaryColor.withOpacity(0.6), fontSize: 11, fontWeight: FontWeight.w700))
           ),
           lefts > 0 ?Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
@@ -94,19 +94,20 @@ class ListTileDefault extends StatelessWidget {
 
   Widget labelDefault(BuildContext context) {
     return Positioned(
-      right: (MediaQuery.of(context).size.width / 1080) * 35,
+      top: (MediaQuery.of(context).size.width / 1080) * 15,
+      right: (MediaQuery.of(context).size.width / 1080) * 55,
       child: Container(
-        height: 30,
-        width: 100,
+        height: 22,
+        width: 80,
         decoration: BoxDecoration(
-          color: Colors.green,
+          color: Pigment.fromString("#69be28"),
           borderRadius: BorderRadius.circular(5)
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Icon(Icons.check, size: 20, color: Colors.white),
-            Text("Default", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400),)
+            Text("Default", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 11)),
+            Icon(Icons.check, size: 15, color: Colors.white)
           ],
         ),
       ),
@@ -124,7 +125,7 @@ class ListTileDefault extends StatelessWidget {
             decoration: BoxDecoration(
               color: Pigment.fromString("FAFAFA")
             ),
-            child: Text("Matures ${formatDate(dateTime, [dd, ' ', M, ' ', yyyy]).toString()}", style: TextStyle(fontSize: 13))
+            child: Text("Matures ${formatDate(dateTime, [dd, ' ', M, ' ', yyyy]).toString()}", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor.withOpacity(0.8)))
             // child: Text("Matures ${DateFormat('EEEE').format(dateTime)} ${formatDate(dateTime, [dd, ' ', M, ' ', yyyy]).toString()}")
           ),
           exited != null && exited > 0 ? Container(
@@ -183,7 +184,7 @@ class ListTileDefault extends StatelessWidget {
       alignment: AlignmentDirectional.center,
       children: <Widget>[
         Container(
-          margin: const EdgeInsets.only(bottom: 20),
+          margin: const EdgeInsets.only(bottom: 10),
           height: progressBarValue != null ? 125:105,
           child: Stack(
             children: <Widget>[
@@ -213,13 +214,13 @@ class ListTileDefault extends StatelessWidget {
                         progressBarValue != null ? FittedBox(
                           child: LinearPercentIndicator(
                             width: MediaQuery.of(context).size.width,
-                            lineHeight: 20,
+                            lineHeight: 18,
                             percent: progressBarValue,
                             progressColor: Pigment.fromString("#69be28"),
                             backgroundColor: Theme.of(context).primaryColor,
                           ),
-                        ):Container()
-                      ],
+                        ):null
+                      ].where((v) => v != null).toList(),
                     )
                   )
                 ),

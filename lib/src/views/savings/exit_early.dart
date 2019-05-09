@@ -36,7 +36,7 @@ class _ExitEarlyPageState extends State<ExitEarlyPage> {
           key: _key,
           resizeToAvoidBottomPadding: false,
           appBar: AppBar(
-            title: Text("Saving Detail", style: TextStyle(fontWeight: FontWeight.normal)),
+            title: Text("Switch Out", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
             actions: <Widget>[
               IconButton(
                 onPressed: () => Navigator.of(context).pushNamed('/help'),
@@ -52,33 +52,33 @@ class _ExitEarlyPageState extends State<ExitEarlyPage> {
                 SizedBox(height: 25),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Text("How much would you like back from?", style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900, color: Theme.of(context).primaryColor), textAlign: TextAlign.center,),
+                  child: Text("How much would you like back from?", style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600, color: Theme.of(context).primaryColor), textAlign: TextAlign.center,),
                 ),
                 Container(
                   margin: EdgeInsets.fromLTRB(10, 20, 10, 10),
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-                  height: MediaQuery.of(context).size.height / 5.5,
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  height: MediaQuery.of(context).size.height / 6.3,
                   decoration: BoxDecoration(
                     border: Border.all(width: 1, color: Theme.of(context).primaryColor.withOpacity(0.3)),
-                    borderRadius: BorderRadius.circular(10)
+                    borderRadius: BorderRadius.circular(6)
                   ),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           SizedBox(
-                            width: 25,
-                            height: 25,
+                            width: 20,
+                            height: 20,
                             child: Image.asset("assets/img/logo-scb.color.png")
                           ),
                           SizedBox(width: 10),
                           Text("Standard Chartered Bank", style: TextStyle(fontSize: 16))
                         ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      SizedBox(height: 10),
+                      Expanded(
                         child: StreamBuilder(
                           initialData: 0,
                           stream: switchOutBloc.getAmount,
@@ -94,9 +94,15 @@ class _ExitEarlyPageState extends State<ExitEarlyPage> {
                                 ),
                                 TableRow(
                                   children: <Widget>[
-                                    Text(formatMoney.format(!snapshot.hasError ? snapshot.data:0, true), style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
-                                    Container(decoration: BoxDecoration(border: Border(left: BorderSide(), right: BorderSide())),child: Text("${(widget.item.rate/100).toStringAsFixed(2)}%", style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center)),
-                                    Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 1), true), style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center)
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10, bottom: 5),
+                                      child: Text(formatMoney.format(!snapshot.hasError ? snapshot.data:0, true), style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
+                                    ),
+                                    Container(padding: const EdgeInsets.only(top: 10, bottom: 5), decoration: BoxDecoration(border: Border(left: BorderSide(), right: BorderSide())),child: Text("${(widget.item.rate/100).toStringAsFixed(2)}%", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center)),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10, bottom: 5),
+                                      child: Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 1), true), style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
+                                    )
                                   ]
                                 )
                               ],
@@ -108,19 +114,25 @@ class _ExitEarlyPageState extends State<ExitEarlyPage> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: InputDeposit(
-                    width: MediaQuery.of(context).size.width,
-                    inputController: switchOutBloc.ctrlAmount,
-                    increaseValue: () {
-                      FocusScope.of(context).requestFocus(new FocusNode());
-                      switchOutBloc.addValue();
-                    },
-                    decreaseValue: () {
-                      FocusScope.of(context).requestFocus(new FocusNode());
-                      switchOutBloc.removeValue();
-                    },
-                    onValueChange: switchOutBloc.onChange,
+                  padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                  child: StreamBuilder(
+                    stream: switchOutBloc.getOldAmount,
+                    builder: (context, AsyncSnapshot<num> snapshot) {
+                      return InputDeposit(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        inputController: switchOutBloc.ctrlAmount,
+                        increaseValue: (snapshot.hasData && snapshot.data > switchOutBloc.ctrlAmount.numberValue ) ? () {
+                          FocusScope.of(context).requestFocus(new FocusNode());
+                          switchOutBloc.addValue();
+                        }:null,
+                        decreaseValue: switchOutBloc.ctrlAmount.numberValue > 100 ? () {
+                          FocusScope.of(context).requestFocus(new FocusNode());
+                          switchOutBloc.removeValue();
+                        }:null,
+                        onValueChange: switchOutBloc.onChange,
+                      );
+                    }
                   ),
                 ),
                 Expanded(
@@ -130,13 +142,18 @@ class _ExitEarlyPageState extends State<ExitEarlyPage> {
                       padding: EdgeInsets.all(16),
                       margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor.withOpacity(0.15),
+                        color: Pigment.fromString("#f6fbff"),
                         borderRadius: BorderRadius.circular(10)
                       ),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                          Text("Switching out may reduce the amount of interest you receive. The exact amount depends on when you switch out.", style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600, fontSize: (MediaQuery.of(context).size.width / 1080) * 55, wordSpacing: 3), textAlign: TextAlign.center),
+                          StreamBuilder(
+                            stream: switchOutBloc.getAmount,
+                            builder: (context, AsyncSnapshot<num> snapshot) {
+                              return Text("Switching out may cost you ${formatMoney.format(switchOutBloc.ctrlAmount.numberValue, true, true)} of interest. The exact amount depends on when you switch out.", style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w300, fontSize: (MediaQuery.of(context).size.width / 1080) * 50, wordSpacing: 3, height: 1.5), textAlign: TextAlign.center);
+                            }
+                          ),
                           RaisedButton(
                             onPressed: (){},
                             color: Colors.white,
@@ -148,9 +165,9 @@ class _ExitEarlyPageState extends State<ExitEarlyPage> {
                     ),
                     back: Container(
                       padding: EdgeInsets.all(16),
-                      margin: EdgeInsets.fromLTRB(25, 10, 25, 0),
+                      margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor.withOpacity(0.15),
+                        color: Pigment.fromString("#f6fbff"),
                         borderRadius: BorderRadius.circular(10)
                       ),
                       child: Column(
@@ -169,49 +186,49 @@ class _ExitEarlyPageState extends State<ExitEarlyPage> {
                                     TableRow(
                                       children: [
                                         Text(""),
-                                        Text("Week 1", style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600, fontSize: 12)),
-                                        Text("Week 2", style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600, fontSize: 12)),
-                                        Text("Week 3", style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600, fontSize: 12)),
-                                        Text("Week 4", style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600, fontSize: 12)),
-                                        Text("Week 5", style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600, fontSize: 12)),
+                                        Text("Week 1", style: TextStyle(color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 10), textAlign: TextAlign.center),
+                                        Text("Week 2", style: TextStyle(color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 10), textAlign: TextAlign.center),
+                                        Text("Week 3", style: TextStyle(color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 10), textAlign: TextAlign.center),
+                                        Text("Week 4", style: TextStyle(color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 10), textAlign: TextAlign.center),
+                                        Text("Week 5", style: TextStyle(color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 10), textAlign: TextAlign.center),
                                       ]
                                     ),
                                     TableRow(
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.symmetric(vertical: 10),
-                                          child: Text("Keep"),
+                                          child: Text("Keep", style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700)),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.symmetric(vertical: 10),
-                                          child: Text("100%", textAlign: TextAlign.center),
+                                          child: Text("100%", style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700), textAlign: TextAlign.center),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.symmetric(vertical: 10),
-                                          child: Text("75%", textAlign: TextAlign.center),
+                                          child: Text("75%", style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700), textAlign: TextAlign.center),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.symmetric(vertical: 10),
-                                          child: Text("50%", textAlign: TextAlign.center),
+                                          child: Text("50%", style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700), textAlign: TextAlign.center),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.symmetric(vertical: 10),
-                                          child: Text("25%", textAlign: TextAlign.center),
+                                          child: Text("25%", style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700), textAlign: TextAlign.center),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.symmetric(vertical: 10),
-                                          child: Text("0%", textAlign: TextAlign.center),
+                                          child: Text("0%", style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700), textAlign: TextAlign.center),
                                         ),
                                       ]
                                     ),
                                     TableRow(
                                       children: [
-                                        Text("Give Away"),
-                                        Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 1), true), textAlign: TextAlign.center),
-                                        Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 0.75), true), textAlign: TextAlign.center),
-                                        Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 0.50), true), textAlign: TextAlign.center),
-                                        Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 0.25), true), textAlign: TextAlign.center),
-                                        Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 0), true), textAlign: TextAlign.center),
+                                        Text("Give Away", style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700)),
+                                        Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 1), true), textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700),),
+                                        Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 0.75), true), textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700),),
+                                        Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 0.50), true), textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700),),
+                                        Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 0.25), true), textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700),),
+                                        Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 0), true), textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700),),
                                       ]
                                     ),
                                   ],                     

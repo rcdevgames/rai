@@ -128,7 +128,7 @@ class InputPinState extends State<InputPin> {
                       color: Colors.grey
                     ),
                     child: Center(
-                      child: Text("forgot pin?", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300)),
+                      child: Text("forgot pin?", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 13)),
                     ),
                   ),
                 )
