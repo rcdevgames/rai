@@ -251,11 +251,11 @@ class _ExitEarlyPageState extends State<ExitEarlyPage> {
                                   TableRow(
                                     children: [
                                       Text("Give Away", style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700)),
-                                      Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 1), true), textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700),),
-                                      Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 0.75), true), textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700),),
-                                      Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 0.50), true), textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700),),
-                                      Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 0.25), true), textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700),),
-                                      Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 0), true), textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700),),
+                                      Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 1), true, true), textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700),),
+                                      Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 0.75), true, true), textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700),),
+                                      Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 0.50), true, true), textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700),),
+                                      Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 0.25), true, true), textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700),),
+                                      Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 0), true, true), textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700),),
                                     ]
                                   ),
                                 ],                     

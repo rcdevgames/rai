@@ -42,7 +42,7 @@ class DepositPage extends StatelessWidget {
                 StreamBuilder(
                   stream: depositBloc.getAmount,
                   builder: (context, AsyncSnapshot<num> snapshot) {
-                    print(snapshot.data);
+                    // print(snapshot.data);
                     return InputDeposit(
                       inputController: depositBloc.depositInput,
                       increaseValue: (snapshot.hasData && depositBloc.depositInput.numberValue < snapshot.data) ? depositBloc.addValue:null,
@@ -85,11 +85,13 @@ class DepositPage extends StatelessWidget {
                         return LiquidPullToRefresh(
                           color: Theme.of(context).primaryColor.withOpacity(0.7),
                           key: _refreshIndicatorKey,
-                          onRefresh: depositBloc.loadDepositMatch,
+                          onRefresh: depositBloc.reCallFunction,
                           child: ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: isSinglePage.data ? 1:snapshot.data.length,
                             itemBuilder: (ctx, i) {
+                              print("businessDate : ${depositBloc.businessDate}");
+                              print("expiryDate : ${snapshot.data[i].expiryDate}");
                               return Column(
                                 children: <Widget>[
                                   SizedBox(height: i == 0 ? 20:0),
@@ -107,7 +109,7 @@ class DepositPage extends StatelessWidget {
                                       trailing: Text(formatMoney.format(snapshot.data[i].interest, true, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Theme.of(context).primaryColor)),
                                       isDefault: true,
                                       type: 1,
-                                      lefts: snapshot.data[i].isNew == false ? snapshot.data[i].expiryDate.difference(depositBloc.businessDate).inDays:0,
+                                      lefts: snapshot.data[i].isNew == false ? depositBloc.businessDate.difference(snapshot.data[i].expiryDate).inDays:0,
                                       dateTime: snapshot.data[i].maturityDate,
                                       onTap: () async {
                                         await Navigator.of(context).push(MaterialPageRoute(

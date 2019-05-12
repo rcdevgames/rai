@@ -106,7 +106,7 @@ class DepositBloc extends Object implements BlocBase {
   openList() {
     _singleitem.sink.add(false);
   }
-  reCallFunction() {
+  Future reCallFunction() {
     timeout1?.cancel();
     timeout1 = Future.delayed(Duration(milliseconds: 800)).asStream().listen((i) async {
       _listDeposit.sink.add(null);

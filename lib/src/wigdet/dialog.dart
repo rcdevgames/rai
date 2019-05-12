@@ -55,6 +55,36 @@ class Dialogs {
     );
   }
 
+  promptWithIcon(BuildContext context, String title, IconData icon, Function onTap, {String cancel = "Cancel", String confirm = "Confirm"}) {
+    return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: Column(
+            children: <Widget>[
+              icon != null ? Icon(icon, color: icon == Icons.check_circle_outline ? Pigment.fromString("#69be28"):Theme.of(context).primaryColor, size: 120):null,
+              Text(title)
+            ].where((v) => v != null).toList(),
+          ),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              onPressed: () => Navigator.pop(context),
+              child: Text(cancel),
+            ),
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.pop(context);
+                onTap();
+              },
+              child: Text(confirm),
+            )
+          ]
+        );
+      }
+    );
+  }
+
   popup(BuildContext context, {String title, Widget items, Function onTap, Function onCancel}) {
     return showDialog(
       context: context,

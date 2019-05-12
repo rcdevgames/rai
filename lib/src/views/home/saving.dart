@@ -69,7 +69,7 @@ class SavingPage extends StatelessWidget {
           child: StreamBuilder(
             stream: savingBloc.getListSavings,
             builder: (context, AsyncSnapshot<List<Savings>> snapshot) {
-              if (snapshot.hasData) {
+              if (snapshot.hasData && snapshot.data.length > 0) {
                 
                 return LiquidPullToRefresh(
                   color: Theme.of(context).primaryColor.withOpacity(0.7),
@@ -85,11 +85,11 @@ class SavingPage extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 20),
                             child: Slidable(
-                              actionExtentRatio: 0.40,
+                              actionExtentRatio: 0.25,
                               delegate: new SlidableDrawerDelegate(),
                               secondaryActions: <Widget>[
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 10, bottom: 21, left: 5),
+                                  padding: const EdgeInsets.only(top: 10, bottom: 13, left: 5),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(5),
                                     child: ItemsAction(
@@ -104,7 +104,7 @@ class SavingPage extends StatelessWidget {
                                         if(session != null) {
                                           savingBloc.updateListSavings(null);
                                           savingBloc.fetchSaving(context, true);
-                                          dialogs.prompt(context, session, () async {
+                                          dialogs.promptWithIcon(context, session, Icons.check_circle_outline, () async {
                                             const url = 'mailto:smith@example.org?subject=News&body=New%20plugin';
                                             if (await canLaunch(url)) {
                                               await launch(url);
@@ -146,7 +146,7 @@ class SavingPage extends StatelessWidget {
                                   }else if(session != null) {
                                     savingBloc.updateListSavings(null);
                                     savingBloc.fetchSaving(context, true);
-                                    dialogs.prompt(context, session, () async {
+                                    dialogs.promptWithIcon(context, session, Icons.check_circle_outline, () async {
                                       const url = 'mailto:smith@example.org?subject=News&body=New%20plugin';
                                       if (await canLaunch(url)) {
                                         await launch(url);
@@ -162,6 +162,25 @@ class SavingPage extends StatelessWidget {
                         ],
                       );
                     },
+                  ),
+                );
+              }else if(snapshot.hasData && snapshot.data.length < 1) {
+                return LiquidPullToRefresh(
+                  color: Theme.of(context).primaryColor.withOpacity(0.7),
+                  key: _refreshIndicatorKey,
+                  onRefresh: () {
+                    savingBloc.updateListSavings(null);
+                    savingBloc.fetchSaving(context, true);
+                  },
+                  child: ListView(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(top: 30),
+                        child: Center(
+                          child: Text("No Switch Out Found", style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColor)),
+                        ),
+                      )
+                    ],
                   ),
                 );
               }else if(snapshot.hasError) {

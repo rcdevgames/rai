@@ -4,7 +4,7 @@ import 'package:RAI/src/models/help.dart';
 
 class Static {
   // General
-  static const String APP_NAME = "Savewise";
+  static const String APP_NAME = "OneUp";
 
   // API
   static const String JAVA_URL = "http://129.213.184.154/rai/";
@@ -55,7 +55,7 @@ class Static {
   static const List<Map<String, String>> LIST_TOUR = [
     {
       'title': '1',
-      'description': 'Welcome to SAVEWISE, we can help you save better with more flexibility.',
+      'description': 'Welcome to OneUp, we can help you save better with more flexibility.',
       // 'imgSrc': 'css/images/dashboard_image@2x.png',
       'color': '#4493cd'
     },
@@ -79,13 +79,13 @@ class Static {
     },
     {
       'title': '5',
-      'description': 'Need your money back early? Explore our Switch out options.',
+      'description': 'Need your money back early? Explore our Switch Out options.',
       // 'imgSrc': 'css/images/customers_image@2x.png',
       'color': '#009636'
     },
     {
       'title': '6',
-      'description': 'This is the placeholder',
+      'description': 'Explore attactive offers from the OneUp community',
       // 'imgSrc': 'css/images/customers_image@2x.png',
       'color': '#009636'
     }

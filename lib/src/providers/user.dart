@@ -45,22 +45,23 @@ class UserProvider {
 
     try {
       response = await api.get("user/accounts/default", options: Api.headers(await sessions.load("token")));
-      var data = await defaultAccountFromJson(response.data['data']);
-      print(data.kycStatus);
-      sessions.save("KYC", data.kycStatus.toUpperCase());
+      if (num.parse(response.data["errorCode"]) == 0) {
+        var data = await defaultAccountFromJson(response.data['data']);
+        sessions.save("KYC", data.kycStatus.toUpperCase());
+      }else{
+        throw Exception(json.encode({"errorCode": 403, "message": response.data['errorMessage']}));
+      }
     } on DioError catch (e) {
       if(e.response != null) {
-        print(e.response.statusCode);
-        print(e.response.data);
         if (e.response.statusCode == 401 || e.response.statusCode == 403) {
           throw Exception(json.encode({"errorCode": e.response.statusCode, "message": "Unautorized"}));
         }else{
           throw Exception(json.encode(e.response.data));
         }
       } else{
-        print(e.request);
-        print(e.message);
-        throw Exception(e.message.toString());
+        // print(e.request);
+        // print(e.message);
+        // throw Exception(e.message.toString());
       }
     }
   }

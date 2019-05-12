@@ -22,12 +22,14 @@ class SwitchOutBloc extends Object implements BlocBase {
   final _amountOld = BehaviorSubject<num>();
   final _amount = BehaviorSubject<num>();
   final _isLoading = BehaviorSubject<bool>();
+  final _saving = BehaviorSubject<Savings>();
 
   Stream<num> get getAmount => _amount.stream;
   Stream<num> get getOldAmount => _amountOld.stream;
   Stream<bool> get getLoading => _isLoading.stream;
 
   SwitchOutBloc(Savings saving) {
+    _saving.sink.add(saving);
     saving = saving;
     _amount.sink.add(saving.quantity);
     if(saving.exitEarlyRequests != null &&saving.exitEarlyRequests.length > 0) {
@@ -67,7 +69,11 @@ class SwitchOutBloc extends Object implements BlocBase {
   }
 
   num earning(double interest, num i) {
-    var result = (interest * (ctrlAmount.numberValue/_amountOld.value) * i);
+    print("Interest : $interest");
+    print("numberValue : ${ctrlAmount.numberValue}");
+    print("saving : ${_saving.value.quantity}");
+    print("I : $i");
+    var result = (interest * (ctrlAmount.numberValue/_saving.value.quantity) * i);
     return result.isNaN || result.isInfinite ? 0:result;
   }
 

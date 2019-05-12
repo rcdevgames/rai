@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:RAI/src/providers/repository.dart';
 import 'package:RAI/src/util/session.dart';
@@ -51,16 +52,21 @@ class LoginBloc extends Object implements BlocBase {
     _isLoading.sink.add(true);
     try {
       var response = await repo.doLogin(_pin.value);
-      _isLoading.sink.add(false);
       sessions.save('userPin', _pin.value);
       sessions.save("token", response.accessToken);
-      repo.getKYC();
+      var kyc = await repo.getKYC();
+      _isLoading.sink.add(false);
       Navigator.of(key.currentContext).pushNamedAndRemoveUntil('/main', (Route<dynamic> route) => false);
     } catch (e) {
-      _isLoading.sink.add(false);
-      print(e.toString());
-      dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "Failed", message: e.toString().replaceAll("Exception: ", ""));
+      print(e);
+      try {
+        var error = json.decode(e.toString().replaceAll("Exception: ", ""));
+        dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "Failed", message: error['message']);
+      } catch (err) {
+        dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "Failed", message: e.toString().replaceAll("Exception: ", ""));
+      }
       _pin.sink.add("");
+      _isLoading.sink.add(false);
     }
   }
 

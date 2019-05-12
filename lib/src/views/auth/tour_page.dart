@@ -3,6 +3,7 @@ import 'package:RAI/src/util/session.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 
 class TourPage extends StatefulWidget {
   @override
@@ -12,12 +13,14 @@ class TourPage extends StatefulWidget {
 class _TourPageState extends State<TourPage> {
   final _keyTour = GlobalKey<ScaffoldState>();
   bool skipText;
+  int currentIndexPage;
   final List<Map<String, String>> listTour = Static.LIST_TOUR;
 
   @override
   void initState() {
     checkHasTour();
     skipText = false;
+    currentIndexPage = 0;
     super.initState();
   }
 
@@ -35,25 +38,52 @@ class _TourPageState extends State<TourPage> {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            SizedBox(height: 50),
+            // SizedBox(height: 50),
+            Padding(
+              padding: const EdgeInsets.all(0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  // RaisedButton(
+                  //   onPressed: () => Navigator.of(context).pushNamed('/term'),
+                  //   color: Colors.transparent,
+                  //   elevation: 0,
+                  //   child: Text("Terms", style: TextStyle(fontWeight: FontWeight.normal, color: Theme.of(context).primaryColor, fontSize: 18)),
+                  // ),
+                  skipText ? RaisedButton(
+                    onPressed: () {
+                      sessions.save("tour", "1");
+                      Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+                    },
+                    color: Colors.transparent,
+                    elevation: 0,
+                    child: Text("Sign In", style: TextStyle(fontWeight: FontWeight.normal, color: Theme.of(context).primaryColor, fontSize: 18)),
+                  ):Container(
+                    height: 48,
+                  ),
+                ],
+              ),
+            ),
             Center(
               child: SizedBox(
-                height: 100,
-                width: 100,
+                height: 85,
+                width: 85,
                 child: SvgPicture.asset('assets/svg/savewise-logo.svg'),
               ),
             ),
-            SizedBox(height: 20),
-            Text("OneUp.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor)),
+            SizedBox(height: 7),
+            Text("OneUp.", style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900, color: Theme.of(context).primaryColor)),
             Expanded(
               child: CarouselSlider(
                 onPageChanged: (i) {
                   if ((i+1) == listTour.length) {
                     setState(() {
+                      currentIndexPage = i;
                       skipText = true;
                     });
                   }else{
                     setState(() {
+                      currentIndexPage = i;
                       skipText = false;
                     });
                   }
@@ -66,9 +96,9 @@ class _TourPageState extends State<TourPage> {
                       return Container(
                         width: MediaQuery.of(context).size.width,
                         margin: EdgeInsets.symmetric(horizontal: 15.0),
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                        padding: EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
+                          borderRadius: BorderRadius.circular(10),
                           color: Theme.of(context).primaryColor
                         ),
                         child: Column(
@@ -86,7 +116,7 @@ class _TourPageState extends State<TourPage> {
                               ),
                             ),
                             SizedBox(height: 10),
-                            Text(i['description'], style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold, color: Colors.white)),
+                            Text(i['description'], style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold, color: Colors.white, height: 1.2)),
                           ],
                         )
                       );
@@ -96,26 +126,10 @@ class _TourPageState extends State<TourPage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  RaisedButton(
-                    onPressed: () => Navigator.of(context).pushNamed('/term'),
-                    color: Colors.transparent,
-                    elevation: 0,
-                    child: Text("Terms", style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor, fontSize: 18)),
-                  ),
-                  skipText ? RaisedButton(
-                    onPressed: () {
-                      sessions.save("tour", "1");
-                      Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
-                    },
-                    color: Colors.transparent,
-                    elevation: 0,
-                    child: Text("Login", style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor, fontSize: 18)),
-                  ):Container(),
-                ],
+              padding: const EdgeInsets.symmetric(vertical: 40),
+              child: DotsIndicator(
+                numberOfDot: listTour.length,
+                position: currentIndexPage
               ),
             )
           ],

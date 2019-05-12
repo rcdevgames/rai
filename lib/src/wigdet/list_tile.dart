@@ -28,6 +28,7 @@ class ListTileDefault extends StatelessWidget {
   // 4 = Selected
 
   Widget labelDepositDefault(BuildContext context) {
+    print(lefts);
     return Padding(
       padding: EdgeInsets.only(left: 10, right: 10, top: (lefts > 0)? 6:0),
       child: Row(
