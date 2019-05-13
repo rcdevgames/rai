@@ -189,25 +189,25 @@ class UserProvider {
     var api = Api.access();
     Response response;
 
-    // try {
+    try {
       response = await api.get("user/deposits?isCurrent=1", options: Api.headers(await sessions.load("token")));
-      // print(response.data);
+      print(response.data);
       return compute(savingsFromJson, response.data['data'].toString());
-    // } on DioError catch (e) {
-    //   if(e.response != null) {
-    //     print(e.response.statusCode);
-    //     print(e.response.data);
-    //     if (e.response.statusCode == 401 || e.response.statusCode == 403) {
-    //       throw Exception(json.encode({"errorCode": e.response.statusCode, "message": "Unautorized"}));
-    //     }else{
-    //       throw Exception(json.encode(e.response.data));
-    //     }
-    //   } else{
-    //     print(e.request);
-    //     print(e.message);
-    //     throw Exception(e.message.toString());
-    //   }
-    // }
+    } on DioError catch (e) {
+      if(e.response != null) {
+        print(e.response.statusCode);
+        print(e.response.data);
+        if (e.response.statusCode == 401 || e.response.statusCode == 403) {
+          throw Exception(json.encode({"errorCode": e.response.statusCode, "message": "Unautorized"}));
+        }else{
+          throw Exception(json.encode(e.response.data));
+        }
+      } else{
+        print(e.request);
+        print(e.message);
+        throw Exception(e.message.toString());
+      }
+    }
   }
 
   Future cancelSwitchOut(String requestId) async {
@@ -243,6 +243,31 @@ class UserProvider {
         "termDepositId": termDepositId,
         "quantity": quantity
       }, options: Api.headers(await sessions.load("token")));
+    } on DioError catch (e) {
+      if(e.response != null) {
+        print(e.response.statusCode);
+        print(e.response.data);
+        if (e.response.statusCode == 401 || e.response.statusCode == 403) {
+          throw Exception(json.encode({"errorCode": e.response.statusCode, "message": "Unautorized"}));
+        }else{
+          throw Exception(json.encode(e.response.data));
+        }
+      } else{
+        print(e.request);
+        print(e.message);
+        throw Exception(e.message.toString());
+      }
+    }
+  }
+
+  Future setToken(String token) async {
+    var api  = Api.access();
+    Response response;
+
+    try {
+
+      response = await api.post("/user/pushnotifications/token", data: {"token" : token}, options: Api.headers(await sessions.load("token")));
+      print(response.data);
     } on DioError catch (e) {
       if(e.response != null) {
         print(e.response.statusCode);

@@ -26,6 +26,7 @@ class Repository {
   Future<List<Savings>> getSavingList() => userProvider.getSavingList();
   Future cancelSwitchOut(String requestId) => userProvider.cancelSwitchOut(requestId);
   Future sendMatchOrder(String termDepositId, num quantity) => userProvider.sendMatchOrder(termDepositId, quantity);
+  Future setToken(String token) => userProvider.setToken(token);
 
   // Deposit Provider
   final depositProvider = new DepositProvider();

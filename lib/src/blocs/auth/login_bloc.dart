@@ -54,14 +54,20 @@ class LoginBloc extends Object implements BlocBase {
       var response = await repo.doLogin(_pin.value);
       sessions.save('userPin', _pin.value);
       sessions.save("token", response.accessToken);
+      var responseToken = await repo.setToken(await sessions.load("NotificationToken"));
+      print(responseToken);
       var kyc = await repo.getKYC();
       _isLoading.sink.add(false);
       Navigator.of(key.currentContext).pushNamedAndRemoveUntil('/main', (Route<dynamic> route) => false);
     } catch (e) {
-      print(e);
       try {
         var error = json.decode(e.toString().replaceAll("Exception: ", ""));
-        dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "Failed", message: error['message']);
+        print("Error : ${error}");
+        if(error.containsKey("errorMessage")) {
+          dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "Failed", message: error['errorMessage']);
+        }else{
+          dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "Failed", message: error['error']);
+        }
       } catch (err) {
         dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "Failed", message: e.toString().replaceAll("Exception: ", ""));
       }
