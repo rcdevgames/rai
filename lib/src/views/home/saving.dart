@@ -177,7 +177,7 @@ class SavingPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 30),
                         child: Center(
-                          child: Text("No Switch Out Found", style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColor)),
+                          child: Text("You Haven't Switch Up Any Money", style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColor)),
                         ),
                       )
                     ],

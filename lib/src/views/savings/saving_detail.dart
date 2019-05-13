@@ -221,7 +221,7 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
                         child: LinearPercentIndicator(
                           width: MediaQuery.of(context).size.width,
                           lineHeight: 27,
-                          percent: detailSavingBloc.countPercentage(widget.businessDate, widget.item.maturityDate),
+                          percent: detailSavingBloc.countPercentage(widget.businessDate, widget.item.maturityDate) > 0 ? detailSavingBloc.countPercentage(widget.businessDate, widget.item.maturityDate):1.0,
                           progressColor: Pigment.fromString("#69be28"),
                           backgroundColor: Theme.of(context).primaryColor,
                         ),

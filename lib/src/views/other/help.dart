@@ -36,7 +36,7 @@ class _HelpPageState extends State<HelpPage> {
                     return Container(
                       width: MediaQuery.of(context).size.width,
                       margin: EdgeInsets.symmetric(horizontal: 15.0),
-                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      padding: EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         color: Theme.of(context).primaryColor
@@ -56,7 +56,7 @@ class _HelpPageState extends State<HelpPage> {
                             ),
                           ),
                           SizedBox(height: 10),
-                          Text(i['description'], style: TextStyle(fontSize: 23.0, fontWeight: FontWeight.bold, color: Colors.white)),
+                          Text(i['description'], style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold, color: Colors.white, height: 1.2)),
                         ],
                       )
                     );

@@ -37,6 +37,7 @@ class _MainPageState extends State<MainPage> {
       if(date != null) {
         businessDate = formatDate(DateTime.parse(date), [dd,' ',M,' ',yyyy]).toString();
         interval.cancel();
+        refreshBusinessDate();
       }
       print('search Date, $date');
     });
@@ -47,6 +48,14 @@ class _MainPageState extends State<MainPage> {
   void dispose() {
     mainBloc?.dispose();
     super.dispose();
+  }
+
+  refreshBusinessDate() {
+    new Timer.periodic(const Duration(milliseconds: 5348), (i) async {
+      mainBloc.getUser(context);
+      var date = await sessions.load("businessDate");
+      businessDate = formatDate(DateTime.parse(date), [dd,' ',M,' ',yyyy]).toString();
+    });
   }
 
   @override

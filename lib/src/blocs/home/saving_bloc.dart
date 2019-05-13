@@ -30,30 +30,32 @@ class SavingBloc extends Object implements BlocBase {
     sessions.remove("switchout");
     businessDate = DateTime.parse(await sessions.load("businessDate"));
     if (_listSavings.value == null || refresh == true) {
-      try {
+      // try {
         var result = await repo.getSavingList();
         num interest = 0, saving = 0;
-        result.asMap().forEach((i, v) {
-          interest += v.accruedInterest;
-          saving += v.quantity;
-        });
-        _totalInterest.sink.add(interest);
-        _totalSavings.sink.add(saving);
+        if (result.length > 0) {
+          result.asMap().forEach((i, v) {
+            interest += v.accruedInterest;
+            saving += v.quantity;
+          });
+          _totalInterest.sink.add(interest);
+          _totalSavings.sink.add(saving);
+        }
         _listSavings.sink.add(result);
         print(result);
-      } catch (e) {
-        print(e);
-        try {
-          var error = json.decode(e.toString().replaceAll("Exception: ", ""));
-          if (error['errorCode'] == 401 || error['errorCode'] == 403) {
-            sessions.clear();
-            Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
-          }
-          _listSavings.sink.addError(error['message']);
-        } catch (e) {
-          _listSavings.sink.addError(e.toString().replaceAll("Exception: ", ""));
-        }
-      }
+      // } catch (e) {
+      //   print(e);
+      //   try {
+      //     var error = json.decode(e.toString().replaceAll("Exception: ", ""));
+      //     if (error['errorCode'] == 401 || error['errorCode'] == 403) {
+      //       sessions.clear();
+      //       Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+      //     }
+      //     _listSavings.sink.addError(error['message']);
+      //   } catch (e) {
+      //     _listSavings.sink.addError(e.toString().replaceAll("Exception: ", ""));
+      //   }
+      // }
     }
   }
 

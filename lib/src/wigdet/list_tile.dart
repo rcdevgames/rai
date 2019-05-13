@@ -30,7 +30,7 @@ class ListTileDefault extends StatelessWidget {
   Widget labelDepositDefault(BuildContext context) {
     print(lefts);
     return Padding(
-      padding: EdgeInsets.only(left: 10, right: 10, top: (lefts > 0)? 6:0),
+      padding: EdgeInsets.only(left: 10, right: 10, top: (lefts != null)? 6:0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -41,7 +41,7 @@ class ListTileDefault extends StatelessWidget {
             ),
             child: Text("Matures ${formatDate(dateTime, [dd, ' ', MM, ' ', yyyy]).toString()}", style: TextStyle(color: Theme.of(context).primaryColor.withOpacity(0.6), fontSize: 11, fontWeight: FontWeight.w700))
           ),
-          lefts > 0 ?Container(
+          lefts != null ?Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
               color: Pigment.fromString("FAFAFA")
@@ -216,7 +216,7 @@ class ListTileDefault extends StatelessWidget {
                           child: LinearPercentIndicator(
                             width: MediaQuery.of(context).size.width,
                             lineHeight: 18,
-                            percent: progressBarValue,
+                            percent: progressBarValue > 0 ? progressBarValue:1.0,
                             progressColor: Pigment.fromString("#69be28"),
                             backgroundColor: Theme.of(context).primaryColor,
                           ),

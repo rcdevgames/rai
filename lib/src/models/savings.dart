@@ -153,7 +153,7 @@ class Savings {
         redeemedAmount: json["redeemedAmount"],
         issuedEarlyExitRef: json["issuedEarlyExitRef"],
         redeemEarlyExitRef: json["redeemEarlyExitRef"],
-        history: new List<Historys>.from(json["history"].map((x) => Historys.fromJson(x))),
+        history: json["history"] != null ? new List<Historys>.from(json["history"].map((x) => Historys.fromJson(x))):[],
         accruedInterest: json["accruedInterest"] == null ? null : json["accruedInterest"].toDouble(),
         maturityInterest: json["maturityInterest"] == null ? null : json["maturityInterest"].toDouble(),
         exitEarlyRequests: json["exitEarlyRequests"] == null ? null : new List<ExitEarlyRequest>.from(json["exitEarlyRequests"].map((x) => ExitEarlyRequest.fromJson(x))),

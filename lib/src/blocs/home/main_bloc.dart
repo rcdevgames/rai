@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:RAI/src/blocs/home/deposit_bloc.dart';
 import 'package:RAI/src/blocs/home/profile_bloc.dart';
 import 'package:RAI/src/blocs/home/saving_bloc.dart';
+import 'package:RAI/src/providers/repository.dart';
 import 'package:RAI/src/util/session.dart';
 import 'package:RAI/src/wigdet/dialog.dart';
 import 'package:rxdart/rxdart.dart';
@@ -37,6 +39,24 @@ class MainBloc extends Object implements BlocBase {
     _depositBloc.dispose();
     _savingBloc.dispose();
     _profileBloc.dispose();
+  }
+
+  getUser(BuildContext context) async {
+    try {
+      var user = await repo.getUser();
+    } catch (e) {
+      print("Error : $e");
+      try {
+        var error = json.decode(e.toString().replaceAll("Exception: ", ""));
+        if (error['errorCode'] == 401) {
+          sessions.clear();
+          Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+        }
+        dialogs.alertWithIcon(context, icon: Icons.info, title: "", message: error['message']);
+      } catch (e) {
+        dialogs.alertWithIcon(context, icon: Icons.info, title: "", message: e.toString().replaceAll("Exception: ", ""));
+      }
+    }
   }
 
   changeMenu(int index) {

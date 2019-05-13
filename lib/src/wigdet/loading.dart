@@ -9,7 +9,8 @@ class Loading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned(
     child: show
-    ? Container(
+    ? Material(
+        // type: MaterialType.transparency,
         child: Center(
           child: Container(
             width: 100.0,
