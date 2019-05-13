@@ -30,7 +30,7 @@ class SavingBloc extends Object implements BlocBase {
     sessions.remove("switchout");
     businessDate = DateTime.parse(await sessions.load("businessDate"));
     if (_listSavings.value == null || refresh == true) {
-      // try {
+      try {
         var result = await repo.getSavingList();
         num interest = 0, saving = 0;
         if (result.length > 0) {
@@ -43,27 +43,40 @@ class SavingBloc extends Object implements BlocBase {
         }
         _listSavings.sink.add(result);
         print(result);
-      // } catch (e) {
-      //   print(e);
-      //   try {
-      //     var error = json.decode(e.toString().replaceAll("Exception: ", ""));
-      //     if (error['errorCode'] == 401 || error['errorCode'] == 403) {
-      //       sessions.clear();
-      //       Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
-      //     }
-      //     _listSavings.sink.addError(error['message']);
-      //   } catch (e) {
-      //     _listSavings.sink.addError(e.toString().replaceAll("Exception: ", ""));
-      //   }
-      // }
+      } catch (e) {
+        print(e);
+        try {
+          var error = json.decode(e.toString().replaceAll("Exception: ", ""));
+          if (error['errorCode'] == 401 || error['errorCode'] == 403) {
+            sessions.clear();
+            Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+          }
+          _listSavings.sink.addError(error['message']);
+        } catch (e) {
+          _listSavings.sink.addError(e.toString().replaceAll("Exception: ", ""));
+        }
+      }
     }
   }
 
-  num countPercentage(DateTime businessDate, DateTime date) {
-    DateTime startDate = DateTime.now();
-    var max = date.difference(startDate).inDays;
-    var value = date.difference(businessDate).inDays;
-    return ((value/max)*100)/100;
+  num countPercentage(DateTime businessDate, DateTime maturityDate, DateTime startDate) {
+    var max = maturityDate.difference(startDate).inDays;
+    var value = businessDate.difference(startDate).inDays;
+    var result = ((value/max)*100)/100;
+    // print("startDate: $startDate");
+    // print("maturityDate: $maturityDate");
+    // print("businessDate: $businessDate");
+    // print("Max: $max");
+    // print("Value: $value");
+    // print("Result Percent: $result");
+    // print("==========================================");
+    if (result < 0) {
+      return 0.0;
+    }else if(result > 1) {
+      return 1.0;
+    }else{
+      return result;
+    }
   }
   
 }

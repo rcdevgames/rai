@@ -186,7 +186,7 @@ class ListTileDefault extends StatelessWidget {
       children: <Widget>[
         Container(
           margin: const EdgeInsets.only(bottom: 10),
-          height: progressBarValue != null ? 125:105,
+          height: progressBarValue != null ? 110:105,
           child: Stack(
             children: <Widget>[
               Positioned(
@@ -195,14 +195,14 @@ class ListTileDefault extends StatelessWidget {
                 child: GestureDetector(
                   onTap: onTap,
                   child: Container(
-                    padding: EdgeInsets.all(20.0),
-                    height: progressBarValue != null ? 115:90,
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    height: progressBarValue != null ? 100:90,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      border: isSelected ? Border.all(width: 2.5, color: Theme.of(context).primaryColor) : Border.all(width: 2, color: Colors.black26.withOpacity(0.1))
+                      border: isSelected ? Border.all(width: 1.5, color: Theme.of(context).primaryColor) : Border.all(width: 2, color: Colors.black26.withOpacity(0.1))
                     ),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         (leading == null || trailing == null) ? child : Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -216,11 +216,12 @@ class ListTileDefault extends StatelessWidget {
                           child: LinearPercentIndicator(
                             width: MediaQuery.of(context).size.width,
                             lineHeight: 18,
-                            percent: progressBarValue > 0 ? progressBarValue:1.0,
+                            percent: progressBarValue,
                             progressColor: Pigment.fromString("#69be28"),
                             backgroundColor: Theme.of(context).primaryColor,
                           ),
-                        ):null
+                        ):null,
+                        // progressBarValue != null ? Text(progressBarValue.toString()):null
                       ].where((v) => v != null).toList(),
                     )
                   )

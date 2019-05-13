@@ -168,7 +168,7 @@ class ProfilePage extends StatelessWidget {
                                   SizedBox(
                                     width: 25,
                                     height: 25,
-                                    child: Image.asset("assets/img/logo-${v.bankAccRefCode.toLowerCase()}.color.png", fit: BoxFit.cover)
+                                    child: (v.bankAccRefCode.toLowerCase() == "" || v.bankAccRefCode.toLowerCase() == null) ? Placeholder(color: Colors.transparent):Image.asset("assets/img/logo-${v.bankAccRefCode.toLowerCase().toLowerCase()}.color.png", fit: BoxFit.cover)
                                   ),
                                   SizedBox(width: 10),
                                   Expanded(child: Text(v.description, style: TextStyle(fontSize: 15))),

@@ -56,12 +56,17 @@ class PurchaseBloc extends Object implements BlocBase {
       });
       _listBank.sink.add(list);
     } catch (e) {
-      var error = json.decode(e.toString().replaceAll("Exception: ", ""));
-      if (error['errorCode'] == 401) {
-        sessions.clear();
-        Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+      try {
+        var error = json.decode(e.toString().replaceAll("Exception: ", ""));
+        if (error['errorCode'] == 401) {
+          sessions.clear();
+          Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+        }
+        _listBank.sink.addError(error['message']);
+      } catch (e) {
+        _listBank.sink.addError(e.toString().replaceAll("Exception: ", ""));
       }
-      _listBank.sink.addError(error['message']);
+      
     }
   }
 

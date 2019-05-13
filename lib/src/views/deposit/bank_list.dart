@@ -4,6 +4,8 @@ import 'package:RAI/src/blocs/deposit/purchase.dart';
 import 'package:RAI/src/models/bank.dart';
 import 'package:RAI/src/models/deposit_match.dart';
 import 'package:RAI/src/util/format_money.dart';
+import 'package:RAI/src/util/session.dart';
+import 'package:RAI/src/wigdet/appbar.dart';
 import 'package:RAI/src/wigdet/button.dart';
 import 'package:RAI/src/wigdet/error_page.dart';
 import 'package:RAI/src/wigdet/list_tile.dart';
@@ -25,10 +27,12 @@ class _BankListPageState extends State<BankListPage> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
   final _key = GlobalKey<ScaffoldState>();
   PurchaseBloc purchaseBloc;
+  bool kyc = false;
 
   @override
   void initState() {
     purchaseBloc = new PurchaseBloc(_key);
+    getKYC();
     super.initState();
   }
 
@@ -38,21 +42,23 @@ class _BankListPageState extends State<BankListPage> {
     super.dispose();
   }
 
+  getKYC() async {
+    var kycData = await sessions.load("KYC");
+    print("KYC : $kycData");
+    if (mounted) {
+      setState(() {
+        kyc = (kycData == "PASS");
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
         Scaffold(
           key: _key,
-          appBar: AppBar(
-            title: Text("Make Deposit", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
-            actions: <Widget>[
-              IconButton(
-                onPressed: () => Navigator.of(context).pushNamed('/help'),
-                icon: Icon(Icons.help_outline, color: Colors.white),
-              ),
-            ],
-          ),
+          appBar: OneupBar("Make Deposit", true),
           body: StreamBuilder(
             stream: purchaseBloc.getListBank,
             builder: (context, AsyncSnapshot<List<Bank>> snapshot) {
@@ -100,7 +106,7 @@ class _BankListPageState extends State<BankListPage> {
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: <Widget>[
                                           Text("Balance", style: TextStyle(fontWeight: FontWeight.normal, color: snapshot.data[i].bankAcctBalance < widget.depositMatch.amount ? Colors.grey:Theme.of(context).primaryColor)),
-                                          Text(formatMoney.format(snapshot.data[i].bankAcctBalance, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: snapshot.data[i].bankAcctBalance < widget.depositMatch.amount ? Colors.grey:Theme.of(context).primaryColor))
+                                          Text(formatMoney.format(snapshot.data[i].bankAcctBalance, true, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: snapshot.data[i].bankAcctBalance < widget.depositMatch.amount ? Colors.grey:Theme.of(context).primaryColor))
                                         ],
                                       )
                                     ],
@@ -128,9 +134,14 @@ class _BankListPageState extends State<BankListPage> {
               } return LoadingBlock(Theme.of(context).primaryColor);
             }
           ),
-          bottomNavigationBar: ButtonBottom(
+          bottomNavigationBar: kyc ? ButtonBottom(
             title: "CONFIRM DEPOSIT",
             onTap: () => purchaseBloc.doPurchase(_key, widget.depositMatch, widget.amount),
+          ):Tooltip(
+            child: ButtonBottom(
+              title: "CONFIRM DEPOSIT",
+              onTap: null,
+            ),
           )
         ),
         StreamBuilder(

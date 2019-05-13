@@ -2,6 +2,7 @@ import 'package:RAI/src/blocs/saving/detail_bloc.dart';
 import 'package:RAI/src/models/savings.dart';
 import 'package:RAI/src/util/format_money.dart';
 import 'package:RAI/src/views/savings/exit_early.dart';
+import 'package:RAI/src/wigdet/appbar.dart';
 import 'package:RAI/src/wigdet/button.dart';
 import 'package:RAI/src/wigdet/loading.dart';
 import 'package:date_format/date_format.dart';
@@ -132,7 +133,7 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
                 },
               ):Column(
                 children: <Widget>[
-                  Text("Data not found")
+                  Text("You do not have any switch out")
                 ],
               ),
             ),
@@ -145,15 +146,7 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
       children: <Widget>[
         Scaffold(
           key: _key,
-          appBar: AppBar(
-            title: Text("Savings Detail", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
-            actions: <Widget>[
-              IconButton(
-                onPressed: () => Navigator.of(context).pushNamed('/help'),
-                icon: Icon(Icons.help_outline, color: Colors.white),
-              ),
-            ],
-          ),
+          appBar: OneupBar("Savings Detail", true),
           body: Column(
             children: <Widget>[
               Container(
@@ -164,71 +157,74 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
                   border: Border.all(width: 1, color: Theme.of(context).primaryColor.withOpacity(0.3)),
                   borderRadius: BorderRadius.circular(10)
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        SizedBox(
-                          width: 22,
-                          height: 22,
-                          child: Image.asset("assets/img/logo-scb.color.png")
-                        ),
-                        SizedBox(width: 5),
-                        Text("Standard Chartered Bank", style: TextStyle(fontSize: 13))
-                      ],
-                    ),
-                    Table(
-                      children: <TableRow>[
-                        TableRow(
-                          children: <Widget>[
-                            Text("Deposit", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border(left: BorderSide(), right: BorderSide())
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(
+                            width: 22,
+                            height: 22,
+                            child: Image.asset("assets/img/logo-scb.color.png")
+                          ),
+                          SizedBox(width: 5),
+                          Text("Standard Chartered Bank", style: TextStyle(fontSize: 13))
+                        ],
+                      ),
+                      Table(
+                        children: <TableRow>[
+                          TableRow(
+                            children: <Widget>[
+                              Text("Deposit", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border(left: BorderSide(), right: BorderSide())
+                                ),
+                                child: Text("Interest", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center)
                               ),
-                              child: Text("Interest", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center)
-                            ),
-                            Text("Earned", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
-                          ]
-                        ),
-                        TableRow(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10, bottom: 5),
-                              child: Text(formatMoney.format(widget.item.quantity, true), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.only(top: 10, bottom: 5),
-                              decoration: BoxDecoration(
-                                border: Border(left: BorderSide(), right: BorderSide())
+                              Text("Earned", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
+                            ]
+                          ),
+                          TableRow(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10, bottom: 5),
+                                child: Text(formatMoney.format(widget.item.quantity, true), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
                               ),
-                              child: Text("${(widget.item.rate/100).toStringAsFixed(2)}%", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center)
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10, bottom: 5),
-                              child: Text(formatMoney.format(widget.item.accruedInterest, true, true), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
-                            )
-                          ]
-                        )
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child: FittedBox(
-                        child: LinearPercentIndicator(
-                          width: MediaQuery.of(context).size.width,
-                          lineHeight: 27,
-                          percent: detailSavingBloc.countPercentage(widget.businessDate, widget.item.maturityDate) > 0 ? detailSavingBloc.countPercentage(widget.businessDate, widget.item.maturityDate):1.0,
-                          progressColor: Pigment.fromString("#69be28"),
-                          backgroundColor: Theme.of(context).primaryColor,
+                              Container(
+                                padding: const EdgeInsets.only(top: 10, bottom: 5),
+                                decoration: BoxDecoration(
+                                  border: Border(left: BorderSide(), right: BorderSide())
+                                ),
+                                child: Text("${(widget.item.rate/100).toStringAsFixed(2)}%", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center)
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10, bottom: 5),
+                                child: Text(formatMoney.format(widget.item.accruedInterest, true, true), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
+                              )
+                            ]
+                          )
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        child: FittedBox(
+                          child: LinearPercentIndicator(
+                            width: MediaQuery.of(context).size.width,
+                            lineHeight: 27,
+                            percent: detailSavingBloc.countPercentage(widget.businessDate, widget.item.maturityDate, widget.item.startDate),
+                            progressColor: Pigment.fromString("#69be28"),
+                            backgroundColor: Theme.of(context).primaryColor,
+                          ),
                         ),
                       ),
-                    ),
-                    Text("${widget.item.maturityDate.difference(widget.businessDate).inDays} days left till maturity on ${formatDate(widget.item.maturityDate, [dd, ' ', M, ' ', yyyy])}", style: TextStyle(fontSize: 12))
-                  ],
+                      Text("${widget.item.maturityDate.difference(widget.businessDate).inDays} days left till maturity on ${formatDate(widget.item.maturityDate, [dd, ' ', M, ' ', yyyy])}", style: TextStyle(fontSize: 12))
+                    ],
+                  ),
                 ),
               ),
               StreamBuilder(
@@ -259,7 +255,7 @@ class _SavingDetailPageState extends State<SavingDetailPage> {
                         ),
                         height: 44,
                         width: MediaQuery.of(context).size.width,
-                        child: Center(child: Text("MY SWITCH OUT", style: TextStyle(color: snapshot.data == 1 ? Theme.of(context).primaryColor:Colors.grey, fontWeight: FontWeight.w700)))
+                        child: Center(child: Text("MY SWITCH OUTS", style: TextStyle(color: snapshot.data == 1 ? Theme.of(context).primaryColor:Colors.grey, fontWeight: FontWeight.w700)))
                       )
                     },
                   );

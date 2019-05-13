@@ -1,4 +1,5 @@
 import 'package:RAI/src/models/help.dart';
+import 'package:RAI/src/wigdet/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:pigment/pigment.dart';
 
@@ -9,9 +10,7 @@ class HelpDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Help", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
-      ),
+      appBar: OneupBar("Help"),
       body: ListView(
         children: <Widget>[
           Column(

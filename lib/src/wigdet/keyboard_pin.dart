@@ -26,7 +26,7 @@ class InputPinState extends State<InputPin> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 15.0),
+          padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 30.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
@@ -55,7 +55,7 @@ class InputPinState extends State<InputPin> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 15.0),
+          padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 30.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
@@ -84,7 +84,7 @@ class InputPinState extends State<InputPin> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 15.0),
+          padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 30.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
@@ -117,21 +117,20 @@ class InputPinState extends State<InputPin> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              widget.isLogin ? ClipRRect(
-                borderRadius: BorderRadius.circular(5),
-                child: InkWell(
-                  onTap: widget.onForgotPassword,
-                  child: Container(
-                    width: (MediaQuery.of(context).size.width/1080) * 300,
-                    height: 35,
-                    decoration: BoxDecoration(
-                      color: Colors.grey
-                    ),
-                    child: Center(
-                      child: Text("forgot pin?", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 13)),
-                    ),
+              widget.isLogin ? InkWell(
+                onTap: widget.onForgotPassword,
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 11),
+                  width: (MediaQuery.of(context).size.width/1080) * 250,
+                  height: 35,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.grey
                   ),
-                )
+                  child: Center(
+                    child: Text("forgot pin?", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 13)),
+                  ),
+                ),
               ):Container(
                 width: (MediaQuery.of(context).size.width/1080) * 350,
                 height: 30,

@@ -45,14 +45,17 @@ class SwitchOutBloc extends Object implements BlocBase {
         timeout?.cancel();
         timeout = Future.delayed(Duration(milliseconds: 1500)).asStream().listen((i) {
           if (ctrlAmount.numberValue > _amountOld.value) {
-            ctrlAmount.updateValue(_amountOld.value);
+            ctrlAmount.updateValue(_amountOld.value.toDouble());
           }else {
             ctrlAmount.updateValue(thousandRounding(ctrlAmount.numberValue));
           }
         });
         if (ctrlAmount.numberValue < 100) {
           ctrlAmount.updateValue(100);
+        } else if (ctrlAmount.numberValue > _amountOld.value) {
+          ctrlAmount.updateValue(_amountOld.value.toDouble());
         }
+        print(ctrlAmount.numberValue);
         _amount.sink.add(ctrlAmount.numberValue);
       });
   }
@@ -69,10 +72,10 @@ class SwitchOutBloc extends Object implements BlocBase {
   }
 
   num earning(double interest, num i) {
-    print("Interest : $interest");
-    print("numberValue : ${ctrlAmount.numberValue}");
-    print("saving : ${_saving.value.quantity}");
-    print("I : $i");
+    // print("Interest : $interest");
+    // print("numberValue : ${ctrlAmount.numberValue}");
+    // print("saving : ${_saving.value.quantity}");
+    // print("I : $i");
     var result = (interest * (ctrlAmount.numberValue/_saving.value.quantity) * i);
     return result.isNaN || result.isInfinite ? 0:result;
   }
@@ -126,6 +129,7 @@ class SwitchOutBloc extends Object implements BlocBase {
       sessions.save("switchout", "Your switching out has been placed, this will be offered back to the community for 30 days");
       _isLoading.sink.add(false);
       Navigator.popUntil(context, ModalRoute.withName('/main'));
+      _isLoading.sink.add(false);
     } catch (e) {
       print(e);
       try {

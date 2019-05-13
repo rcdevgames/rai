@@ -1,5 +1,6 @@
 import 'package:RAI/src/util/data.dart';
 import 'package:RAI/src/views/other/help_detail.dart';
+import 'package:RAI/src/wigdet/appbar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -16,9 +17,7 @@ class _HelpPageState extends State<HelpPage> {
     var styleChild = TextStyle(color: Theme.of(context).primaryColor, fontSize: 15);
     return Scaffold(
       key: _key,
-      appBar: AppBar(
-        title: Text("Help", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
-      ),
+      appBar: OneupBar("Help"),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(
@@ -28,6 +27,7 @@ class _HelpPageState extends State<HelpPage> {
               child: Text("How Does it work?", style: style),
             ),
             CarouselSlider(
+              viewportFraction: 0.9,
               height: MediaQuery.of(context).size.height / 2.5,
               enableInfiniteScroll: false,
               items: Static.LIST_TOUR.map((i) {
@@ -36,9 +36,9 @@ class _HelpPageState extends State<HelpPage> {
                     return Container(
                       width: MediaQuery.of(context).size.width,
                       margin: EdgeInsets.symmetric(horizontal: 15.0),
-                      padding: EdgeInsets.all(20),
+                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
+                        borderRadius: BorderRadius.circular(10),
                         color: Theme.of(context).primaryColor
                       ),
                       child: Column(
@@ -56,7 +56,7 @@ class _HelpPageState extends State<HelpPage> {
                             ),
                           ),
                           SizedBox(height: 10),
-                          Text(i['description'], style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold, color: Colors.white, height: 1.2)),
+                          Text(i['description'], style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold, color: Colors.white, height: 1.3)),
                         ],
                       )
                     );

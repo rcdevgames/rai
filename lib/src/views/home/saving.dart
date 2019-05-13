@@ -31,39 +31,41 @@ class SavingPage extends StatelessWidget {
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text("Total Deposits", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700)),
-                  StreamBuilder(
-                    stream: savingBloc.getTotalSavings,
-                    builder: (context, AsyncSnapshot<num> snapshot) {
-                      if (snapshot.hasData) {
-                        return Text(formatMoney.format(snapshot.data, true), style: TextStyle(color: Colors.white, fontSize: 30));
-                      } return LoadingBlock(Theme.of(context).primaryColor);
-                    }
+              Table(
+                children: <TableRow>[
+                  TableRow(
+                    children: <Widget>[
+                      Center(child: Text("Total Deposits", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700))),
+                      Center(child: Text("Total Interest Due", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700)))
+                    ]
                   ),
+                  TableRow(
+                    children: <Widget>[
+                      Center(
+                        child: StreamBuilder(
+                          stream: savingBloc.getTotalSavings,
+                          builder: (context, AsyncSnapshot<num> snapshot) {
+                            return Text(snapshot.hasData ? formatMoney.format(snapshot.data, true):"£ 0", style: TextStyle(color: Colors.white, fontSize: 30));
+                          }
+                        ),
+                      ),
+                      Center(
+                        child: StreamBuilder(
+                          stream: savingBloc.getTotalInterest,
+                          builder: (context, AsyncSnapshot<num> snapshot) {
+                            return Text(snapshot.hasData ? formatMoney.format(snapshot.data, true, true):"£ 0.00", style: TextStyle(color: Colors.white, fontSize: 30));
+                          }
+                        ),
+                      )
+                    ]
+                  )
                 ],
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text("Total Interest Due", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700)),
-                  StreamBuilder(
-                    stream: savingBloc.getTotalInterest,
-                    builder: (context, AsyncSnapshot<num> snapshot) {
-                      if (snapshot.hasData) {
-                        return Text(formatMoney.format(snapshot.data, true, true), style: TextStyle(color: Colors.white, fontSize: 30));
-                      } return LoadingBlock(Theme.of(context).primaryColor);
-                    }
-                  ),
-                ],
-              )
             ],
-          ),
+          )
         ),
         Expanded(
           child: StreamBuilder(
@@ -130,7 +132,7 @@ class SavingPage extends StatelessWidget {
                                 trailing: Text(formatMoney.format(snapshot.data[i].accruedInterest, true, true), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Theme.of(context).primaryColor)),
                                 isDefault: true,
                                 type: 3,
-                                progressBarValue: savingBloc.countPercentage(savingBloc.businessDate, snapshot.data[i].maturityDate),
+                                progressBarValue: savingBloc.countPercentage(savingBloc.businessDate, snapshot.data[i].maturityDate, snapshot.data[i].startDate),
                                 dateTime: snapshot.data[i].maturityDate,
                                 exited: snapshot.data[i].exitEarlyRequests != null ? snapshot.data[i].exitEarlyRequests.where((v) => v.status == "Active").toList().length:0,
                                 onTap: () async {
@@ -177,7 +179,7 @@ class SavingPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 30),
                         child: Center(
-                          child: Text("You Haven't Switch Up Any Money", style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColor)),
+                          child: Text("You haven't switch up any money", style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColor)),
                         ),
                       )
                     ],

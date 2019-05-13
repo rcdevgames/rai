@@ -7,11 +7,14 @@ import 'package:RAI/src/models/history.dart';
 import 'package:RAI/src/models/savings.dart';
 import 'package:RAI/src/models/user.dart';
 import 'package:RAI/src/util/api.dart';
+import 'package:RAI/src/util/data.dart';
 import 'package:RAI/src/util/session.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 class UserProvider {
+  CancelToken token = new CancelToken();
+  
   Future<User> getUser() async {
     var api = Api.access();
     Response response;
@@ -33,7 +36,7 @@ class UserProvider {
       } else{
         print(e.request);
         print(e.message);
-        throw Exception(e.message.toString());
+        throw Exception(Static.ERROR_GENERIC);
       }
     }
   }
@@ -60,7 +63,7 @@ class UserProvider {
       } else{
         // print(e.request);
         // print(e.message);
-        // throw Exception(e.message.toString());
+        // throw Exception(Static.ERROR_GENERIC);
       }
     }
   }
@@ -84,7 +87,7 @@ class UserProvider {
       } else{
         print(e.request);
         print(e.message);
-        throw Exception(e.message.toString());
+        throw Exception(Static.ERROR_GENERIC);
       }
     }   
   }
@@ -108,7 +111,7 @@ class UserProvider {
       } else{
         print(e.request);
         print(e.message);
-        throw Exception(e.message.toString());
+        throw Exception(Static.ERROR_GENERIC);
       }
     }
   }
@@ -132,7 +135,7 @@ class UserProvider {
       } else{
         print(e.request);
         print(e.message);
-        throw Exception(e.message.toString());
+        throw Exception(Static.ERROR_GENERIC);
       }
     }
   }
@@ -156,7 +159,7 @@ class UserProvider {
       } else{
         print(e.request);
         print(e.message);
-        throw Exception(e.message.toString());
+        throw Exception(Static.ERROR_GENERIC);
       }
     }
   }
@@ -180,7 +183,7 @@ class UserProvider {
       } else{
         print(e.request);
         print(e.message);
-        throw Exception(e.message.toString());
+        throw Exception(Static.ERROR_GENERIC);
       }
     }
   }
@@ -205,7 +208,7 @@ class UserProvider {
       } else{
         print(e.request);
         print(e.message);
-        throw Exception(e.message.toString());
+        throw Exception(Static.ERROR_GENERIC);
       }
     }
   }
@@ -229,7 +232,7 @@ class UserProvider {
       } else{
         print(e.request);
         print(e.message);
-        throw Exception(e.message.toString());
+        throw Exception(Static.ERROR_GENERIC);
       }
     }
   }
@@ -255,7 +258,7 @@ class UserProvider {
       } else{
         print(e.request);
         print(e.message);
-        throw Exception(e.message.toString());
+        throw Exception(Static.ERROR_GENERIC);
       }
     }
   }
@@ -280,7 +283,7 @@ class UserProvider {
       } else{
         print(e.request);
         print(e.message);
-        throw Exception(e.message.toString());
+        throw Exception(Static.ERROR_GENERIC);
       }
     }
   }

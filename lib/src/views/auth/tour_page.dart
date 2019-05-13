@@ -116,7 +116,7 @@ class _TourPageState extends State<TourPage> {
                               ),
                             ),
                             SizedBox(height: 10),
-                            Text(i['description'], style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold, color: Colors.white, height: 1.2)),
+                            Text(i['description'], style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.bold, color: Colors.white, height: 1.2)),
                           ],
                         )
                       );

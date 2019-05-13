@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:RAI/src/blocs/saving/switchout_bloc.dart';
 import 'package:RAI/src/models/savings.dart';
 import 'package:RAI/src/util/format_money.dart';
+import 'package:RAI/src/wigdet/appbar.dart';
 import 'package:RAI/src/wigdet/button.dart';
 import 'package:RAI/src/wigdet/input_deposit.dart';
 import 'package:RAI/src/wigdet/loading.dart';
@@ -38,15 +39,7 @@ class _ExitEarlyPageState extends State<ExitEarlyPage> {
         Scaffold(
           key: _key,
           resizeToAvoidBottomPadding: false,
-          appBar: AppBar(
-            title: Text("Switch Out", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
-            actions: <Widget>[
-              IconButton(
-                onPressed: () => Navigator.of(context).pushNamed('/help'),
-                icon: Icon(Icons.help_outline, color: Colors.white),
-              ),
-            ],
-          ),
+          appBar: OneupBar("Switch Out", true),
           body: GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),

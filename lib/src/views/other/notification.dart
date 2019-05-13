@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:RAI/src/util/session.dart';
+import 'package:RAI/src/wigdet/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -19,9 +20,7 @@ class _NotificationPageState extends State<NotificationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _key,
-      appBar: AppBar(
-        title: Text("Notification", style: TextStyle(fontWeight: FontWeight.normal)),
-      ),
+      appBar: OneupBar("Notification"),
       body: GestureDetector(
         onTap: () async {
           if (mounted) {

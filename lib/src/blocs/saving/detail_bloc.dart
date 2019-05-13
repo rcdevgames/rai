@@ -76,11 +76,31 @@ class DetailSavingBloc extends Object implements BlocBase {
     }
   }
 
-  num countPercentage(DateTime businessDate, DateTime date) {
-    DateTime startDate = DateTime.now();
-    var max = date.difference(startDate).inDays;
-    var value = date.difference(businessDate).inDays;
-    return ((value/max)*100)/100;
+  // num countPercentage(DateTime businessDate, DateTime date) {
+  //   DateTime startDate = DateTime.now();
+  //   var max = date.difference(startDate).inDays;
+  //   var value = date.difference(businessDate).inDays;
+  //   return ((value/max)*100)/100;
+  // }
+
+  num countPercentage(DateTime businessDate, DateTime maturityDate, DateTime startDate) {
+    var max = maturityDate.difference(startDate).inDays;
+    var value = businessDate.difference(startDate).inDays;
+    var result = ((value/max)*100)/100;
+    // print("startDate: $startDate");
+    // print("maturityDate: $maturityDate");
+    // print("businessDate: $businessDate");
+    // print("Max: $max");
+    // print("Value: $value");
+    // print("Result Percent: $result");
+    // print("==========================================");
+    if (result < 0) {
+      return 0.0;
+    }else if(result > 1) {
+      return 1.0;
+    }else{
+      return result;
+    }
   }
   
 }

@@ -42,7 +42,6 @@ class DepositPage extends StatelessWidget {
                 StreamBuilder(
                   stream: depositBloc.getAmount,
                   builder: (context, AsyncSnapshot<num> snapshot) {
-                    // print(snapshot.data);
                     return InputDeposit(
                       inputController: depositBloc.depositInput,
                       increaseValue: (snapshot.hasData && depositBloc.depositInput.numberValue < snapshot.data) ? depositBloc.addValue:null,
@@ -85,7 +84,7 @@ class DepositPage extends StatelessWidget {
                         return LiquidPullToRefresh(
                           color: Theme.of(context).primaryColor.withOpacity(0.7),
                           key: _refreshIndicatorKey,
-                          onRefresh: depositBloc.reCallFunction,
+                          onRefresh: depositBloc.loadDepositMatch,
                           child: ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: isSinglePage.data ? 1:snapshot.data.length,
@@ -119,6 +118,8 @@ class DepositPage extends StatelessWidget {
                                           BlocProvider.of(context).changeMenu(1);
                                           BlocProvider.of(context).savingBloc.updateListSavings(null);
                                           BlocProvider.of(context).savingBloc.fetchSaving(context, true);
+                                          BlocProvider.of(context).profileBloc.fetchHistory();
+                                          BlocProvider.of(context).profileBloc.fetchAccountList();
                                         }
                                       },
                                     ),
