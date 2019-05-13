@@ -39,21 +39,27 @@ class _ConfirmPINPageState extends State<ConfirmPINPage> {
     _userPIN = await sessions.load("userPin");
   }
 
-  Widget smallCircle = new Container(
-    width: 12.0,
-    height: 12.0,
-    decoration: new BoxDecoration(
-      color: Pigment.fromString("a2dbef"),
-      shape: BoxShape.circle,
+  Widget smallCircle = Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 6),
+    child: Container(
+      width: 12.0,
+      height: 12.0,
+      decoration: new BoxDecoration(
+        color: Pigment.fromString("a2dbef"),
+        shape: BoxShape.circle,
+      ),
     ),
   );
 
-  Widget bigCircle = new Container(
-    width: 17.0,
-    height: 17.0,
-    decoration: new BoxDecoration(
-      color: Pigment.fromString("002244"),
-      shape: BoxShape.circle,
+  Widget bigCircle = Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 3),
+    child: Container(
+      width: 18.0,
+      height: 18.0,
+      decoration: new BoxDecoration(
+        color: Pigment.fromString("002244"),
+        shape: BoxShape.circle,
+      ),
     ),
   );
   

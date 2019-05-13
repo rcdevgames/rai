@@ -16,7 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   LoginBloc loginBloc;
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
     sessions.clear();
     loginBloc = new LoginBloc();
@@ -24,26 +24,32 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
-  void dispose() { 
+  void dispose() {
     loginBloc?.dispose();
     super.dispose();
   }
 
-  Widget smallCircle = new Container(
-    width: 12.0,
-    height: 12.0,
-    decoration: new BoxDecoration(
-      color: Pigment.fromString("a2dbef"),
-      shape: BoxShape.circle,
+  Widget smallCircle = Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 6),
+    child: Container(
+      width: 12.0,
+      height: 12.0,
+      decoration: new BoxDecoration(
+        color: Pigment.fromString("a2dbef"),
+        shape: BoxShape.circle,
+      ),
     ),
   );
 
-  Widget bigCircle = new Container(
-    width: 17.0,
-    height: 17.0,
-    decoration: new BoxDecoration(
-      color: Pigment.fromString("002244"),
-      shape: BoxShape.circle,
+  Widget bigCircle = Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 3),
+    child: Container(
+      width: 18.0,
+      height: 18.0,
+      decoration: new BoxDecoration(
+        color: Pigment.fromString("002244"),
+        shape: BoxShape.circle,
+      ),
     ),
   );
 
@@ -68,36 +74,56 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  Text("OneUp.", style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: Theme.of(context).primaryColor)),
+                  Text("OneUp.",
+                      style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w800,
+                          color: Theme.of(context).primaryColor)),
                   SizedBox(height: 10),
-                  Text("ENTER YOUR 6-DIGIT CODE", style: TextStyle(fontSize: 10, color: Colors.grey)),
+                  Text("ENTER YOUR 6-DIGIT CODE",
+                      style: TextStyle(fontSize: 10, color: Colors.grey)),
                   SizedBox(height: MediaQuery.of(context).size.height / 20),
                   SizedBox(
                     height: 30,
                     width: MediaQuery.of(context).size.width / 1.9,
                     child: StreamBuilder(
-                      initialData: "",
-                      stream: loginBloc.getPin,
-                      builder: (context, AsyncSnapshot<String> snapshot) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            snapshot.data.length > 0 ? bigCircle : smallCircle,
-                            snapshot.data.length > 1 ? bigCircle : smallCircle,
-                            snapshot.data.length > 2 ? bigCircle : smallCircle,
-                            snapshot.data.length > 3 ? bigCircle : smallCircle,
-                            snapshot.data.length > 4 ? bigCircle : smallCircle,
-                            snapshot.data.length > 5 ? bigCircle : smallCircle,
-                          ],
-                        );
-                      }
-                    ),
+                        initialData: "",
+                        stream: loginBloc.getPin,
+                        builder: (context, AsyncSnapshot<String> snapshot) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              snapshot.data.length > 0
+                                  ? bigCircle
+                                  : smallCircle,
+                              snapshot.data.length > 1
+                                  ? bigCircle
+                                  : smallCircle,
+                              snapshot.data.length > 2
+                                  ? bigCircle
+                                  : smallCircle,
+                              snapshot.data.length > 3
+                                  ? bigCircle
+                                  : smallCircle,
+                              snapshot.data.length > 4
+                                  ? bigCircle
+                                  : smallCircle,
+                              snapshot.data.length > 5
+                                  ? bigCircle
+                                  : smallCircle,
+                            ],
+                          );
+                        }),
                   ),
                   Expanded(
                     child: InputPin(
-                      textStyle: TextStyle(color: Colors.black, fontSize: 45.0, fontWeight: FontWeight.w300),
+                      textStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 45.0,
+                          fontWeight: FontWeight.w300),
                       onBackPressed: loginBloc.removeCode,
-                      onPressedKey: (String code) => loginBloc.inputCode(_key, code),
+                      onPressedKey: (String code) =>
+                          loginBloc.inputCode(_key, code),
                       onForgotPassword: () => loginBloc.resetPin(_key),
                     ),
                   )
@@ -106,12 +132,11 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           StreamBuilder(
-            initialData: false,
-            stream: loginBloc.getLoading,
-            builder: (context, AsyncSnapshot<bool> snapshot) {
-              return Loading(snapshot.data);
-            }
-          )
+              initialData: false,
+              stream: loginBloc.getLoading,
+              builder: (context, AsyncSnapshot<bool> snapshot) {
+                return Loading(snapshot.data);
+              })
         ],
       ),
     );
