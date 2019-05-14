@@ -209,13 +209,13 @@ class Static {
               'id': 5,
               'title': 'What is the term of your deposit?',
               'body':
-              'Your deposit will have a specific term which will depend on the Deposit Offer you chose when you initially made your deposit. You will always be able to see the term of each of your deposits in the “My Savings” tab.',
+              'Your deposit will have a specific term which will depend on the Deposit Offer you chose when you initially made your deposit. You will always be able to see the term of each of your deposits in the “My Money" tab.',
             },
             {
               'id': 6,
               'title': 'What is the interest rate on the deposit?',
               'body':
-              "Unless you exit early, your deposit will pay a fixed interest rate, which will depend on the Deposit Offer you chose when you initially made your deposit. You will always be able to see the interest rate of each of your deposits in the “My Savings” tab. You can lose your accrued interest if you make a Switch Out. See [**].",
+              "Unless you exit early, your deposit will pay a fixed interest rate, which will depend on the Deposit Offer you chose when you initialy made your deposit. You will always be able to see the interest rate of each of your deposits in the “My Money” tab. You can lose your accrued interest if you make a Switch Out. See [**].",
             },
             {
               'id': 7,
@@ -235,7 +235,7 @@ class Static {
             {
               'id': 2,
               'title': 'How can you reinvest your savings upon maturity?',
-              'body': "Once your deposit has been returned to your Default Linked Account, you can make a new deposit in the same way as you made your original deposit.\n\nIf you select [“Remind me to reinvest”] in the “My Savings” tab for any of your deposits, [three days] before that deposit is due to mature, we will provide you with Deposit Offers for re-depositing the money you will receive upon maturity of that deposit.",
+              'body': 'Once your deposit has been returned to your Default Linked Account, you can make a new deposit in the same way as you made your original deposit.\n\nIf you select “Remind me to reinvest” in the “My Money" tab for any of your deposits, three days before that deposit is due to mature, we will provide you with Deposit Offers for re-depositing the money you will receive upon maturity of that deposit.',
             },
           ],
         },
@@ -245,7 +245,7 @@ class Static {
             {
               'id': 1,
               'title': 'Can you withdraw your deposit early?',
-              'body': 'Yes, but you might not get back all of the interest which has accrued on your account up to that point.\n\nYou achieve this through the “Explore Switch Out Options” function in the “Savings Detail” page in your app.\n\nYou can only withdraw up to the amount shown as “Total Deposits” in your app.',
+              'body': 'Yes, but you might not get back all of the interest which has accrued on your account up to that point.\n\nYou achieve this through the “Explore Switch Out Options” function in the "Deposit Detail” page in your app.\n\nYou can only withdraw up to the amount shown as “Total Deposits” in your app.',
             },
             {
               'id': 2,
