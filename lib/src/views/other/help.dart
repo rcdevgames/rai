@@ -76,7 +76,7 @@ class _HelpPageState extends State<HelpPage> {
                   ),
                 ]..addAll(v.articles.map((i) {
                   return InkWell(
-                    onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => HelpDetailPage(i))),
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => HelpDetailPage(v.categoryName, i))),
                     child: Container(
                       width: double.infinity,
                       padding: EdgeInsets.fromLTRB(15, 15, 0, 15),

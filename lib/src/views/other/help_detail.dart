@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:pigment/pigment.dart';
 
 class HelpDetailPage extends StatelessWidget {
+  final String categoryName;
   Article detail;
-  HelpDetailPage(this.detail);
+  HelpDetailPage(this.categoryName, this.detail);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: OneupBar("Help"),
+      appBar: OneupBar(categoryName),
       body: ListView(
         children: <Widget>[
           Column(
@@ -27,7 +28,7 @@ class HelpDetailPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   color: Pigment.fromString("#F6FBFF")
                 ),
-                child: Text(detail.body, style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor, height: 1.5), textAlign: TextAlign.justify)
+                child: Text(detail.body, style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor, height: 1.5), textAlign: TextAlign.left)
               )
             ],
           ),

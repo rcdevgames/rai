@@ -45,7 +45,7 @@ class _ExitEarlyPageState extends State<ExitEarlyPage> {
             onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
             child: Column(
               children: <Widget>[
-                SizedBox(height: 25),
+                SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Text("How much would you like back from?", style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600, color: Theme.of(context).primaryColor), textAlign: TextAlign.center,),
@@ -172,7 +172,7 @@ class _ExitEarlyPageState extends State<ExitEarlyPage> {
                           StreamBuilder(
                             stream: switchOutBloc.getAmount,
                             builder: (context, AsyncSnapshot<num> snapshot) {
-                              return Text("Switching out may cost you ${formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 1), true, true)} of interest. The exact amount depends on when you switch out.", style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w300, fontSize: (MediaQuery.of(context).size.width / 1080) * 40, wordSpacing: 3, height: 1.5), textAlign: TextAlign.center);
+                              return Text("Switching out may cost you ${formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 1), true, true)} of interest. The exact amount depends on when you Switch Out.", style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w300, fontSize: (MediaQuery.of(context).size.width / 1080) * 40, wordSpacing: 3, height: 1.5), textAlign: TextAlign.justify);
                             }
                           ),
                           RaisedButton(
@@ -186,78 +186,72 @@ class _ExitEarlyPageState extends State<ExitEarlyPage> {
                     ),
                     back: Container(
                       padding: EdgeInsets.all(16),
-                      margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+//                      margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
                       decoration: BoxDecoration(
                         color: Pigment.fromString("#f6fbff"),
                         borderRadius: BorderRadius.circular(10)
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Text("As you try to switch out, you will", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 17)),
-                          SizedBox(height: 20),
-                          StreamBuilder(
-                            initialData: 0,
-                            stream: switchOutBloc.getAmount,
-                            builder: (context, snapshot) {
-                              return Table(
-                                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                                children: <TableRow>[
-                                  TableRow(
-                                    children: [
-                                      Text(""),
-                                      Text("Week 1", style: TextStyle(color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 10), textAlign: TextAlign.center),
-                                      Text("Week 2", style: TextStyle(color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 10), textAlign: TextAlign.center),
-                                      Text("Week 3", style: TextStyle(color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 10), textAlign: TextAlign.center),
-                                      Text("Week 4", style: TextStyle(color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 10), textAlign: TextAlign.center),
-                                      Text("Week 5", style: TextStyle(color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 10), textAlign: TextAlign.center),
-                                    ]
-                                  ),
-                                  TableRow(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 10),
-                                        child: Text("Keep", style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700)),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 10),
-                                        child: Text("100%", style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700), textAlign: TextAlign.center),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 10),
-                                        child: Text("75%", style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700), textAlign: TextAlign.center),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 10),
-                                        child: Text("50%", style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700), textAlign: TextAlign.center),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 10),
-                                        child: Text("25%", style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700), textAlign: TextAlign.center),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 10),
-                                        child: Text("0%", style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700), textAlign: TextAlign.center),
-                                      ),
-                                    ]
-                                  ),
-                                  TableRow(
-                                    children: [
-                                      Text("Give Away", style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700)),
-                                      Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 1), true, true), textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700),),
-                                      Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 0.75), true, true), textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700),),
-                                      Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 0.50), true, true), textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700),),
-                                      Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 0.25), true, true), textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700),),
-                                      Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 0), true, true), textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700),),
-                                    ]
-                                  ),
-                                ],                     
-                              );
-                            }
-                          ),
-                          SizedBox(height: 20),
-                          Text("of you earnings", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 17)),
-                        ],
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Text("Amount of time after Switch Out confirmation that new customer takes on your deposit. Percentage of accrued interest you are entitled to", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 13)),
+                            SizedBox(height: 10),
+                            StreamBuilder(
+                              initialData: 0,
+                              stream: switchOutBloc.getAmount,
+                              builder: (context, snapshot) {
+                                return Table(
+                                  defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                                  children: <TableRow>[
+                                    TableRow(
+                                      children: [
+                                        Text("Within 1 Week", style: TextStyle(fontSize: 12), textAlign: TextAlign.left),
+                                        Padding(
+                                          padding: const EdgeInsets.only(bottom: 4),
+                                          child: Text(">95%\n(the Week 1 entitlement)", style: TextStyle(fontSize: 12), textAlign: TextAlign.left)
+                                        ),
+                                      ],
+                                    ),
+                                    TableRow(
+                                      children: [
+                                        Text("Within 2 Weeks", style: TextStyle(fontSize: 12), textAlign: TextAlign.left),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 4),
+                                          child: Text("70-75%\n(the Week 2 entitlement)", style: TextStyle(fontSize: 12), textAlign: TextAlign.left),
+                                        ),
+                                      ],
+                                    ),
+                                    TableRow(
+                                      children: [
+                                        Text("Within 3 Weeks", style: TextStyle(fontSize: 12), textAlign: TextAlign.left),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 4),
+                                          child: Text("45-50%\n(the Week 3 entitlement)", style: TextStyle(fontSize: 12), textAlign: TextAlign.left),
+                                        ),
+                                      ],
+                                    ),
+                                    TableRow(
+                                      children: [
+                                        Text("Within 4 Weeks", style: TextStyle(fontSize: 12), textAlign: TextAlign.left),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 4),
+                                          child: Text("20-25%\n(the Week 4 entitlement)", style: TextStyle(fontSize: 12), textAlign: TextAlign.left),
+                                        ),
+                                      ],
+                                    ),
+                                    TableRow(
+                                        children: [
+                                          Text("No acceptance after\n30 days", style: TextStyle(fontSize: 12), textAlign: TextAlign.left),
+                                          Text("The amount you would have received on your deposit at the High Street Interest Rate", style: TextStyle(fontSize: 12), textAlign: TextAlign.left),
+                                        ]
+                                    ),
+                                  ],
+                                );
+                              }
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
