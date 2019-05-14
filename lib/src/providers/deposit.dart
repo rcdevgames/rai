@@ -19,7 +19,7 @@ class DepositProvider {
         print(e.response.statusCode);
         print(e.response.data);
         if (e.response.statusCode == 401 || e.response.statusCode == 403) {
-          throw Exception(json.encode({"errorCode": e.response.statusCode, "message": "Unautorized"}));
+          throw Exception(json.encode({"errorCode": e.response.statusCode, "message": "Your session is expired, you will be redirected to login page"}));
         }else{
           throw Exception(json.encode(e.response.data));
         }

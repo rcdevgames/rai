@@ -77,21 +77,27 @@ class DepositBloc extends Object implements BlocBase {
 
       // Handle Listener
       depositInput.addListener(() {
-        timeout?.cancel();
-        timeout = Future.delayed(Duration(milliseconds: 1000)).asStream().listen((i) {
-          if (depositInput.numberValue < 100 && _oldAmount.value > 100) {
-            depositInput.updateValue(100);
-          }else if (depositInput.numberValue > _amount.value) {
-            depositInput.updateValue(_amount.value);
-          }else {
-            depositInput.updateValue(thousandRounding(depositInput.numberValue));
+        try {
+          if(depositInput.text.length > 3) {
+            timeout?.cancel();
+            timeout = Future.delayed(Duration(milliseconds: 1000)).asStream().listen((i) {
+              if (depositInput.numberValue < 100 && _oldAmount.value > 100) {
+                depositInput.updateValue(100);
+              }else if (depositInput.numberValue > _amount.value) {
+                depositInput.updateValue(_amount.value);
+              }else {
+                depositInput.updateValue(thousandRounding(depositInput.numberValue));
+              }
+              if (_oldAmount.value != depositInput.numberValue) reCallFunction();
+            });
+            // if (depositInput.numberValue < 100 && _oldAmount.value > 100) {
+            //   depositInput.updateValue(100);
+            // }else if (depositInput.numberValue > _amount.value) {
+            //   depositInput.updateValue(_amount.value.toDouble());
+            // }
           }
-          if (_oldAmount.value != depositInput.numberValue) reCallFunction();
-        });
-        if (depositInput.numberValue < 100 && _oldAmount.value > 100) {
-          depositInput.updateValue(100);
-        }else if (depositInput.numberValue > _amount.value) {
-          depositInput.updateValue(_amount.value.toDouble());
+        } catch (e) {
+          print("Catch Deposit $e");
         }
       });
     } catch (e) {
