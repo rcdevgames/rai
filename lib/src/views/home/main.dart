@@ -95,7 +95,7 @@ class _MainPageState extends State<MainPage> {
                   if (snapshot.data == 2) {
                     return IconButton(
                       onPressed: () => mainBloc.logout(_key),
-                      icon: Icon(FontAwesomeIcons.signOutAlt, color: Colors.white),
+                      icon: Icon(FontAwesomeIcons.powerOff, color: Colors.white),
                     );
                   } return Container();
                 }

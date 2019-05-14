@@ -69,7 +69,8 @@ class LoginBloc extends Object implements BlocBase {
           dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "Failed", message: error['error']);
         }
       } catch (err) {
-        dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "Failed", message: e.toString().replaceAll("Exception: ", ""));
+        var message = e.toString().contains("You entered an incorrect user name or password") ? "You entered an incorrect 6 digit code":e.toString().replaceAll("Exception: ", "");
+        dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "Failed", message: message);
       }
       _pin.sink.add("");
       _isLoading.sink.add(false);
