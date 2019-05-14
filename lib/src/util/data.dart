@@ -10,7 +10,7 @@ class Static {
   static const String JAVA_URL = "http://129.213.184.154/rai/";
 
   // Dev
-  static const String MCS_URL = "https://E0173A94EDA9476B95743126BF663FED.mobile.ocp.oracleclouds.com:443/mobile/custom/RAI/rai/";
+  static const String MCS_URL = "https://E0173A94EDA9476B95743126BF663FED.mobile.ocp.oraclecloud.com:443/mobile/custom/RAI/rai/";
   static const String REGISTER_URL = "https://E0173A94EDA9476B95743126BF663FED.mobile.ocp.oraclecloud.com:443/mobile/platform/devices/register";
   static const String OAUTH_URL = "https://idcs-98c6f5b2de264ab9bab089f2d5a44f31.identity.oraclecloud.com/oauth2/v1/token";
 
