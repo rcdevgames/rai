@@ -40,7 +40,7 @@ class SwitchOutBloc extends Object implements BlocBase {
       });
     }
     _amountOld.sink.add(_amount.value);
-    ctrlAmount.updateValue(_amount.value.toDouble());
+    ctrlAmount.updateValue(0);
     ctrlAmount.addListener(() {
         timeout?.cancel();
         timeout = Future.delayed(Duration(milliseconds: 1500)).asStream().listen((i) {
