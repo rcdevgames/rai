@@ -90,11 +90,11 @@ class DepositBloc extends Object implements BlocBase {
               }
               if (_oldAmount.value != depositInput.numberValue) reCallFunction();
             });
-            // if (depositInput.numberValue < 100 && _oldAmount.value > 100) {
-            //   depositInput.updateValue(100);
-            // }else if (depositInput.numberValue > _amount.value) {
-            //   depositInput.updateValue(_amount.value.toDouble());
-            // }
+            if (depositInput.numberValue < 100 && _oldAmount.value > 100) {
+              depositInput.updateValue(100);
+            }else if (depositInput.numberValue > _amount.value) {
+              depositInput.updateValue(_amount.value.toDouble());
+            }
           }
         } catch (e) {
           print("Catch Deposit $e");
