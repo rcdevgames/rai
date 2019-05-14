@@ -14,7 +14,7 @@ class _HelpPageState extends State<HelpPage> {
   @override
   Widget build(BuildContext context) {
     var style = TextStyle(fontWeight: FontWeight.w600, color: Theme.of(context).primaryColor, fontSize: 15);
-    var styleChild = TextStyle(color: Theme.of(context).primaryColor, fontSize: 15);
+    var styleChild = TextStyle(color: Theme.of(context).primaryColor, fontSize: 15, height: 1.3);
     return Scaffold(
       key: _key,
       appBar: OneupBar("Help"),
@@ -28,7 +28,7 @@ class _HelpPageState extends State<HelpPage> {
             ),
             CarouselSlider(
               viewportFraction: 0.9,
-              height: MediaQuery.of(context).size.height / 2.5,
+              height: MediaQuery.of(context).size.height / 2.3,
               enableInfiniteScroll: false,
               items: Static.LIST_TOUR.map((i) {
                 return Builder(
@@ -36,7 +36,7 @@ class _HelpPageState extends State<HelpPage> {
                     return Container(
                       width: MediaQuery.of(context).size.width,
                       margin: EdgeInsets.symmetric(horizontal: 15.0),
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: Theme.of(context).primaryColor
@@ -66,12 +66,12 @@ class _HelpPageState extends State<HelpPage> {
             ),
           ]..addAll(Static.LIST_HELP.map((v) {
             return Padding(
-              padding: const EdgeInsets.only(top: 30),
+              padding: const EdgeInsets.only(top: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
+                    padding: const EdgeInsets.only(bottom: 10),
                     child: Text(v.categoryName, style: style),
                   ),
                 ]..addAll(v.articles.map((i) {
@@ -79,7 +79,7 @@ class _HelpPageState extends State<HelpPage> {
                     onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => HelpDetailPage(i))),
                     child: Container(
                       width: double.infinity,
-                      padding: EdgeInsets.fromLTRB(15, 25, 0, 25),
+                      padding: EdgeInsets.fromLTRB(15, 15, 0, 15),
                       decoration: BoxDecoration(
                         border: Border(bottom: BorderSide(width: 1, color: Theme.of(context).primaryColor.withOpacity(0.3)))
                       ),

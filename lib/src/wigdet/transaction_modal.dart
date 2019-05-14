@@ -88,12 +88,12 @@ class TransactionModal {
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            SizedBox(height: 50),
+            SizedBox(height: 30),
             Center(
               child: SizedBox(
-                height: 100,
+                height: 80,
                 width: 100,
-                child: SvgPicture.asset('assets/svg/savewise-logo.svg'),
+                child: Image.asset('assets/img/oneup-logo.png'),
               ),
             ),
             SizedBox(height: 20),

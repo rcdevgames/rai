@@ -70,15 +70,14 @@ class _ConfirmPINPageState extends State<ConfirmPINPage> {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            SizedBox(height: 50),
+            SizedBox(height: 30),
             Center(
               child: SizedBox(
-                height: 100,
+                height: 80,
                 width: 100,
-                child: SvgPicture.asset('assets/svg/savewise-logo.svg'),
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 5),
             Text("OneUp.", style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: Theme.of(context).primaryColor)),
             SizedBox(height: 10),
             Text("ENTER YOUR 6-DIGIT CODE", style: TextStyle(fontSize: 10, color: Colors.grey)),

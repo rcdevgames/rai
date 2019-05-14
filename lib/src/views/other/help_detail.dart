@@ -17,7 +17,7 @@ class HelpDetailPage extends StatelessWidget {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 20, 16, 5),
-                child: Text(detail.title, style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor), textAlign: TextAlign.center),
+                child: Text(detail.title, style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor, letterSpacing: -0.5), textAlign: TextAlign.left,),
               ),
               Container(
                 width: double.infinity,

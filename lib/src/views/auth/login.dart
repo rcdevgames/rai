@@ -65,16 +65,16 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  SizedBox(height: 20),
+                  SizedBox(height: 30),
                   Center(
                     child: SizedBox(
-                      height: 100,
+                      height: 80,
                       width: 100,
-                      child: SvgPicture.asset('assets/svg/savewise-logo.svg'),
+                      child: Image.asset('assets/img/oneup-logo.png'),
                     ),
                   ),
-                  SizedBox(height: 10),
-                  Text("OneUp.",
+                  SizedBox(height: 5),
+                  Text("OneUp",
                       style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w800,

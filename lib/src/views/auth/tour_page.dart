@@ -66,9 +66,9 @@ class _TourPageState extends State<TourPage> {
             ),
             Center(
               child: SizedBox(
-                height: 85,
-                width: 85,
-                child: SvgPicture.asset('assets/svg/savewise-logo.svg'),
+                height: 80,
+                width: 100,
+                child: Image.asset('assets/img/oneup-logo.png'),
               ),
             ),
             SizedBox(height: 7),
