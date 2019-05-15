@@ -51,7 +51,11 @@ class MainBloc extends Object implements BlocBase {
         if (error['errorCode'] == 401) {
           sessions.clear();
           Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
-          dialogs.alertWithIcon(context, icon: Icons.info, title: "", message: error['message']);
+          if (error.containsKey('message')) {
+            dialogs.alertWithIcon(context, icon: Icons.info, title: "", message: error['message']);
+          } else {
+            dialogs.alertWithIcon(context, icon: Icons.info, title: "", message: error['errorMessage']);
+          }
         }
         print(error);
       } catch (e) {

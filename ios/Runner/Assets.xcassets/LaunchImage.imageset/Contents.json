@@ -40,114 +40,114 @@
     },
     {
       "scale" : "2x",
-      "filename" : "LaunchImage-1792@2x~iphoneXr-landscape_1792x828-1.png"
+      "filename" : "LaunchImage-1792@2x~iphoneXr-landscape_1792x828-2.png"
     },
     {
       "scale" : "3x",
-      "filename" : "LaunchImage-1125@3x~iphoneX-portrait_1125x2436-1.png"
+      "filename" : "LaunchImage-1125@3x~iphoneX-portrait_1125x2436-2.png"
     },
     {
       "idiom" : "iphone",
-      "filename" : "LaunchImage~iphone_640x960-1.png",
+      "filename" : "LaunchImage~iphone_640x960-2.png",
       "unassigned" : true,
       "scale" : "1x"
     },
     {
       "idiom" : "iphone",
-      "filename" : "LaunchImage-750@2x~iphone6-landscape_1334x750-1.png",
+      "filename" : "LaunchImage-750@2x~iphone6-landscape_1334x750-2.png",
       "unassigned" : true,
       "scale" : "2x"
     },
     {
       "idiom" : "iphone",
-      "filename" : "LaunchImage-750@2x~iphone6-portrait_750x1334-1.png",
+      "filename" : "LaunchImage-750@2x~iphone6-portrait_750x1334-2.png",
       "unassigned" : true,
       "scale" : "2x"
     },
     {
       "idiom" : "iphone",
-      "filename" : "LaunchImage-1242@3x~iphone6s-portrait_1242x2208-1.png",
+      "filename" : "LaunchImage-1242@3x~iphone6s-portrait_1242x2208-2.png",
       "unassigned" : true,
       "scale" : "3x"
     },
     {
       "idiom" : "ipad",
-      "filename" : "LaunchImage-Landscape~ipad_1024x768-1.png",
+      "filename" : "LaunchImage-Landscape~ipad_1024x768-2.png",
       "unassigned" : true,
       "scale" : "1x"
     },
     {
       "idiom" : "ipad",
-      "filename" : "LaunchImage-Portrait~ipad_768x1024-1.png",
+      "filename" : "LaunchImage-Portrait~ipad_768x1024-2.png",
       "unassigned" : true,
       "scale" : "1x"
     },
     {
       "idiom" : "ipad",
-      "filename" : "LaunchImage~ipad-1.png",
+      "filename" : "LaunchImage~ipad-2.png",
       "unassigned" : true,
       "scale" : "1x"
     },
     {
       "idiom" : "ipad",
-      "filename" : "LaunchImage-Landscape@2x~ipad_2048x1536-1.png",
+      "filename" : "LaunchImage-Landscape@2x~ipad_2048x1536-2.png",
       "unassigned" : true,
       "scale" : "2x"
     },
     {
       "idiom" : "ipad",
-      "filename" : "LaunchImage-Landscape@2x~ipad_2224x1668-1.png",
+      "filename" : "LaunchImage-Landscape@2x~ipad_2224x1668-2.png",
       "unassigned" : true,
       "scale" : "2x"
     },
     {
       "idiom" : "ipad",
-      "filename" : "LaunchImage-Landscape@2x~ipad_2732x2048-1.png",
+      "filename" : "LaunchImage-Landscape@2x~ipad_2732x2048-2.png",
       "unassigned" : true,
       "scale" : "2x"
     },
     {
       "idiom" : "ipad",
-      "filename" : "LaunchImage-Portrait@2x~ipad_1536x2008-1.png",
+      "filename" : "LaunchImage-Portrait@2x~ipad_1536x2008-2.png",
       "unassigned" : true,
       "scale" : "2x"
     },
     {
       "idiom" : "ipad",
-      "filename" : "LaunchImage-Portrait@2x~ipad_1536x2048-1.png",
+      "filename" : "LaunchImage-Portrait@2x~ipad_1536x2048-2.png",
       "unassigned" : true,
       "scale" : "2x"
     },
     {
       "idiom" : "ipad",
-      "filename" : "LaunchImage-Portrait@2x~ipad_1668x2224-1.png",
+      "filename" : "LaunchImage-Portrait@2x~ipad_1668x2224-2.png",
       "unassigned" : true,
       "scale" : "2x"
     },
     {
       "idiom" : "ipad",
-      "filename" : "LaunchImage-Portrait@2x~ipad_2048x2732-1.png",
+      "filename" : "LaunchImage-Portrait@2x~ipad_2048x2732-2.png",
       "unassigned" : true,
       "scale" : "2x"
     },
     {
       "scale" : "2x",
-      "filename" : "LaunchImage-828@2x~iphoneXr-portrait_828x1792-1.png",
+      "filename" : "LaunchImage-828@2x~iphoneXr-portrait_828x1792-2.png",
       "unassigned" : true
     },
     {
       "scale" : "3x",
-      "filename" : "LaunchImage-1242@3x~iphoneXsMax-portrait_1242x2688-1.png",
+      "filename" : "LaunchImage-1242@3x~iphoneXsMax-portrait_1242x2688-2.png",
       "unassigned" : true
     },
     {
       "scale" : "3x",
-      "filename" : "LaunchImage-2436@3x~iphoneX-landscape_2436x1125-1.png",
+      "filename" : "LaunchImage-2436@3x~iphoneX-landscape_2436x1125-2.png",
       "unassigned" : true
     },
     {
       "scale" : "3x",
-      "filename" : "LaunchImage-2688@3x~iphoneXsMax-landscape_2688x1242-1.png",
+      "filename" : "LaunchImage-2688@3x~iphoneXsMax-landscape_2688x1242-2.png",
       "unassigned" : true
     }
   ],

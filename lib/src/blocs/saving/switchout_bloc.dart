@@ -59,6 +59,7 @@ class SwitchOutBloc extends Object implements BlocBase {
           ctrlAmount.updateValue(_amountOld.value.toDouble());
         }
         _amount.sink.add(ctrlAmount.numberValue);
+        _amountOld.sink.add(_amountOld.value);
         print("Amounts : $amounts");
       } catch (e) {
         ctrlAmount.updateValue(0);
@@ -78,12 +79,11 @@ class SwitchOutBloc extends Object implements BlocBase {
   }
 
   num earning(double interest, num i) {
-    var amounts = ctrlAmount.numberValue.isNaN ? ctrlAmount.numberValue:0.0;
     // print("Interest : $interest");
     // print("numberValue : ${ctrlAmount.numberValue}");
     // print("saving : ${_saving.value.quantity}");
     // print("I : $i");
-    var result = (interest * (amounts/_saving.value.quantity) * i);
+    var result = (interest * (ctrlAmount.numberValue/_saving.value.quantity) * i);
     return result.isNaN || result.isInfinite ? 0:result;
   }
 
@@ -136,8 +136,8 @@ class SwitchOutBloc extends Object implements BlocBase {
       sessions.save("switchout", "Your switching out has been placed, this will be offered back to the community for 30 days");
       _isLoading.sink.add(false);
       Navigator.popUntil(context, ModalRoute.withName('/main'));
-      _isLoading.sink.add(false);
     } catch (e) {
+      _isLoading.sink.add(false);
       print(e);
       try {
         var error = json.decode(e.toString().replaceAll("Exception: ", ""));
@@ -145,7 +145,11 @@ class SwitchOutBloc extends Object implements BlocBase {
           sessions.clear();
           Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
         }
-        dialogs.alertWithIcon(context, icon: Icons.info, title: "", message: error['message']);
+        if (error.containsKey('message')) {
+          dialogs.alertWithIcon(context, icon: Icons.info, title: "", message: error['message']);
+        } else {
+          dialogs.alertWithIcon(context, icon: Icons.info, title: "", message: error['errorMessage']);
+        }
       } catch (e) {
         dialogs.alertWithIcon(context, icon: Icons.info, title: "", message: e.toString().replaceAll("Exception: ", ""));
       }

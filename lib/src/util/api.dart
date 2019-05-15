@@ -8,7 +8,7 @@ class Api {
 
   static Dio oAuth() {
     var dio = new Dio();
-    dio.options.baseUrl = Static.OAUTH_URL;
+    dio.options.baseUrl = Static.UAT_OAUTH_URL;
     dio.options.connectTimeout = 50000;
     dio.options.receiveTimeout = 15000;
     dio.options.contentType=ContentType.parse("application/x-www-form-urlencoded");
@@ -19,7 +19,7 @@ class Api {
 
   static Dio access() {
     var dio = new Dio();
-    dio.options.baseUrl = Static.MCS_URL;
+    dio.options.baseUrl = Static.UAT_MCS_URL;
     dio.options.connectTimeout = 50000;
     dio.options.receiveTimeout = 15000;
     dio.options.headers = {"Content-Type": "application/json"};

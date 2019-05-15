@@ -17,8 +17,6 @@ class Static {
   static const String OAUTHTTOKENENDPOINT = 'https://idcs-98c6f5b2de264ab9bab089f2d5a44f31.identity.oraclecloud.com/oauth2/v1/token';
   static const String OAUTHSCOPE = 'https://E0173A94EDA9476B95743126BF663FED.mobile.ocp.oraclecloud.com:443urn:opc:resource:consumer::all';
 
-  // static const String TOKENOAUTH = "ZThkZTQ0ZWZkMDlkNGRjYWI1ZDZmMThiOTMxZTNhNTQ6ZjQwZjlhYmQtNTg2ZC00MjBkLWE3YWQtMTM1MzUwNTFkMDA3";
-
   static const String CLIENTID = "e8de44efd09d4dcab5d6f18b931e3a54"; 
   static const String CLIENTSECRET = "f40f9abd-586d-420d-a7ad-13535051d007";
   
@@ -30,8 +28,6 @@ class Static {
   static const String UAT_OAUTHTTOKENENDPOINT = 'https://idcs-98c6f5b2de264ab9bab089f2d5a44f31.identity.oraclecloud.com/oauth2/v1/token';
   static const String UAT_OAUTHSCOPE = 'https://E0173A94EDA9476B95743126BF663FED.mobile.ocp.oraclecloud.com:443urn:opc:resource:consumer::all';
 
-  // static const String UAT_TOKENOAUTH = "ZThkZTQ0ZWZkMDlkNGRjYWI1ZDZmMThiOTMxZTNhNTQ6ZjQwZjlhYmQtNTg2ZC00MjBkLWE3YWQtMTM1MzUwNTFkMDA3";
-
   static const String UAT_CLIENTID = "2505f5fafeb7437e96e3397e3255a510"; 
   static const String UAT_CLIENTSECRET = "0d2c7424-f10b-4712-b9e1-dc7e5df73fa9";
   
@@ -42,8 +38,6 @@ class Static {
 
   static const String PROD_OAUTHTTOKENENDPOINT = 'https://idcs-3d71481e2dc346c1b5d929ab3c4f3962.identity.oraclecloud.com/oauth2/v1/token';
   static const String PROD_OAUTHSCOPE = 'https://D43098C4B31048B1BB0A6578E6A489CF.mobile.ocp.oraclecloud.com:443urn:opc:resource:consumer::all';
-
-  // static const String PROD_TOKENOAUTH = "ZThkZTQ0ZWZkMDlkNGRjYWI1ZDZmMThiOTMxZTNhNTQ6ZjQwZjlhYmQtNTg2ZC00MjBkLWE3YWQtMTM1MzUwNTFkMDA3";
 
   static const String PROD_CLIENTID = "8e3186574f834bbbbd6868e228cc99b2"; 
   static const String PROD_CLIENTSECRET = "6c708a5d-9cc1-4f3c-8c8b-b2037c5c4722";

@@ -101,7 +101,17 @@ class _BankListPageState extends State<BankListPage> {
                                         Image.asset("assets/img/logo-${snapshot.data[i].bankCode.toLowerCase()}.color.png", fit: BoxFit.cover)
                                       ),
                                       SizedBox(width: 10),
-                                      Expanded(child: Text('Bank ${snapshot.data[i].bankAcctName}', style: TextStyle(color: snapshot.data[i].bankAcctBalance < widget.depositMatch.amount ? Colors.grey:Theme.of(context).primaryColor, fontSize: 12))),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Text('Bank ${snapshot.data[i].bankAcctName}'),
+                                            Text('(${snapshot.data[i].bankAcctNo.substring(snapshot.data[i].bankAcctNo.length - 4)})'),
+                                          ],
+                                        ),
+                                      ),
+                                      // Expanded(child: Text('Bank ${snapshot.data[i].bankAcctName}', style: TextStyle(color: snapshot.data[i].bankAcctBalance < widget.depositMatch.amount ? Colors.grey:Theme.of(context).primaryColor, fontSize: 12))),
                                       Column(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: <Widget>[

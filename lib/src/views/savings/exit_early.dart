@@ -328,7 +328,7 @@ class _ExitEarlyPageState extends State<ExitEarlyPage> {
                 builder: (context, AsyncSnapshot<num> snapshot) {
                   return ButtonBottom(
                     title: "Confirm Switch Out",
-                    onTap: snapshot.data > 0
+                    onTap: snapshot.data > 0 && switchOutBloc.ctrlAmount.numberValue > 0
                         ? () => switchOutBloc.confirmSwitchOut(context, widget.item.termDepositId)
                         : null,
                   );

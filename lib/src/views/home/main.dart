@@ -156,7 +156,7 @@ class _MainPageState extends State<MainPage> {
           ),
           Positioned(
             top: MediaQuery.of(context).size.height / 11.5,
-            left: MediaQuery.of(context).size.width / 2.5,
+            width: MediaQuery.of(context).size.width,
             child: StreamBuilder(
               initialData: 0,
               stream: mainBloc.getMenuIndex,

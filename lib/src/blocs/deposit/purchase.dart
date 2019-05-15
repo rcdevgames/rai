@@ -105,7 +105,11 @@ class PurchaseBloc extends Object implements BlocBase {
               dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "", message: error['errorMessage']);
               return false;
             }
-            dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "", message: error['message']);
+            if (error.containsKey('message')) {
+              dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "", message: error['message']);
+            } else {
+              dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "", message: error['errorMessage']);
+            }
           }
         }
       } on PlatformException catch (e) {
@@ -144,7 +148,11 @@ class PurchaseBloc extends Object implements BlocBase {
             dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "", message: error['errorMessage']);
             return false;
           }
-          dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "", message: error['message']);
+          if (error.containsKey('message')) {
+            dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "", message: error['message']);
+          } else {
+            dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "", message: error['errorMessage']);
+          }
         }
       }
     }
