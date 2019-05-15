@@ -56,7 +56,7 @@ class _HelpPageState extends State<HelpPage> {
                             ),
                           ),
                           SizedBox(height: 10),
-                          Text(i['description'], style: TextStyle(fontSize: (MediaQuery.of(context).size.width / 1080) * 65, fontWeight: FontWeight.bold, color: Colors.white, height: 1.3)),
+                          Text(i['description'], style: TextStyle(fontSize: (MediaQuery.of(context).size.width / 1080) * 78, fontWeight: FontWeight.bold, color: Colors.white, height: 1.3)),
                         ],
                       )
                     );

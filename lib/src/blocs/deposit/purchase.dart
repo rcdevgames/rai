@@ -9,6 +9,7 @@ import 'package:RAI/src/util/session.dart';
 import 'package:RAI/src/views/other/pin_confirm.dart';
 import 'package:RAI/src/wigdet/dialog.dart';
 import 'package:RAI/src/wigdet/transaction_modal.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/auth_strings.dart';
 import 'package:local_auth/local_auth.dart';
@@ -19,6 +20,7 @@ import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
 
 class PurchaseBloc extends Object implements BlocBase {
+  CancelToken token = new CancelToken();
   final localAuth = LocalAuthentication();
 
   final _isLoading = BehaviorSubject<bool>();
@@ -43,11 +45,12 @@ class PurchaseBloc extends Object implements BlocBase {
     _isLoading.close();
     _listBank.close();
     _selected.close();
+    token.cancel("Cancelled");
   }
 
   Future fetchBank(BuildContext context) async {
     try {
-      var list = await repo.getBankList();
+      var list = await repo.getBankList(token);
       list.forEach((v) {
         if (v.isDefault == 1) {
           _selected.sink.add(v.bankAcctId);

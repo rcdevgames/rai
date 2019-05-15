@@ -138,6 +138,7 @@ class _BankListPageState extends State<BankListPage> {
             title: "CONFIRM DEPOSIT",
             onTap: () => purchaseBloc.doPurchase(_key, widget.depositMatch, widget.amount),
           ):Tooltip(
+            message: "Your kyc status is not eligible to make deposit purchase",
             child: ButtonBottom(
               title: "CONFIRM DEPOSIT",
               onTap: null,

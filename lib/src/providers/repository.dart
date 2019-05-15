@@ -8,6 +8,7 @@ import 'package:RAI/src/models/user.dart';
 import 'package:RAI/src/providers/auth.dart';
 import 'package:RAI/src/providers/deposit.dart';
 import 'package:RAI/src/providers/user.dart';
+import 'package:dio/dio.dart';
 
 class Repository {
   // Auth Provider
@@ -20,7 +21,7 @@ class Repository {
   Future setDefaultAccountBank(int id) => userProvider.setDefaultAccountBank(id);
   Future<User> getUser() => userProvider.getUser();
   Future<DefaultBank> getDefaultBank() => userProvider.getDefaultBank();
-  Future<List<Bank>> getBankList() => userProvider.getBankList();
+  Future<List<Bank>> getBankList(CancelToken token) => userProvider.getBankList(token);
   Future<List<History>> getHistory() => userProvider.getHistory();
   Future purchaseDeposit(num amount, int bankAccId, String productId) => userProvider.purchaseDeposit(amount, bankAccId, productId);
   Future<List<Savings>> getSavingList() => userProvider.getSavingList();

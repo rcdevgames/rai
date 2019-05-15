@@ -42,6 +42,9 @@ class SwitchOutBloc extends Object implements BlocBase {
     _amountOld.sink.add(_amount.value);
     ctrlAmount.updateValue(0);
     ctrlAmount.addListener(() {
+      try {
+        var amounts = ctrlAmount.numberValue.isNaN ? ctrlAmount.numberValue:0;
+        
         timeout?.cancel();
         timeout = Future.delayed(Duration(milliseconds: 1500)).asStream().listen((i) {
           if (ctrlAmount.numberValue > _amountOld.value) {
@@ -50,14 +53,17 @@ class SwitchOutBloc extends Object implements BlocBase {
             ctrlAmount.updateValue(thousandRounding(ctrlAmount.numberValue));
           }
         });
-        if (ctrlAmount.numberValue < 100) {
-          ctrlAmount.updateValue(100);
+        if (ctrlAmount.text.length < 3) {
+          ctrlAmount.updateValue(0);
         } else if (ctrlAmount.numberValue > _amountOld.value) {
           ctrlAmount.updateValue(_amountOld.value.toDouble());
         }
-        print(ctrlAmount.numberValue);
         _amount.sink.add(ctrlAmount.numberValue);
-      });
+        print("Amounts : $amounts");
+      } catch (e) {
+        ctrlAmount.updateValue(0);
+      }
+    });
   }
 
   @override
@@ -72,11 +78,12 @@ class SwitchOutBloc extends Object implements BlocBase {
   }
 
   num earning(double interest, num i) {
+    var amounts = ctrlAmount.numberValue.isNaN ? ctrlAmount.numberValue:0.0;
     // print("Interest : $interest");
     // print("numberValue : ${ctrlAmount.numberValue}");
     // print("saving : ${_saving.value.quantity}");
     // print("I : $i");
-    var result = (interest * (ctrlAmount.numberValue/_saving.value.quantity) * i);
+    var result = (interest * (amounts/_saving.value.quantity) * i);
     return result.isNaN || result.isInfinite ? 0:result;
   }
 

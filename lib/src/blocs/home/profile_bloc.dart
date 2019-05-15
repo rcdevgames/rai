@@ -6,10 +6,12 @@ import 'package:RAI/src/providers/repository.dart';
 import 'package:RAI/src/util/bloc.dart';
 import 'package:RAI/src/util/session.dart';
 import 'package:collection/collection.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ProfileBloc extends Object implements BlocBase {
+  CancelToken token = new CancelToken();
   final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
   final _isLoading = BehaviorSubject<bool>();
   final _accountList = BehaviorSubject<List<Bank>>();
@@ -44,7 +46,7 @@ class ProfileBloc extends Object implements BlocBase {
 
   Future fetchAccountList() async {
     try {
-      var _accounts = await repo.getBankList();
+      var _accounts = await repo.getBankList(token);
       num _balance = 0;
       _accounts.forEach((v){
         if(v.isDefault == 1) {

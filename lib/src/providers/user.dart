@@ -92,12 +92,12 @@ class UserProvider {
     }   
   }
 
-  Future<List<Bank>> getBankList() async {
+  Future<List<Bank>> getBankList(CancelToken token) async {
     var api = Api.access();
     Response response;
 
     try {
-      response = await api.get('user/bankAccounts', options: Api.headers(await sessions.load('token')));
+      response = await api.get('user/bankAccounts', options: Api.headers(await sessions.load('token')), cancelToken: token);
       return compute(bankFromJson, response.data['data'].toString());
     } on DioError catch (e) {
       if(e.response != null) {

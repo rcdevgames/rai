@@ -78,27 +78,52 @@ class DepositBloc extends Object implements BlocBase {
       // Handle Listener
       depositInput.addListener(() {
         try {
-          if(depositInput.text.length > 3) {
-            timeout?.cancel();
-            timeout = Future.delayed(Duration(milliseconds: 1000)).asStream().listen((i) {
-              if (depositInput.numberValue < 100 && _oldAmount.value > 100) {
-                depositInput.updateValue(100);
-              }else if (depositInput.numberValue > _amount.value) {
-                depositInput.updateValue(_amount.value);
-              }else {
-                depositInput.updateValue(thousandRounding(depositInput.numberValue));
-              }
-              if (_oldAmount.value != depositInput.numberValue) reCallFunction();
-            });
+          var amounts = depositInput.numberValue.isNaN ? depositInput.numberValue:0;
+          
+          timeout?.cancel();
+          timeout = Future.delayed(Duration(milliseconds: 1500)).asStream().listen((i) {
             if (depositInput.numberValue < 100 && _oldAmount.value > 100) {
               depositInput.updateValue(100);
             }else if (depositInput.numberValue > _amount.value) {
-              depositInput.updateValue(_amount.value.toDouble());
+              depositInput.updateValue(_amount.value);
+            }else {
+              depositInput.updateValue(thousandRounding(depositInput.numberValue));
             }
+            if (_oldAmount.value != depositInput.numberValue) reCallFunction();
+          });
+          if (depositInput.text.length < 3) {
+            depositInput.updateValue(0);
+          }else if (depositInput.numberValue > _amount.value) {
+            depositInput.updateValue(_amount.value.toDouble());
           }
+          _amount.sink.add(_amount.value);
+          print("Amounts : $amounts");
         } catch (e) {
-          print("Catch Deposit $e");
+          depositInput.updateValue(0);
         }
+
+        // try {
+        //   if(depositInput.text.length > 3) {
+        //     timeout?.cancel();
+        //     timeout = Future.delayed(Duration(milliseconds: 1000)).asStream().listen((i) {
+        //       if (depositInput.numberValue < 100 && _oldAmount.value > 100) {
+        //         depositInput.updateValue(100);
+        //       }else if (depositInput.numberValue > _amount.value) {
+        //         depositInput.updateValue(_amount.value);
+        //       }else {
+        //         depositInput.updateValue(thousandRounding(depositInput.numberValue));
+        //       }
+        //       if (_oldAmount.value != depositInput.numberValue) reCallFunction();
+        //     });
+        //     if (depositInput.numberValue < 100 && _oldAmount.value > 100) {
+        //       depositInput.updateValue(100);
+        //     }else if (depositInput.numberValue > _amount.value) {
+        //       depositInput.updateValue(_amount.value.toDouble());
+        //     }
+        //   }
+        // } catch (e) {
+        //   print("Catch Deposit $e");
+        // }
       });
     } catch (e) {
       print("Error : $e");

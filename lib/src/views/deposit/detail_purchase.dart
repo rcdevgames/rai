@@ -14,7 +14,8 @@ import 'package:pigment/pigment.dart';
 class DetailPurchasePage extends StatefulWidget {
   num amount;
   DepositMatch depositMatch;
-  DetailPurchasePage(this.depositMatch, this.amount);
+  DateTime businessDate;
+  DetailPurchasePage(this.depositMatch, this.amount, this.businessDate);
 
   @override
   _DetailPurchasePageState createState() => _DetailPurchasePageState();
@@ -22,18 +23,6 @@ class DetailPurchasePage extends StatefulWidget {
 
 class _DetailPurchasePageState extends State<DetailPurchasePage> {
   final _key = GlobalKey<ScaffoldState>();
-  DateTime businessDate = new DateTime.now();
-
-  @override
-  void initState() {
-    sessions.load('businessDate').then((date) => businessDate = DateTime.parse(date));
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +61,7 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
             SizedBox(height: 20),
             Text("@ ${(widget.depositMatch.rate/100).toStringAsFixed(2)}% gross interest per year", style: TextStyle(fontSize: 14), textAlign: TextAlign.center),
             SizedBox(height: 10),
-            Text("maturing in ${(widget.depositMatch.maturityDate.difference(businessDate).inDays/30).toStringAsFixed(0)} months", style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
+            Text("maturing in ${(widget.depositMatch.maturityDate.difference(widget.businessDate).inDays/30).toStringAsFixed(0)} months", style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
             SizedBox(height: 10),
             Stack(
               alignment: AlignmentDirectional.center,
