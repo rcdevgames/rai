@@ -13,7 +13,7 @@ class Api {
     dio.options.receiveTimeout = 15000;
     dio.options.contentType=ContentType.parse("application/x-www-form-urlencoded");
     // dio.options.headers = {"Authorization":"Basic ${Static.TOKENOAUTH}"};
-    dio.options.headers = {"Authorization":"Basic ${encode(Static.CLIENTID, Static.CLIENTSECRET)}"};
+    dio.options.headers = {"Authorization":"Basic ${encode(Static.UAT_CLIENTID, Static.UAT_CLIENTSECRET)}"};
     return dio;
   }
 
