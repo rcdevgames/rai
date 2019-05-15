@@ -20,7 +20,7 @@ import 'package:page_transition/page_transition.dart';
 
 class PurchaseBloc extends Object implements BlocBase {
   final localAuth = LocalAuthentication();
-  
+
   final _isLoading = BehaviorSubject<bool>();
   final _listBank = BehaviorSubject<List<Bank>>();
   final _selected = BehaviorSubject<int>();
@@ -48,8 +48,8 @@ class PurchaseBloc extends Object implements BlocBase {
   Future fetchBank(BuildContext context) async {
     try {
       var list = await repo.getBankList();
-      list.forEach((v){
-        if(v.isDefault == 1) {
+      list.forEach((v) {
+        if (v.isDefault == 1) {
           _selected.sink.add(v.bankAcctId);
           _selectedBank.sink.add(v);
         }
@@ -66,7 +66,6 @@ class PurchaseBloc extends Object implements BlocBase {
       } catch (e) {
         _listBank.sink.addError(e.toString().replaceAll("Exception: ", ""));
       }
-      
     }
   }
 
@@ -80,17 +79,16 @@ class PurchaseBloc extends Object implements BlocBase {
             localizedReason: 'Please authenticate to process transaction',
             useErrorDialogs: false,
             iOSAuthStrings: IOSAuthMessages(
-              cancelButton: 'cancel',
-              goToSettingsButton: 'settings',
-              goToSettingsDescription: 'Please set up your Touch ID.',
-              lockOut: 'Please reenable your Touch ID')
-        );
+                cancelButton: 'cancel',
+                goToSettingsButton: 'settings',
+                goToSettingsDescription: 'Please set up your Touch ID.',
+                lockOut: 'Please reenable your Touch ID'));
 
         if (didAuthenticate) {
           try {
             _isLoading.sink.add(true);
             await repo.purchaseDeposit(amount, _selected.value, depositMatch.id);
-            sessions.save("purchased", "Deposit successful. See My Savings to watch your deposit grow!");
+            sessions.save("purchased", "Deposit successful. See My Money to watch your deposit grow!");
             _isLoading.sink.add(false);
             Navigator.of(key.currentContext).popUntil(ModalRoute.withName('/main'));
           } catch (e) {
@@ -100,7 +98,7 @@ class PurchaseBloc extends Object implements BlocBase {
             if (error['errorCode'] == 401) {
               sessions.clear();
               Navigator.of(key.currentContext).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
-            }else if (error.containsKey("errorMessage")) {
+            } else if (error.containsKey("errorMessage")) {
               dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "", message: error['errorMessage']);
               return false;
             }
@@ -111,39 +109,40 @@ class PurchaseBloc extends Object implements BlocBase {
         if (e.code == auth_error.notAvailable) {
           Navigator.pop(key.currentContext);
           print('notAvailable');
-        }else if(e.code == auth_error.notEnrolled) {
+        } else if (e.code == auth_error.notEnrolled) {
           Navigator.pop(key.currentContext);
           print('notEnrolled');
-        }else if(e.code == auth_error.otherOperatingSystem) {
+        } else if (e.code == auth_error.otherOperatingSystem) {
           Navigator.pop(key.currentContext);
           print('otherOperatingSystem');
-        }else if(e.code == auth_error.passcodeNotSet) {
+        } else if (e.code == auth_error.passcodeNotSet) {
           Navigator.pop(key.currentContext);
           print('passcodeNotSet');
         }
       }
-    }else{
-      var data = await Navigator.push(key.currentContext, PageTransition(type: PageTransitionType.downToUp, child: ConfirmPINPage()));
+    } else {
+      var data = await Navigator.push(
+          key.currentContext, PageTransition(type: PageTransitionType.downToUp, child: ConfirmPINPage()));
       if (data == true) {
         try {
-            _isLoading.sink.add(true);
-            await repo.purchaseDeposit(amount, _selected.value, depositMatch.id);
-            sessions.save("purchased", "Deposit successful. See My Savings to watch your deposit grow!");
-            _isLoading.sink.add(false);
-            Navigator.of(key.currentContext).popUntil(ModalRoute.withName('/main'));
-          } catch (e) {
-            _isLoading.sink.add(false);
-            Map<String, dynamic> error = json.decode(e.toString().replaceAll("Exception: ", ""));
-            print(error);
-            if (error['errorCode'] == 401) {
-              sessions.clear();
-              Navigator.of(key.currentContext).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
-            }else if (error.containsKey("errorMessage")) {
-              dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "", message: error['errorMessage']);
-              return false;
-            }
-            dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "", message: error['message']);
+          _isLoading.sink.add(true);
+          await repo.purchaseDeposit(amount, _selected.value, depositMatch.id);
+          sessions.save("purchased", "Deposit successful. See My Money to watch your deposit grow!");
+          _isLoading.sink.add(false);
+          Navigator.of(key.currentContext).popUntil(ModalRoute.withName('/main'));
+        } catch (e) {
+          _isLoading.sink.add(false);
+          Map<String, dynamic> error = json.decode(e.toString().replaceAll("Exception: ", ""));
+          print(error);
+          if (error['errorCode'] == 401) {
+            sessions.clear();
+            Navigator.of(key.currentContext).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+          } else if (error.containsKey("errorMessage")) {
+            dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "", message: error['errorMessage']);
+            return false;
           }
+          dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "", message: error['message']);
+        }
       }
     }
   }
