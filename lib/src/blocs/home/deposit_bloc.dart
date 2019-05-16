@@ -90,7 +90,14 @@ class DepositBloc extends Object implements BlocBase {
             }else {
               depositInput.updateValue(thousandRounding(depositInput.numberValue));
             }
-            if (_oldAmount.value != depositInput.numberValue) reCallFunction();
+            if (_oldAmount.value != depositInput.numberValue) {
+              _singleitem.sink.add(false);
+              _listDeposit.sink.add(null);
+              timeout1?.cancel();
+              timeout1 = Future.delayed(Duration(milliseconds: 500)).asStream().listen((i) async {
+                reCallFunction();
+              });
+            }
           });
           if (depositInput.text.length < 3) {
             depositInput.updateValue(0);
@@ -143,32 +150,29 @@ class DepositBloc extends Object implements BlocBase {
   openList() {
     _singleitem.sink.add(false);
   }
-  Future reCallFunction() {
-    timeout1?.cancel();
-    timeout1 = Future.delayed(Duration(milliseconds: 500)).asStream().listen((i) async {
-      // _singleitem.sink.add(false);
-      try {
-        var endDate = DateTime.parse(await sessions.load("businessDate"));
+  Future<void> reCallFunction() async {
+    _singleitem.sink.add(false);
+    try {
+      var endDate = DateTime.parse(await sessions.load("businessDate"));
 
-        var depositsMatch = await repo.getDepositMatch(num.parse(depositInput.numberValue.toString()), 10, await sessions.load("businessDate"), formatDate(endDate.add(const Duration(days: 540)), [yyyy, '-', mm, '-', dd]).toString());
-        depositsMatch.sort((a, b) => b.tag.compareTo(a.tag));
-        if(depositsMatch.length > 1) _singleitem.sink.add(true);
-        _listDeposit.sink.add(depositsMatch);
-        _oldAmount.sink.add(depositInput.numberValue);
-      } catch (e) {
-        print(e);
-        try {
-          var error = json.decode(e.toString().replaceAll("Exception: ", ""));
-          if (error['errorCode'] == 401) {
-            sessions.clear();
-            navigatorKey.currentState.pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
-          }
-          _listDeposit.sink.addError(error['message']);
-        } catch (e) {
-          _listDeposit.sink.addError(e.toString().replaceAll("Exception: ", ""));
+      var depositsMatch = await repo.getDepositMatch(num.parse(depositInput.numberValue.toString()), 10, await sessions.load("businessDate"), formatDate(endDate.add(const Duration(days: 540)), [yyyy, '-', mm, '-', dd]).toString());
+      depositsMatch.sort((a, b) => b.tag.compareTo(a.tag));
+      if(depositsMatch.length > 1) _singleitem.sink.add(true);
+      _listDeposit.sink.add(depositsMatch);
+      _oldAmount.sink.add(depositInput.numberValue);
+    } catch (e) {
+      print(e);
+      try {
+        var error = json.decode(e.toString().replaceAll("Exception: ", ""));
+        if (error['errorCode'] == 401) {
+          sessions.clear();
+          navigatorKey.currentState.pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
         }
+        _listDeposit.sink.addError(error['message']);
+      } catch (e) {
+        _listDeposit.sink.addError(e.toString().replaceAll("Exception: ", ""));
       }
-    });
+    }
   }
 
   num thousandRounding(num amount) {

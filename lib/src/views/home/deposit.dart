@@ -85,7 +85,7 @@ class DepositPage extends StatelessWidget {
                         return LiquidPullToRefresh(
                           color: Theme.of(context).primaryColor.withOpacity(0.7),
                           key: _refreshIndicatorKey,
-                          onRefresh: depositBloc.loadDepositMatch,
+                          onRefresh: depositBloc.reCallFunction,
                           child: ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: isSinglePage.data ? 1:snapshot.data.length,
