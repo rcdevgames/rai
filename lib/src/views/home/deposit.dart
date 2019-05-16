@@ -151,7 +151,10 @@ class DepositPage extends StatelessWidget {
                   }else if(snapshot.hasError) {
                     return ErrorPage(
                       message: snapshot.error.toString(), 
-                      onPressed: depositBloc.reCallFunction,
+                      onPressed: () {
+                        depositBloc.updateListDeposit(null);
+                        depositBloc.reCallFunction();
+                      },
                       buttonText: "Try Again",
                     );
                   } return LoadingBlock(Theme.of(context).primaryColor);

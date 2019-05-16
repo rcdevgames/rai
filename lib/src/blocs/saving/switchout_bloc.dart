@@ -78,12 +78,13 @@ class SwitchOutBloc extends Object implements BlocBase {
     return ((amount/100).floor()*100).toDouble();
   }
 
-  num earning(double interest, num i) {
+  num earning(double interest, num i, [num defaultAmount]) {
     // print("Interest : $interest");
     // print("numberValue : ${ctrlAmount.numberValue}");
     // print("saving : ${_saving.value.quantity}");
     // print("I : $i");
-    var result = (interest * (ctrlAmount.numberValue/_saving.value.quantity) * i);
+    var amount = defaultAmount != null ? defaultAmount:ctrlAmount.numberValue;
+    var result = (interest * (amount/_saving.value.quantity) * i);
     return result.isNaN || result.isInfinite ? 0:result;
   }
 

@@ -123,14 +123,20 @@ class _ExitEarlyPageState extends State<ExitEarlyPage> {
                                             fontWeight: FontWeight.w700,
                                             color: Theme.of(context).primaryColor),
                                         textAlign: TextAlign.center)),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 10, bottom: 5),
-                                  child: Text(formatMoney.format(widget.item.accruedInterest, true, true),
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w700,
-                                          color: Theme.of(context).primaryColor),
-                                      textAlign: TextAlign.center),
+                                StreamBuilder(
+                                  initialData: 0,
+                                  stream: switchOutBloc.getOldAmount,
+                                  builder: (context, AsyncSnapshot<num> snapshot) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(top: 10, bottom: 5),
+                                      child: Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 1, snapshot.data), true, true),
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w700,
+                                              color: Theme.of(context).primaryColor),
+                                          textAlign: TextAlign.center),
+                                    );
+                                  }
                                 )
                               ])
                             ],

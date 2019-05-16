@@ -28,6 +28,7 @@ class DepositBloc extends Object implements BlocBase {
   Stream<num> get getAmount => _amount.stream;
 
   Function(bool) get updateSingleItem => _singleitem.sink.add;
+  Function(List<DepositMatch>) get updateListDeposit => _listDeposit.sink.add;
 
   DepositBloc() {
     depositInput.updateValue(0);
@@ -144,9 +145,8 @@ class DepositBloc extends Object implements BlocBase {
   }
   Future reCallFunction() {
     timeout1?.cancel();
-    timeout1 = Future.delayed(Duration(milliseconds: 800)).asStream().listen((i) async {
-      _listDeposit.sink.add(null);
-      _singleitem.sink.add(false);
+    timeout1 = Future.delayed(Duration(milliseconds: 500)).asStream().listen((i) async {
+      // _singleitem.sink.add(false);
       try {
         var endDate = DateTime.parse(await sessions.load("businessDate"));
 
