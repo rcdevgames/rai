@@ -2,6 +2,7 @@ import 'package:RAI/src/models/bank.dart';
 import 'package:RAI/src/models/default_bank.dart';
 import 'package:RAI/src/models/deposit_match.dart';
 import 'package:RAI/src/models/history.dart';
+import 'package:RAI/src/models/notification.dart';
 import 'package:RAI/src/models/oAuth.dart';
 import 'package:RAI/src/models/savings.dart';
 import 'package:RAI/src/models/user.dart';
@@ -28,6 +29,7 @@ class Repository {
   Future cancelSwitchOut(String requestId) => userProvider.cancelSwitchOut(requestId);
   Future sendMatchOrder(String termDepositId, num quantity) => userProvider.sendMatchOrder(termDepositId, quantity);
   Future setToken(String token) => userProvider.setToken(token);
+  Future<List<Notifications>> fetchNotification(CancelToken token) => userProvider.fetchNotification(token);
 
   // Deposit Provider
   final depositProvider = new DepositProvider();
