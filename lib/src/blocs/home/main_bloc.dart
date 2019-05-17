@@ -58,8 +58,8 @@ class MainBloc extends Object implements BlocBase {
           }
         }
         print(error);
-      } catch (e) {
-        print(e.toString().replaceAll("Exception: ", ""));
+      } catch (err) {
+        print(e.toString());
       }
     }
   }

@@ -17,6 +17,7 @@ class DepositBloc extends Object implements BlocBase {
   final depositInput = new MoneyMaskedTextController(thousandSeparator: ',', decimalSeparator: '', precision: 0, leftSymbol: "£ ");
   // final depositInput = TextEditingController();
   final _listDeposit = BehaviorSubject<List<DepositMatch>>();
+  final _listDepositBackup = BehaviorSubject<List<DepositMatch>>();
   final _businessDate = BehaviorSubject<String>();
   final _singleitem = BehaviorSubject<bool>();
   final _amount = BehaviorSubject<num>();
@@ -74,13 +75,17 @@ class DepositBloc extends Object implements BlocBase {
       depositsMatch.sort((a, b) => b.tag.compareTo(a.tag));
       if(depositsMatch.length > 1) _singleitem.sink.add(true);
       _listDeposit.sink.add(depositsMatch);
+      _listDepositBackup.sink.add(depositsMatch);
 
 
       // Handle Listener
       depositInput.addListener(() {
         try {
           var amounts = depositInput.numberValue.isNaN ? depositInput.numberValue:0;
-          
+          if (_oldAmount.value != depositInput.numberValue) {
+            _singleitem.sink.add(false);
+            _listDeposit.sink.add(null);
+          }
           timeout?.cancel();
           timeout = Future.delayed(Duration(milliseconds: 1500)).asStream().listen((i) {
             if (depositInput.numberValue < 100 && _oldAmount.value > 100) {
@@ -91,12 +96,13 @@ class DepositBloc extends Object implements BlocBase {
               depositInput.updateValue(thousandRounding(depositInput.numberValue));
             }
             if (_oldAmount.value != depositInput.numberValue) {
-              _singleitem.sink.add(false);
-              _listDeposit.sink.add(null);
               timeout1?.cancel();
               timeout1 = Future.delayed(Duration(milliseconds: 500)).asStream().listen((i) async {
                 reCallFunction();
               });
+            }else{
+              _singleitem.sink.add(true);
+              _listDeposit.sink.add(_listDepositBackup.value);
             }
           });
           if (depositInput.text.length < 3) {
@@ -142,7 +148,7 @@ class DepositBloc extends Object implements BlocBase {
           navigatorKey.currentState.pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
         }
         _listDeposit.sink.addError(error['message']);
-      } catch (e) {
+      } catch (err) {
         _listDeposit.sink.addError(e.toString().replaceAll("Exception: ", ""));
       }
     }
@@ -159,6 +165,7 @@ class DepositBloc extends Object implements BlocBase {
       depositsMatch.sort((a, b) => b.tag.compareTo(a.tag));
       if(depositsMatch.length > 1) _singleitem.sink.add(true);
       _listDeposit.sink.add(depositsMatch);
+      _listDepositBackup.sink.add(depositsMatch);
       _oldAmount.sink.add(depositInput.numberValue);
     } catch (e) {
       print(e);
@@ -169,7 +176,7 @@ class DepositBloc extends Object implements BlocBase {
           navigatorKey.currentState.pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
         }
         _listDeposit.sink.addError(error['message']);
-      } catch (e) {
+      } catch (err) {
         _listDeposit.sink.addError(e.toString().replaceAll("Exception: ", ""));
       }
     }

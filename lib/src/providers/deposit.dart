@@ -15,6 +15,7 @@ class DepositProvider {
       response = await api.get('deposits/matchorders/?amount=$amount&limit=$limit&startDate=$startDate&endDate=$endDate', options: Api.headers(await sessions.load('token')));
       return compute(depositMatchFromJson, response.data['data'].toString());
     } on DioError catch (e) {
+      print("Type : ${e.type}");
       if(e.response != null) {
         print(e.response.statusCode);
         print(e.response.data);

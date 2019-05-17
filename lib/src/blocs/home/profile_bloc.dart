@@ -65,7 +65,7 @@ class ProfileBloc extends Object implements BlocBase {
           navigatorKey.currentState.pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
         }
         _accountList.sink.addError(error['message']);
-      } catch (e) {
+      } catch (err) {
         _accountList.sink.addError(e.toString().replaceAll("Exception: ", ""));
       }
     }
@@ -93,7 +93,7 @@ class ProfileBloc extends Object implements BlocBase {
           navigatorKey.currentState.pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
         }
         _accountList.sink.addError(error['message']);
-      } catch (e) {
+      } catch (err) {
         _historyList.sink.addError(e.toString().replaceAll("Exception: ", ""));
       }
     }
@@ -105,14 +105,17 @@ class ProfileBloc extends Object implements BlocBase {
       await repo.setDefaultAccountBank(id);
       await fetchAccountList();
     } catch (e) {
+      try {
+        
       var error = json.decode(e.toString().replaceAll("Exception: ", ""));
-        // if (error['errorCode'] == 401) {
-        //   sessions.clear();
-        //   Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
-        // }
+        if (error['errorCode'] == 401) {
+          sessions.clear();
+          Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+        }
         _accountList.sink.addError(error['message']);
-      } catch (e) {
+      } catch (err) {
         _historyList.sink.addError(e.toString().replaceAll("Exception: ", ""));
+      }
     }
   }
 

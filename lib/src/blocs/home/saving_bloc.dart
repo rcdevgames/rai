@@ -52,7 +52,7 @@ class SavingBloc extends Object implements BlocBase {
             Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
           }
           _listSavings.sink.addError(error['message']);
-        } catch (e) {
+        } catch (err) {
           _listSavings.sink.addError(e.toString().replaceAll("Exception: ", ""));
         }
       }

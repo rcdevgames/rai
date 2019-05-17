@@ -139,19 +139,22 @@ class PurchaseBloc extends Object implements BlocBase {
           Navigator.of(key.currentContext).popUntil(ModalRoute.withName('/main'));
         } catch (e) {
           _isLoading.sink.add(false);
-          Map<String, dynamic> error = json.decode(e.toString().replaceAll("Exception: ", ""));
-          print(error);
-          if (error['errorCode'] == 401) {
-            sessions.clear();
-            Navigator.of(key.currentContext).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
-          } else if (error.containsKey("errorMessage")) {
-            dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "", message: error['errorMessage']);
-            return false;
-          }
-          if (error.containsKey('message')) {
-            dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "", message: error['message']);
-          } else {
-            dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "", message: error['errorMessage']);
+          try {
+            Map<String, dynamic> error = json.decode(e.toString().replaceAll("Exception: ", ""));
+            print(error);
+            if (error['errorCode'] == 401) {
+              sessions.clear();
+              Navigator.of(key.currentContext).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+            } else if (error.containsKey("errorMessage")) {
+              dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "", message: error['errorMessage']);
+              return false;
+            }
+            if (error.containsKey('message')) {
+              dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "", message: error['message']);
+            } else {
+              dialogs.alertWithIcon(key.currentContext, icon: Icons.info, title: "", message: error['errorMessage']);
+            }
+          } catch (err) {
           }
         }
       }

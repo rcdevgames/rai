@@ -31,9 +31,10 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
       appBar: OneupBar("Make Deposit", true),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: ListView(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // physics: NeverScrollableScrollPhysics(),
+          // shrinkWrap: true,
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -43,9 +44,9 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
                 Text("Standard Chartered Bank")
               ],
             ),
-            SizedBox(height: 10),
+            // SizedBox(height: 10),
             Text("You are depositing", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 25, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-            SizedBox(height: 10),
+            // SizedBox(height: 10),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -58,11 +59,11 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
                 Text(formatMoney.format(widget.amount), style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 35))
               ],
             ),
-            SizedBox(height: 20),
+            // SizedBox(height: 20),
             Text("@ ${(widget.depositMatch.rate/100).toStringAsFixed(2)}% gross interest per year", style: TextStyle(fontSize: 14), textAlign: TextAlign.center),
-            SizedBox(height: 10),
+            // SizedBox(height: 10),
             Text("maturing in ${(widget.depositMatch.maturityDate.difference(widget.businessDate).inDays/30).toStringAsFixed(0)} months", style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
-            SizedBox(height: 10),
+            // SizedBox(height: 10),
             Stack(
               alignment: AlignmentDirectional.center,
               children: <Widget>[
@@ -84,9 +85,9 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            // SizedBox(height: 10),
             Text("On ${formatDate(widget.depositMatch.maturityDate, [dd,' ',M,' ',yyyy]).toString()}, you will get back", style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
-            SizedBox(height: 10),
+            // SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -99,7 +100,7 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
                 Text(formatMoney.format(widget.amount + widget.depositMatch.interest, null, true), style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 35), textAlign: TextAlign.center),
               ],
             ),
-            SizedBox(height: 10),
+            // SizedBox(height: 10),
             Container(
               height: MediaQuery.of(context).size.width / 4,
               margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 7),
@@ -128,7 +129,7 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
                 ],
               ),
             ),
-            SizedBox(height: 15),
+            // SizedBox(height: 15),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 15),
               padding: EdgeInsets.all(8.0),

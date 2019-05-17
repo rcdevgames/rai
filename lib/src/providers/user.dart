@@ -26,6 +26,7 @@ class UserProvider {
       sessions.save("businessDate", data.businessDate.toString());
       return data;
     } on DioError catch (e) {
+      // print(e.);
       if(e.response != null) {
         print(e.response.statusCode);
         print(e.response.data);
@@ -35,7 +36,7 @@ class UserProvider {
           throw Exception(json.encode(e.response.data));
         }
       } else{
-        print(e.request);
+        // print(e.request);
         print(e.message);
         throw Exception(Static.ERROR_GENERIC);
       }

@@ -155,7 +155,7 @@ class _MainPageState extends State<MainPage> {
             ),
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height / 11.5,
+            top: 60,
             width: MediaQuery.of(context).size.width,
             child: StreamBuilder(
               initialData: 0,
