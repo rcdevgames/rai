@@ -117,6 +117,8 @@ class DepositPage extends StatelessWidget {
                                         if (data != null) {
                                           dialogs.alertWithIcon(context, icon: Icons.check_circle_outline, title: "Success!", message: "Deposit successful. See My Savings to watch your deposit grow!");
                                           BlocProvider.of(context).changeMenu(1);
+                                          depositBloc.updateListDeposit(null);
+                                          depositBloc.reCallFunction();
                                           BlocProvider.of(context).savingBloc.updateListSavings(null);
                                           BlocProvider.of(context).savingBloc.fetchSaving(context, true);
                                           BlocProvider.of(context).profileBloc.fetchHistory();
