@@ -34,68 +34,71 @@ class _NotificationPageState extends State<NotificationPage> {
     return Scaffold(
       key: _key,
       appBar: OneupBar("Notification"),
-      body: StreamBuilder(
-        stream: notificationsBloc.getListNotifications,
-        builder: (BuildContext context, AsyncSnapshot<List<Notifications>> snapshot) {
-          if(snapshot.hasData && snapshot.data.length > 0) {
-            return LiquidPullToRefresh(
-              color: Theme.of(context).primaryColor.withOpacity(0.7),
-              key: _refreshIndicatorKey,
-              onRefresh: () => notificationsBloc.fetchNotifications(context),
-              child: ListView.separated(
-                itemCount: snapshot.data.length, 
-                separatorBuilder: (BuildContext context, int index) => Divider(),
-                itemBuilder: (BuildContext context, int i) {
-                  return Container(
-                    padding: const EdgeInsets.fromLTRB(25, 5, 25, 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(formatDate(snapshot.data[i].dateTimestamp, [dd,' ',MM,' ',yyyy,', ',HH,':',nn]), style: TextStyle(
-                          fontSize: 13,
-                          color: Theme.of(context).primaryColor.withOpacity(0.8)
-                        )),
-                        SizedBox(height: 15),
-                        FittedBox(
-                          child: Text(snapshot.data[i].message, style: TextStyle(
-                          fontSize: 17,
-                          color: Theme.of(context).primaryColor.withOpacity(0.8),
-                          height: 1.2
-                        )),
-                        )
-                      ],
-                    ),
-                  );
-                }, 
-              ),
-            );
-          }else if(snapshot.hasData && snapshot.data.length < 1) {
-            return LiquidPullToRefresh(
-              color: Theme.of(context).primaryColor.withOpacity(0.7),
-              key: _refreshIndicatorKey,
-              onRefresh: () => notificationsBloc.fetchNotifications(context),
-              child: ListView(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 30),
-                    child: Center(
-                      child: Text("You don't have notification today", style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColor)),
-                    ),
-                  )
-                ],
-              ),
-            );
-          }else if(snapshot.hasError) {
-            return ErrorPage(
-              message: snapshot.error.toString(), 
-              onPressed: () {
-                notificationsBloc.updateListNotification(null);
-                notificationsBloc.fetchNotifications(context);
-              },
-              buttonText: "Try Again",
-            );
-          } return LoadingBlock(Theme.of(context).primaryColor);
-        },
+      body: GestureDetector(
+        onTap: () => notificationsBloc.copyToken(_key),
+        child: StreamBuilder(
+          stream: notificationsBloc.getListNotifications,
+          builder: (BuildContext context, AsyncSnapshot<List<Notifications>> snapshot) {
+            if(snapshot.hasData && snapshot.data.length > 0) {
+              return LiquidPullToRefresh(
+                color: Theme.of(context).primaryColor.withOpacity(0.7),
+                key: _refreshIndicatorKey,
+                onRefresh: () => notificationsBloc.fetchNotifications(context),
+                child: ListView.separated(
+                  itemCount: snapshot.data.length, 
+                  separatorBuilder: (BuildContext context, int index) => Divider(),
+                  itemBuilder: (BuildContext context, int i) {
+                    return Container(
+                      padding: const EdgeInsets.fromLTRB(25, 5, 25, 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(formatDate(snapshot.data[i].dateTimestamp, [dd,' ',MM,' ',yyyy,', ',HH,':',nn]), style: TextStyle(
+                            fontSize: 13,
+                            color: Theme.of(context).primaryColor.withOpacity(0.8)
+                          )),
+                          SizedBox(height: 15),
+                          FittedBox(
+                            child: Text(snapshot.data[i].message, style: TextStyle(
+                            fontSize: 17,
+                            color: Theme.of(context).primaryColor.withOpacity(0.8),
+                            height: 1.2
+                          )),
+                          )
+                        ],
+                      ),
+                    );
+                  }, 
+                ),
+              );
+            }else if(snapshot.hasData && snapshot.data.length < 1) {
+              return LiquidPullToRefresh(
+                color: Theme.of(context).primaryColor.withOpacity(0.7),
+                key: _refreshIndicatorKey,
+                onRefresh: () => notificationsBloc.fetchNotifications(context),
+                child: ListView(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 30),
+                      child: Center(
+                        child: Text("You don't have notification today", style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColor)),
+                      ),
+                    )
+                  ],
+                ),
+              );
+            }else if(snapshot.hasError) {
+              return ErrorPage(
+                message: snapshot.error.toString(), 
+                onPressed: () {
+                  notificationsBloc.updateListNotification(null);
+                  notificationsBloc.fetchNotifications(context);
+                },
+                buttonText: "Try Again",
+              );
+            } return LoadingBlock(Theme.of(context).primaryColor);
+          },
+        ),
       ),
     );
   }
