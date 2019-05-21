@@ -3,6 +3,7 @@ import 'package:RAI/src/models/oAuth.dart';
 import 'package:RAI/src/util/api.dart';
 import 'package:RAI/src/util/data.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AuthProvider {
   Future<OAuth> doLogin(String code) async {
@@ -14,7 +15,7 @@ class AuthProvider {
         "grant_type": "password",
         "username": code,
         "password": Static.DEFAULT_PASSWORD,
-        "scope": Static.OAUTHSCOPE
+        "scope": DotEnv().env['OAUTHSCOPE']
       });
       return OAuth.fromJson(response.data);
     } on DioError catch (e) {

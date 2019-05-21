@@ -44,6 +44,7 @@ class MainBloc extends Object implements BlocBase {
   getUser(BuildContext context) async {
     try {
       var user = await repo.getUser();
+      print("Business Date : ${user.businessDate}");
     } catch (e) {
       print("Error : $e");
       try {

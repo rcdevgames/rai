@@ -1,7 +1,3 @@
-import 'dart:async';
-import 'dart:math';
-
-import 'package:RAI/src/blocs/home/profile_bloc.dart';
 import 'package:RAI/src/models/bank.dart';
 import 'package:RAI/src/models/history.dart';
 import 'package:RAI/src/util/format_money.dart';

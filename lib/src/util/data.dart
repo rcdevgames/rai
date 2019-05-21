@@ -34,7 +34,7 @@ class Static {
   // Production
   static const String PROD_MCS_URL = "https://D43098C4B31048B1BB0A6578E6A489CF.mobile.ocp.oraclecloud.com:443/mobile/custom/RAI/rai/";
   static const String PROD_REGISTER_URL = "https://D43098C4B31048B1BB0A6578E6A489CF.mobile.ocp.oraclecloud.com:443/mobile/platform/devices/register";
-  static const String PROD_OAUTH_URL = "https://idcs-98c6f5b2de264ab9bab089f2d5a44f31.identity.oraclecloud.com/oauth2/v1/token";
+  static const String PROD_OAUTH_URL = "https://idcs-3d71481e2dc346c1b5d929ab3c4f3962.identity.oraclecloud.com/oauth2/v1/token";
 
   static const String PROD_OAUTHTTOKENENDPOINT = 'https://idcs-3d71481e2dc346c1b5d929ab3c4f3962.identity.oraclecloud.com/oauth2/v1/token';
   static const String PROD_OAUTHSCOPE = 'https://D43098C4B31048B1BB0A6578E6A489CF.mobile.ocp.oraclecloud.com:443urn:opc:resource:consumer::all';

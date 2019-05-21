@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'package:RAI/src/providers/repository.dart';
 import 'package:RAI/src/util/session.dart';
 import 'package:RAI/src/wigdet/dialog.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:RAI/src/util/bloc.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
 
 class LoginBloc extends Object implements BlocBase {
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   final _isLoading = BehaviorSubject<bool>();
   final _pin = BehaviorSubject<String>();
   final localAuth = LocalAuthentication();
@@ -52,10 +53,12 @@ class LoginBloc extends Object implements BlocBase {
     _isLoading.sink.add(true);
     try {
       var response = await repo.doLogin(_pin.value);
+      firebaseCloudMessaging_Listeners();
       sessions.save('userPin', _pin.value);
       sessions.save("token", response.accessToken);
-      var responseToken = await repo.setToken(await sessions.load("NotificationToken"));
-      var kyc = await repo.getKYC();
+      print(response.accessToken);
+      await repo.setToken(await sessions.load("NotificationToken"));
+      await repo.getKYC();
       _isLoading.sink.add(false);
       Navigator.of(key.currentContext).pushNamedAndRemoveUntil('/main', (Route<dynamic> route) => false);
     } catch (e) {
@@ -114,6 +117,27 @@ class LoginBloc extends Object implements BlocBase {
         }
       }
     }
+  }
+
+  void firebaseCloudMessaging_Listeners() async {
+    _firebaseMessaging.requestNotificationPermissions();
+    // if (Platform.isIOS) iOS_Permission();
+
+    var token = await _firebaseMessaging.getToken();
+    sessions.save("NotificationToken", token);
+    print(token);
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print('on message $message');
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('on resume $message');
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('on launch $message');
+      },
+    );
   }
 
 

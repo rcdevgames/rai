@@ -10,7 +10,6 @@ import 'package:RAI/src/wigdet/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:pigment/pigment.dart';
 import 'package:flip_card/flip_card.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class ExitEarlyPage extends StatefulWidget {
   Savings item;

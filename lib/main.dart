@@ -1,60 +1,15 @@
-import 'package:RAI/src/util/session.dart';
 import 'package:flutter/material.dart';
 import 'package:pigment/pigment.dart';
 import 'package:RAI/route.dart';
 import 'package:RAI/src/util/data.dart';
-import 'dart:io';
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() => runApp(DevApp());
-
-class DevApp extends StatefulWidget {
-
-  @override
-  _DevAppState createState() => _DevAppState();
+void main() async {
+  await DotEnv().load('.env');
+  runApp(DevApp());
 }
 
-class _DevAppState extends State<DevApp> {
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-
-  @override
-  void initState() {
-    firebaseCloudMessaging_Listeners();
-    sessions.save("env", "dev");
-    super.initState();
-  }
-
-  void firebaseCloudMessaging_Listeners() async {
-  _firebaseMessaging.requestNotificationPermissions();
-  // if (Platform.isIOS) iOS_Permission();
-
-  var token = await _firebaseMessaging.getToken();
-  sessions.save("NotificationToken", token);
-  print(token);
-
-  _firebaseMessaging.configure(
-    onMessage: (Map<String, dynamic> message) async {
-      print('on message $message');
-    },
-    onResume: (Map<String, dynamic> message) async {
-      print('on resume $message');
-    },
-    onLaunch: (Map<String, dynamic> message) async {
-      print('on launch $message');
-    },
-  );
-}
-
-void iOS_Permission() {
-  _firebaseMessaging.requestNotificationPermissions(
-      IosNotificationSettings(sound: true, badge: true, alert: true)
-  );
-  _firebaseMessaging.onIosSettingsRegistered
-      .listen((IosNotificationSettings settings)
-  {
-    print("Settings registered: $settings");
-  });
-}
+class DevApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

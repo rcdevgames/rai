@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:RAI/src/blocs/deposit/purchase.dart';
 import 'package:RAI/src/models/bank.dart';
 import 'package:RAI/src/models/deposit_match.dart';
@@ -12,7 +10,6 @@ import 'package:RAI/src/wigdet/list_tile.dart';
 import 'package:RAI/src/wigdet/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:pigment/pigment.dart';
 
 class BankListPage extends StatefulWidget {
   num amount;
