@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:RAI/src/providers/repository.dart';
 import 'package:RAI/src/util/bloc.dart';
-import 'package:RAI/src/util/format_money.dart';
 import 'package:RAI/src/util/session.dart';
 import 'package:RAI/src/views/other/pin_confirm.dart';
 import 'package:RAI/src/wigdet/dialog.dart';

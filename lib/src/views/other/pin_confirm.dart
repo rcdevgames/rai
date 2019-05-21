@@ -3,7 +3,6 @@ import 'package:RAI/src/wigdet/dialog.dart';
 import 'package:RAI/src/wigdet/keyboard_pin.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pigment/pigment.dart';
 
 class ConfirmPIN extends CupertinoPageRoute {

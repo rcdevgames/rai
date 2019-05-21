@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:RAI/src/blocs/home/main_bloc.dart';
 import 'package:RAI/src/models/bank.dart';
 import 'package:RAI/src/models/deposit_match.dart';
 import 'package:RAI/src/providers/repository.dart';
@@ -8,13 +7,11 @@ import 'package:RAI/src/util/bloc.dart';
 import 'package:RAI/src/util/session.dart';
 import 'package:RAI/src/views/other/pin_confirm.dart';
 import 'package:RAI/src/wigdet/dialog.dart';
-import 'package:RAI/src/wigdet/transaction_modal.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/auth_strings.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:RAI/src/wigdet/bloc_widget.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';

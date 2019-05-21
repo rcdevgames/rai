@@ -149,7 +149,11 @@ class DepositBloc extends Object implements BlocBase {
         }
         _listDeposit.sink.addError(error['message']);
       } catch (err) {
-        _listDeposit.sink.addError(e.toString().replaceAll("Exception: ", ""));
+        if (e.toString().contains("Bad Request")) {
+          _listDeposit.sink.add([]);
+        }else{
+          _listDeposit.sink.addError(e.toString().replaceAll("Exception: ", ""));
+        }
       }
     }
   }
@@ -177,7 +181,11 @@ class DepositBloc extends Object implements BlocBase {
         }
         _listDeposit.sink.addError(error['message']);
       } catch (err) {
-        _listDeposit.sink.addError(e.toString().replaceAll("Exception: ", ""));
+        if (e.toString().contains("Bad Request")) {
+          _listDeposit.sink.add([]);
+        }else{
+          _listDeposit.sink.addError(e.toString().replaceAll("Exception: ", ""));
+        }
       }
     }
   }

@@ -1,9 +1,7 @@
 import 'package:RAI/src/models/deposit_match.dart';
 import 'package:RAI/src/util/format_money.dart';
-import 'package:RAI/src/util/session.dart';
 import 'package:RAI/src/views/deposit/bank_list.dart';
 import 'package:RAI/src/wigdet/appbar.dart';
-import 'package:RAI/src/wigdet/bloc_widget.dart';
 import 'package:RAI/src/wigdet/button.dart';
 import 'package:RAI/src/wigdet/savewise_icons.dart';
 import 'package:RAI/src/wigdet/separator.dart';

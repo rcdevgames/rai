@@ -1,6 +1,5 @@
 import 'package:RAI/src/util/session.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pigment/pigment.dart';
 import 'package:RAI/src/blocs/auth/login_bloc.dart';
 import 'package:RAI/src/wigdet/keyboard_pin.dart';
