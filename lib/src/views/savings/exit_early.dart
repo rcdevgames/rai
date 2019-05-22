@@ -123,20 +123,23 @@ class _ExitEarlyPageState extends State<ExitEarlyPage> {
                                             color: Theme.of(context).primaryColor),
                                         textAlign: TextAlign.center)),
                                 StreamBuilder(
-                                  initialData: 0,
-                                  stream: switchOutBloc.getOldAmount,
-                                  builder: (context, AsyncSnapshot<num> snapshot) {
-                                    return Padding(
-                                      padding: const EdgeInsets.only(top: 10, bottom: 5),
-                                      child: Text(formatMoney.format(switchOutBloc.earning(widget.item.accruedInterest, 1, snapshot.data), true, true),
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w700,
-                                              color: Theme.of(context).primaryColor),
-                                          textAlign: TextAlign.center),
-                                    );
-                                  }
-                                )
+                                    initialData: 0,
+                                    stream: switchOutBloc.getOldAmount,
+                                    builder: (context, AsyncSnapshot<num> snapshot) {
+                                      return Padding(
+                                        padding: const EdgeInsets.only(top: 10, bottom: 5),
+                                        child: Text(
+                                            formatMoney.format(
+                                                switchOutBloc.earning(widget.item.accruedInterest, 1, snapshot.data),
+                                                true,
+                                                true),
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w700,
+                                                color: Theme.of(context).primaryColor),
+                                            textAlign: TextAlign.center),
+                                      );
+                                    })
                               ])
                             ],
                           ),
@@ -214,7 +217,7 @@ class _ExitEarlyPageState extends State<ExitEarlyPage> {
                                   // DefaultTextStyle.of(context).style,
                                   return RichText(
                                     text: TextSpan(
-                                      text: 'Switching out may cost you ',
+                                      text: 'Switching Out may cost you up to',
                                       style: TextStyle(
                                           color: Theme.of(context).primaryColor,
                                           fontWeight: FontWeight.w300,
@@ -229,7 +232,7 @@ class _ExitEarlyPageState extends State<ExitEarlyPage> {
                                         ),
                                         TextSpan(
                                             text:
-                                                ' of your accrued interest. The exact amount depends on when you Switch Out.'),
+                                                ' of your accrued interest. The exact amount you give up depends on when your Switch Out completes.'),
                                       ],
                                     ),
                                   );
