@@ -1,57 +1,49 @@
 {
   "project_info": {
-    "project_number": "565698576391",
-    "firebase_url": "https://ventures-one-up.firebaseio.com",
-    "project_id": "ventures-one-up",
-    "storage_bucket": "ventures-one-up.appspot.com"
+    "project_number": "358870509051",
+    "firebase_url": "https://oneup-d595d.firebaseio.com",
+    "project_id": "oneup-d595d",
+    "storage_bucket": "oneup-d595d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:565698576391:android:31aaa52b713c3e3f",
+        "mobilesdk_app_id": "1:358870509051:android:a4a582d172a6081d",
         "android_client_info": {
-          "package_name": "com.sc.ventures.oneup"
+          "package_name": "com.sc.oneup"
         }
       },
       "oauth_client": [
         {
-          "client_id": "565698576391-id6g624jjl4tpcvqc3ncn0q1a77jl76q.apps.googleusercontent.com",
+          "client_id": "358870509051-ddqatuasju43ajbp8fh6i23i6mme0fkk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.sc.ventures.oneup",
+            "package_name": "com.sc.oneup",
             "certificate_hash": "1497c185f18cb4514205888d3e5edc9ae2f873be"
           }
         },
         {
-          "client_id": "565698576391-gcn8j6phitd4lhf48t2smmo01sqkcf49.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.sc.ventures.oneup",
-            "certificate_hash": "96227c1929da297246fe8c4369d653b2983737ca"
-          }
-        },
-        {
-          "client_id": "565698576391-b2f9rk71a4hu49r7lieljg33as3o5lsb.apps.googleusercontent.com",
+          "client_id": "358870509051-cia7679f1nuprn97bdvr7hk9atfgbs9v.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCWX7aJlfrSc7vK6bSXMPHOm6r-0OgG0fI"
+          "current_key": "AIzaSyCJmfKQIwIzSY_Up_gUNLS2wXtpf9ZZ5Fs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "565698576391-b2f9rk71a4hu49r7lieljg33as3o5lsb.apps.googleusercontent.com",
+              "client_id": "358870509051-cia7679f1nuprn97bdvr7hk9atfgbs9v.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "565698576391-rvbp3cs0ac96us2q4evba8u3iekdgull.apps.googleusercontent.com",
+              "client_id": "358870509051-tli73oege9lhboc0k7kocunnl9rej5fq.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.sc.ventures.oneup"
+                "bundle_id": "com.sc.oneup"
               }
             }
           ]
