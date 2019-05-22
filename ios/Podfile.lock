@@ -80,7 +80,7 @@ PODS:
 
 DEPENDENCIES:
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
-  - Flutter (from `.symlinks/flutter/ios`)
+  - Flutter (from `.symlinks/flutter/ios-release`)
   - flutter_money_formatter (from `.symlinks/plugins/flutter_money_formatter/ios`)
   - local_auth (from `.symlinks/plugins/local_auth/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
@@ -105,7 +105,7 @@ EXTERNAL SOURCES:
   firebase_messaging:
     :path: ".symlinks/plugins/firebase_messaging/ios"
   Flutter:
-    :path: ".symlinks/flutter/ios"
+    :path: ".symlinks/flutter/ios-release"
   flutter_money_formatter:
     :path: ".symlinks/plugins/flutter_money_formatter/ios"
   local_auth:
@@ -117,23 +117,23 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Firebase: fa80b9d987ca014a1ba9357496ef2a0178b28b12
-  firebase_messaging: a5f5d4a9491b660f33a1f94bd0596558f820bad1
+  firebase_messaging: b25b2fa94e685146bcf9d706ed87b4e95cd2a17d
   FirebaseAnalytics: 1743c5f4de3687d0745709dfdc4b1dea1484f44c
   FirebaseAnalyticsInterop: efbe45c8385ec626e29f9525e5ebd38520dfb6c1
   FirebaseCore: e38f025287b413255a53acc1945d048a112047f7
   FirebaseInstanceID: 0e0348a3c00a734fa376a070f5ad4533ad975cb5
   FirebaseMessaging: c796d50864dc822a3c06c9c1c1444b37732b795b
-  Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
-  flutter_money_formatter: 814c6a1ca84a090dff32d24c55db39a5adfd9b73
+  Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
+  flutter_money_formatter: d0d18ddc5be333fad8d09964d741b59fa11a91dc
   GoogleAppMeasurement: 7f028ea162b72c8f326daec74afc95d94f7a47d6
   GoogleUtilities: f1faafc033ea203adf1783ce00af455bb99d0e5b
-  local_auth: dca7d49d2228a53db258478ee98ee19402ff0c49
+  local_auth: 17f985934bb4ab2637431e5b3fe1b2d6698d2051
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 7a877b7f3e5964e3fce995e2eb323dbc6831bb5a
-  shared_preferences: 5a1d487c427ee18fcd3ea1f2a131569481834b53
+  shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
   SimulatorRemoteNotifications: 1610643e0582b2af67bc254b071ace4077e8ef86
-  url_launcher: 92b89c1029a0373879933c21642958c874539095
+  url_launcher: 0067ddb8f10d36786672aa0722a21717dba3a298
 
 PODFILE CHECKSUM: 5f93f27fb6b836699757532b00baf711c93999d3
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.1
