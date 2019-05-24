@@ -30,6 +30,8 @@ class DepositBloc extends Object implements BlocBase {
 
   Function(bool) get updateSingleItem => _singleitem.sink.add;
   Function(List<DepositMatch>) get updateListDeposit => _listDeposit.sink.add;
+  Function(num) get updateAmount => _amount.sink.add;
+  Function(num) get updateOldAmount => _oldAmount.sink.add;
 
   DepositBloc() {
     depositInput.updateValue(0);

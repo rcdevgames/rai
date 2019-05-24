@@ -120,24 +120,24 @@ class LoginBloc extends Object implements BlocBase {
   }
 
   void firebaseCloudMessaging_Listeners() async {
-    _firebaseMessaging.requestNotificationPermissions();
+    // _firebaseMessaging.requestNotificationPermissions();
     // if (Platform.isIOS) iOS_Permission();
 
     var token = await _firebaseMessaging.getToken();
     sessions.save("NotificationToken", token);
-    print(token);
+    print("Token FCM : $token");
 
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print('on message $message');
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print('on resume $message');
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print('on launch $message');
-      },
-    );
+    // _firebaseMessaging.configure(
+    //   onMessage: (Map<String, dynamic> message) async {
+    //     print('on message $message');
+    //   },
+    //   onResume: (Map<String, dynamic> message) async {
+    //     print('on resume $message');
+    //   },
+    //   onLaunch: (Map<String, dynamic> message) async {
+    //     print('on launch $message');
+    //   },
+    // );
   }
 
 

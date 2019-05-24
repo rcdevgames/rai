@@ -99,11 +99,12 @@ class ProfileBloc extends Object implements BlocBase {
     }
   }
 
-  setDefault(BuildContext context, int id) async {
+  Future setDefault(BuildContext context, int id) async {
     try {
       resetAccountList();
       await repo.setDefaultAccountBank(id);
       await fetchAccountList();
+      return true;
     } catch (e) {
       try {
         

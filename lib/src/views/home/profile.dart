@@ -24,6 +24,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profileBloc = BlocProvider.of(context).profileBloc;
+    final depositBloc = BlocProvider.of(context).depositBloc;
     final Map<int, Widget> contents = {
       0:StreamBuilder(
         stream: profileBloc.getListBank,
@@ -52,7 +53,12 @@ class ProfilePage extends StatelessWidget {
                                 child: ItemsAction(
                                   caption: 'Make Default',
                                   color: Theme.of(context).primaryColor,
-                                  onTap: () => profileBloc.setDefault(context,snapshot.data[i].bankAcctId),
+                                  onTap: () async {
+                                    var data = await profileBloc.setDefault(context,snapshot.data[i].bankAcctId);
+                                    depositBloc.depositInput.updateValue(0);
+                                    depositBloc.updateListDeposit(null);
+                                    depositBloc.loadDepositMatch();
+                                  },
                                 ),
                               ),
                             )
