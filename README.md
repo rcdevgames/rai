@@ -1,6 +1,8 @@
-# rai
+[![Codemagic build status](https://api.codemagic.io/apps/5cd2abf5c959180019c286fa/5cd2abf5c959180019c286f9/status_badge.svg)](https://codemagic.io/apps/5cd2abf5c959180019c286fa/5cd2abf5c959180019c286f9/latest_build)
 
-A new Flutter project.
+# OneUp
+
+Standard Chartered Bank Project
 
 ## Getting Started
 
