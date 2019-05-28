@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:RAI/src/models/deposit_match.dart';
 import 'package:RAI/src/providers/repository.dart';
 import 'package:RAI/src/util/session.dart';
+import 'package:dio/dio.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:RAI/src/util/bloc.dart';
 import 'package:flutter/material.dart';
@@ -65,10 +66,13 @@ class DepositBloc extends Object implements BlocBase {
   Future loadDepositMatch() async {
     _singleitem.sink.add(false);
     try {
-      var defaultBank = await repo.getDefaultBank();
-      depositInput.updateValue(thousandRounding(defaultBank.bankAcctBalance));
-      _amount.sink.add(thousandRounding(defaultBank.bankAcctBalance));
-      _oldAmount.sink.add(thousandRounding(defaultBank.bankAcctBalance));
+      final token = new CancelToken();
+      var defaultBank = await repo.getBankList(token);
+      num balanced = 0;
+      defaultBank.forEach((v) => balanced += v.bankAcctBalance);
+      depositInput.updateValue(thousandRounding(balanced));
+      _amount.sink.add(thousandRounding(balanced));
+      _oldAmount.sink.add(thousandRounding(balanced));
       var user = await repo.getUser();
       var endDate = DateTime.parse(user.businessDate);
       businessDate = endDate;
