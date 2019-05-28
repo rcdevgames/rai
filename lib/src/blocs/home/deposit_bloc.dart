@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'dart:math';
 
 class DepositBloc extends Object implements BlocBase {
   final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
@@ -68,8 +69,7 @@ class DepositBloc extends Object implements BlocBase {
     try {
       final token = new CancelToken();
       var defaultBank = await repo.getBankList(token);
-      num balanced = 0;
-      defaultBank.forEach((v) => balanced += v.bankAcctBalance);
+      final balanced = defaultBank.map((v) => v.bankAcctBalance).toList().reduce(max);
       depositInput.updateValue(thousandRounding(balanced));
       _amount.sink.add(thousandRounding(balanced));
       _oldAmount.sink.add(thousandRounding(balanced));
