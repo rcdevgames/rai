@@ -3,6 +3,7 @@ import 'package:RAI/src/models/history.dart';
 import 'package:RAI/src/util/format_money.dart';
 import 'package:RAI/src/views/profile/profile.dart';
 import 'package:RAI/src/wigdet/bloc_widget.dart';
+import 'package:RAI/src/wigdet/dialog.dart';
 import 'package:RAI/src/wigdet/error_page.dart';
 import 'package:RAI/src/wigdet/list_tile.dart';
 import 'package:RAI/src/wigdet/loading.dart';
@@ -14,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:pigment/pigment.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatelessWidget {
   final _key = GlobalKey<ScaffoldState>();
@@ -277,24 +279,32 @@ class ProfilePage extends StatelessWidget {
           )
         ],
       ),
-      // floatingActionButton: StreamBuilder(
-      //   initialData: 0,
-      //   stream: profileBloc.getIndexTab,
-      //   builder: (context, AsyncSnapshot<int> snapshot) {
-      //     if (snapshot.data == 0) {
-      //       return FloatingActionButton.extended(
-      //         onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-      //           builder: (ctx) => AccountDetailPage(null)
-      //         )),
-      //         backgroundColor: Colors.white,
-      //         heroTag: "add",
-      //         label: Text("Add Account", style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700)),
-      //         icon: Icon(Icons.add, color: Theme.of(context).primaryColor),
-      //       );
-      //     } return Container();
-      //   }
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: StreamBuilder(
+        initialData: 0,
+        stream: profileBloc.getIndexTab,
+        builder: (context, AsyncSnapshot<int> snapshot) {
+          if (snapshot.data == 0) {
+            return FloatingActionButton.extended(
+              // onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+              //   builder: (ctx) => AccountDetailPage(null)
+              // )),
+              onPressed: () async {
+                const url = 'mailto:oneup@sc.com?subject=Come%20explore%20the%20world%20of%20flexible%20deposits&body=you%20are%20being%20invited%20to%20join%20the%20OneUp%20community%20where%20you%20can%20watch%20your%20money%20grow%20even%20while%20you%20access%20it%20on%20your%20terms.%20Email%20oneup@sc.com%20if%20you%20want%20to%20find%20out%20more%20and%20join.';
+                if (await canLaunch(url)) {
+                  await launch(url);
+                } else {
+                  dialogs.alert(context, "", "Could not open email!");
+                }
+              },
+              backgroundColor: Colors.white,
+              heroTag: "add",
+              label: Text("Grow the OneUp community", style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700)),
+              // icon: Icon(Icons.add, color: Theme.of(context).primaryColor),
+            );
+          } return Container();
+        }
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
