@@ -64,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  SizedBox(height: 30),
+                  SizedBox(height: 20),
                   Center(
                     child: SizedBox(
                       height: 80,
@@ -74,16 +74,13 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   SizedBox(height: 5),
                   Text("OneUp",
-                      style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w800,
-                          color: Theme.of(context).primaryColor)),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: Theme.of(context).primaryColor)),
                   SizedBox(height: 10),
-                  Text("ENTER YOUR 6-DIGIT CODE",
-                      style: TextStyle(fontSize: 10, color: Colors.grey)),
+                  Text("ENTER YOUR 6-DIGIT CODE", style: TextStyle(fontSize: 10, color: Colors.grey)),
                   SizedBox(height: MediaQuery.of(context).size.height / 20),
                   SizedBox(
-                    height: 30,
+                    height: 20,
                     width: MediaQuery.of(context).size.width / 1.9,
                     child: StreamBuilder(
                         initialData: "",
@@ -92,41 +89,24 @@ class _LoginPageState extends State<LoginPage> {
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: <Widget>[
-                              snapshot.data.length > 0
-                                  ? bigCircle
-                                  : smallCircle,
-                              snapshot.data.length > 1
-                                  ? bigCircle
-                                  : smallCircle,
-                              snapshot.data.length > 2
-                                  ? bigCircle
-                                  : smallCircle,
-                              snapshot.data.length > 3
-                                  ? bigCircle
-                                  : smallCircle,
-                              snapshot.data.length > 4
-                                  ? bigCircle
-                                  : smallCircle,
-                              snapshot.data.length > 5
-                                  ? bigCircle
-                                  : smallCircle,
+                              snapshot.data.length > 0 ? bigCircle : smallCircle,
+                              snapshot.data.length > 1 ? bigCircle : smallCircle,
+                              snapshot.data.length > 2 ? bigCircle : smallCircle,
+                              snapshot.data.length > 3 ? bigCircle : smallCircle,
+                              snapshot.data.length > 4 ? bigCircle : smallCircle,
+                              snapshot.data.length > 5 ? bigCircle : smallCircle,
                             ],
                           );
                         }),
                   ),
-                  Expanded(
-                    child: Container()
-                  ),
+                  Expanded(child: Container()),
                   InputPin(
-                    textStyle: TextStyle(
-                        color: Colors.black,
-                        fontSize: 43.0,
-                        fontWeight: FontWeight.w300),
+                    textStyle: TextStyle(color: Colors.black, fontSize: 43.0, fontWeight: FontWeight.w300),
                     onBackPressed: loginBloc.removeCode,
-                    onPressedKey: (String code) =>
-                        loginBloc.inputCode(_key, code),
+                    onPressedKey: (String code) => loginBloc.inputCode(_key, code),
                     onForgotPassword: () => loginBloc.resetPin(_key),
-                  )
+                  ),
+                  Expanded(child: Container()),
                 ],
               ),
             ),

@@ -5,13 +5,7 @@ class InputPin extends StatefulWidget {
   final VoidCallback onForgotPassword;
   final TextStyle textStyle;
   final bool isLogin;
-  InputPin({
-    this.onBackPressed,
-    this.onPressedKey,
-    this.onForgotPassword,
-    this.textStyle,
-    this.isLogin = true
-  });
+  InputPin({this.onBackPressed, this.onPressedKey, this.onForgotPassword, this.textStyle, this.isLogin = true});
 
   InputPinState createState() => InputPinState();
 }
@@ -26,7 +20,7 @@ class InputPinState extends State<InputPin> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 30.0),
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
@@ -55,7 +49,7 @@ class InputPinState extends State<InputPin> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 30.0),
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
@@ -84,7 +78,7 @@ class InputPinState extends State<InputPin> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 30.0),
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
@@ -113,28 +107,28 @@ class InputPinState extends State<InputPin> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 20.0),
+          padding: const EdgeInsets.symmetric(vertical: 5.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              widget.isLogin ? InkWell(
-                onTap: widget.onForgotPassword,
-                child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 11),
-                  width: (MediaQuery.of(context).size.width/1080) * 250,
-                  height: 35,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Colors.grey
-                  ),
-                  child: Center(
-                    child: Text("forgot pin?", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 13)),
-                  ),
-                ),
-              ):Container(
-                width: (MediaQuery.of(context).size.width/1080) * 350,
-                height: 30,
-              ),
+              widget.isLogin
+                  ? InkWell(
+                      onTap: widget.onForgotPassword,
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 11),
+                        width: (MediaQuery.of(context).size.width / 1080) * 250,
+                        height: 35,
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.grey),
+                        child: Center(
+                          child: Text("forgot pin?",
+                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 13)),
+                        ),
+                      ),
+                    )
+                  : Container(
+                      width: (MediaQuery.of(context).size.width / 1080) * 350,
+                      height: 30,
+                    ),
               SizedBox(width: 10),
               Expanded(
                 child: FloatingActionButton(
