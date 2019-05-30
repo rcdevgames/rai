@@ -160,7 +160,8 @@ class SavingPage extends StatelessWidget {
                                         savingBloc.updateListSavings(null);
                                         savingBloc.fetchSaving(context, true);
                                         dialogs.promptWithIcon(context, session, Icons.check_circle_outline, () async {
-                                          const url = 'mailto:oneup@sc.com?subject=Come%20explore%20the%20world%20of%20flexible%20deposits&body=you%20are%20being%20invited%20to%20join%20the%20OneUp%20community%20where%20you%20can%20watch%20your%20money%20grow%20even%20while%20you%20access%20it%20on%20your%20terms.%20Email%20oneup@sc.com%20if%20you%20want%20to%20find%20out%20more%20and%20join.';
+                                          const url =
+                                              'mailto:someone@sc.com?cc=oneup@sc.com&subject=Come%20explore%20the%20world%20of%20flexible%20deposits&body=Hi%0D%0A%0D%0AYou%20are%20being%20invited%20to%20join%20the%20OneUp%20community%20where%20you%20can%20watch%20your%20money%20grow%20and%20access%20it%20when%20you%20want.%0D%0A%0D%0AEmail%20oneup@sc.com%20if%20you%20want%20to%20find%20out%20more%20and%20join.';
                                           if (await canLaunch(url)) {
                                             await launch(url);
                                           } else {
