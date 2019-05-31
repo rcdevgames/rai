@@ -45,6 +45,7 @@ dependencies:
   cryptoutils: ^0.4.0
   dots_indicator: ^0.0.4
   flutter_dotenv: ^2.0.1
+  instabug: ^1.0.0-beta.3
 
 dev_dependencies:
   flutter_launcher_icons: "^0.7.0"

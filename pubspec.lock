@@ -176,6 +176,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  instabug:
+    dependency: "direct main"
+    description:
+      name: instabug
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0-beta.3"
   intl:
     dependency: transitive
     description:
